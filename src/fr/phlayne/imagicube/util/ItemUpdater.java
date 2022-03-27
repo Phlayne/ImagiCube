@@ -15,7 +15,7 @@ import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
 import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
 import fr.phlayne.imagicube.data.Config;
-import fr.phlayne.imagicube.event.CraftingEvents;
+import fr.phlayne.imagicube.events.CraftingEvents;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.ArmorProperty;
 import fr.phlayne.imagicube.item.Durability;
@@ -235,7 +235,7 @@ public class ItemUpdater {
 						 * true, Color.YELLOW); } }
 						 */
 					}
-					item = NBTUtil.removeUselessLines(item);
+					NBTUtil.removeUselessLines(nbti);
 					if ((cause.equals(ItemUpdatingCause.VILLAGER) || isUncraftable
 							|| nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED)) && CraftingEvents.uncraft(item) != null) {
 						nbti.setBoolean(NBTUtil.CANNOT_BE_UNCRAFTED,
@@ -258,7 +258,7 @@ public class ItemUpdater {
 							return WeaponRecipes.setWeaponValues(wp);
 						}
 					}
-					return item;
+					return nbti.getItem();
 				} else
 					return null;
 			} else if (item.getType().isEdible() || FoodProperty.getFoodProperty(item) != null) {
@@ -269,9 +269,9 @@ public class ItemUpdater {
 						item = FoodProperty.setFoodNeededLore(item, fp.getFoodLevel(), fp.getSaturation());
 				} else if (item.getType().isEdible()) {
 					FileConfiguration foodInfo = Config.getConfig(Config.FOOD_PROPERTIES);
-					int food = foodInfo.getInt(
-							item.getType().getKey().getNamespace() + item.getType().getKey().getKey() + ".nutrition");
-					float saturation = foodInfo.getInt(item.getType().getKey().getNamespace()
+					int food = foodInfo.getInt(item.getType().getKey().getNamespace() + "."
+							+ item.getType().getKey().getKey() + ".nutrition");
+					double saturation = foodInfo.getDouble(item.getType().getKey().getNamespace() + "."
 							+ item.getType().getKey().getKey() + ".saturationModifier") * food * 2;
 					item = FoodProperty.setFoodNeededLore(item, food, saturation);
 				}

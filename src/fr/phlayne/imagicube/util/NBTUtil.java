@@ -89,6 +89,11 @@ public class NBTUtil {
 
 	public static ItemStack removeUselessLines(ItemStack item) {
 		NBTItem nbti = new NBTItem(item);
+		removeUselessLines(nbti);
+		return nbti.getItem();
+	}
+	
+	public static void removeUselessLines(NBTItem nbti) {
 		NBTCompound display = nbti.getOrCreateCompound("display");
 		if (display.hasKey("Lore")) {
 			NBTList<String> lore = display.getStringList("Lore");
@@ -101,9 +106,7 @@ public class NBTUtil {
 				} else
 					stop = true;
 			}
-			item = nbti.getItem();
 		}
-		return item;
 	}
 
 	public static String getFirstBrackets(String string) {

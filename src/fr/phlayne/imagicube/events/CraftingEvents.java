@@ -1,4 +1,4 @@
-package fr.phlayne.imagicube.event;
+package fr.phlayne.imagicube.events;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -21,13 +21,15 @@ import fr.phlayne.imagicube.crafts.ConcreteCrafts;
 import fr.phlayne.imagicube.crafts.Crafts;
 import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
 import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
-import fr.phlayne.imagicube.event.CraftingEvents;
+import fr.phlayne.imagicube.events.CraftingEvents;
 import fr.phlayne.imagicube.events.ItemUpdatingEvents;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.util.NBTUtil;
 import fr.phlayne.imagicube.util.ResourcePackUtil;
 
 public class ImagiCube extends JavaPlugin implements Listener {
+
+	protected ResourcePackUtil resourcePackUtil = new ResourcePackUtil();
 
 	public void onEnable() {
 
@@ -37,6 +39,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		pm.registerEvents(this, this);
 		pm.registerEvents(new CraftingEvents(), this);
 		pm.registerEvents(new ItemUpdatingEvents(), this);
+		pm.registerEvents(resourcePackUtil, this);
 
 		/* Crafts */
 
@@ -59,7 +62,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 					.addModifier(new AttributeModifier("ImagiCube Armor Modifier", -1, Operation.MULTIPLY_SCALAR_1));
 			player.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)
 					.addModifier(new AttributeModifier("ImagiCube Armor Modifier", -1, Operation.MULTIPLY_SCALAR_1));
-			ResourcePackUtil.resourcePackLoaded.put(player, true);
+			resourcePackUtil.resourcePackLoaded.put(player, true);
 		}
 	}
 

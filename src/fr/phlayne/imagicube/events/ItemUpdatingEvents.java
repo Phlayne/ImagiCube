@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import fr.phlayne.imagicube.event.ItemUpdatingEvent;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
@@ -27,7 +28,7 @@ public class ItemUpdatingEvents implements Listener {
 			ItemUpdatingEvent itemUpdatingEvent = new ItemUpdatingEvent(entityItem.getItemStack(),
 					ItemUpdatingCause.DROP_OR_SPAWN);
 			Bukkit.getPluginManager().callEvent(itemUpdatingEvent);
-			if (itemUpdatingEvent.isUpdated()) {
+			if (!itemUpdatingEvent.isCancelled()) {
 				entityItem.setItemStack(itemUpdatingEvent.getResult());
 			}
 		}
@@ -48,9 +49,14 @@ public class ItemUpdatingEvents implements Listener {
 	@EventHandler
 	public void onItemUpdate(ItemUpdatingEvent event) {
 		try {
-			ItemUpdater.updateItem(event.getItemToUpdate(), event.getCause());
+			ItemStack result = ItemUpdater.updateItem(event.getItemToUpdate(), event.getCause());
+			event.setResult(result);
+			event.update();
+			if (event.getResult() == null)
+				event.setCancelled(true);
 		} catch (CannotUpdateItemException e) {
 			e.printStackTrace();
+			event.setCancelled(true);
 		}
 	}
 }

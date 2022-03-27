@@ -14,7 +14,7 @@ import fr.phlayne.imagicube.Reference;
 
 public class ResourcePackUtil implements Listener {
 
-	public static HashMap<Player, Boolean> resourcePackLoaded = new HashMap<Player, Boolean>();
+	public HashMap<Player, Boolean> resourcePackLoaded = new HashMap<Player, Boolean>();
 
 	public static final String RESOURCEPACK_LINK = "https://www.dropbox.com/s/gle3f6p58500rum/imagicube%20v3.1.0beta2.zip?dl=1";
 	public static final String RESOURCEPACK_VERSION = "3.1.0";
@@ -24,15 +24,7 @@ public class ResourcePackUtil implements Listener {
 		enableResourcepack(event.getPlayer());
 	}
 
-	public static byte[] convertHexToByteArray(String hash) {
-		byte[] result = new byte[20];
-		for (int i = 0; i < 20; i++) {
-			result[i] = (byte) Integer.parseInt("a", 16);
-		}
-		return result;
-	}
-
-	public static void enableResourcepack(Player player) {
+	public void enableResourcepack(Player player) {
 		resourcePackLoaded.put(player, false);
 		player.setResourcePack(RESOURCEPACK_LINK);
 	}
@@ -72,5 +64,13 @@ public class ResourcePackUtil implements Listener {
 					+ " failed the download of the resource pack.");
 			break;
 		}
+	}
+
+	public static byte[] convertHexToByteArray(String hash) {
+		byte[] result = new byte[20];
+		for (int i = 0; i < 20; i++) {
+			result[i] = (byte) Integer.parseInt("a", 16);
+		}
+		return result;
 	}
 }
