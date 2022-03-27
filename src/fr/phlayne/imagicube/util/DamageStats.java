@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import de.tr7zw.nbtapi.NBTItem;
-import fr.phlayne.imagicube.items.Durability;
+import fr.phlayne.imagicube.item.Durability;
 
 public class DamageStats {
 

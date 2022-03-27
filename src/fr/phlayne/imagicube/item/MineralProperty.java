@@ -1,4 +1,4 @@
-package fr.phlayne.imagicube.items;
+package fr.phlayne.imagicube.item;
 
 public enum MineralProperty {
 

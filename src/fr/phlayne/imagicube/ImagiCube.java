@@ -17,16 +17,43 @@ import org.bukkit.plugin.java.JavaPlugin;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.commands.Commands;
+import fr.phlayne.imagicube.crafts.ConcreteCrafts;
+import fr.phlayne.imagicube.crafts.Crafts;
+import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
+import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
+import fr.phlayne.imagicube.event.CraftingEvents;
+import fr.phlayne.imagicube.events.ItemUpdatingEvents;
+import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.util.NBTUtil;
 import fr.phlayne.imagicube.util.ResourcePackUtil;
 
 public class ImagiCube extends JavaPlugin implements Listener {
 
 	public void onEnable() {
+
+		/* Events */
+
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(this, this);
+		pm.registerEvents(new CraftingEvents(), this);
+		pm.registerEvents(new ItemUpdatingEvents(), this);
+
+		/* Crafts */
+
+		try {
+			Crafts.loadRecipes(this);
+		} catch (CannotUpdateItemException e) {
+			e.printStackTrace();
+		}
+		ConcreteCrafts.init(this);
+		ArmorRecipes.init(this);
+		WeaponRecipes.init(this);
+
+		/* Player Data */
+
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			// This part cancels armor modifiers because the damage system is modified in DamageStats.
+			// This part cancels armor modifiers because the damage system is modified in
+			// DamageStats.
 			// Monsters should also have this modifier. Add it in MobSpawnEvent.
 			player.getAttribute(Attribute.GENERIC_ARMOR)
 					.addModifier(new AttributeModifier("ImagiCube Armor Modifier", -1, Operation.MULTIPLY_SCALAR_1));

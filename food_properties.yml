@@ -1,0 +1,124 @@
+minecraft:
+    apple:
+		nutrition: 4
+		saturationModifier: 0.6
+    baked_potato:
+		nutrition: 5
+		saturationModifier: 1.2
+    beetroot:
+		nutrition: 1 
+		saturationModifier: 1.2
+    beetroot_soup:
+		nutrition: 6
+		saturationModifier: 1.2
+    bread:
+		nutrition: 5
+		saturationModifier: 1.2
+    cake:
+		nutrition: 14
+		saturationModifier: 0.2
+    carrot:
+		nutrition: 3
+		saturationModifier: 1.2
+    chorus_fruit:
+		nutrition: 4
+		saturationModifier: 0.6
+    cooked_chicken:
+		nutrition: 6
+		saturationModifier: 1.2
+    cooked_cod:
+		nutrition: 5
+		saturationModifier: 1.2
+    cooked_mutton:
+		nutrition: 6 
+		saturationModifier: 1.6
+    cooked_porkchop:
+		nutrition: 8
+		saturationModifier: 1.6
+    cooked_rabbit:
+		nutrition: 5
+		saturationModifier: 1.2
+    cooked_salmon:
+		nutrition: 6
+		saturationModifier: 1.6
+    cookie:
+		nutrition: 2
+		saturationModifier: 0.2
+    dried_kelp:
+		nutrition: 1
+		saturationModifier: 0.6
+    enchanted_golden_apple:
+		nutrition: 4
+		saturationModifier: 2.4
+    golden_apple:
+		nutrition: 4
+		saturationModifier: 2.4
+    glow_berries:
+		nutrition: 2
+		saturationModifier: 0.2
+    golden_carrot:
+		nutrition: 6
+		saturationModifier: 2.4
+    honey_bottle:
+		nutrition: 6
+		saturationModifier: 0.2
+    melon_slice:
+		nutrition: 2
+		saturationModifier: 0.6
+    mushroom_stew:
+		nutrition: 6
+		saturationModifier: 1.2
+    poisonous_potato:
+		nutrition: 2
+		saturationModifier: 0.6
+    potato:
+		nutrition: 1
+		saturationModifier: 0.6
+    pufferfish:
+		nutrition: 1
+		saturationModifier: 0.2
+    pumpkin_pie:
+		nutrition: 8
+		saturationModifier: 0.6
+    rabbit_stew:
+		nutrition: 10
+		saturationModifier: 1.2
+    raw_beef:
+		nutrition: 3
+		saturationModifier: 0.6
+    raw_chicken:
+		nutrition: 2
+		saturationModifier: 0.6
+    raw_cod:
+		nutrition: 2
+		saturationModifier: 0.2
+    raw_mutton:
+		nutrition: 2
+		saturationModifier: 0.6
+    raw_porkchop:
+		nutrition: 3
+		saturationModifier: 0.6
+    raw_rabbit:
+		nutrition: 3
+		saturationModifier: 0.6
+    raw_salmon:
+		nutrition: 2
+		saturationModifier: 0.2
+    rottom_flesh:
+		nutrition: 4
+		saturationModifier: 0.2
+    spider_eye:
+		nutrition: 2
+		saturationModifier: 1.6
+    steak:
+		nutrition: 8
+		saturationModifier: 1.6
+    suspicious_stew:
+		nutrition: 6
+		saturationModifier: 1.2
+    sweet_berries:
+		nutrition: 2
+		saturationModifier: 0.2
+    tropical_fish:
+		nutrition: 1
+		saturationModifier: 0.2

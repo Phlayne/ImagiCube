@@ -1,4 +1,4 @@
-package fr.phlayne.imagicube.items;
+package fr.phlayne.imagicube.item;
 
 import java.util.Random;
 
@@ -196,22 +196,23 @@ public class Durability {
 
 	public static ItemStack setDurability(ItemStack item, int durability) {
 		NBTItem nbti = new NBTItem(item);
+		setDurability(nbti, durability);
+		return nbti.getItem();
+	}
+	
+	public static void setDurability(NBTItem nbti, int durability) {
 		NBTCompound displayTag = nbti.getOrCreateCompound("display");
 		if (!displayTag.hasKey("Lore"))
 			NBTUtil.addLore(displayTag,
 					new SimpleJSON().add("", false, false, false, false, new Color(255, 255, 255), false).convert());
-		int percent = (int) (100F * getPercentDurability(item, durability));
-		Color color = getColorDurability(item, durability);
+		int percent = (int) (100F * getPercentDurability(nbti, durability));
+		Color color = getColorDurability(nbti.getItem(), durability);
 		NBTUtil.changeLore(displayTag,
 				new SimpleJSON().add("imagicube.durability", false, false, false, false, Color.GRAY, true)
 						.add(" " + percent + "%", false, false, false, false, color.multiply(2 / 3F), false).convert(),
 				0);
 		if (displayTag.hasKey("Name")) {
 			NBTContainer name = new NBTContainer(displayTag.getString("Name"));
-			// TODO See if there is bugs. Before 1.17, there was only
-			// displayTag.getString("Name")
-			// In 1.17, it was displayTag.getString("Name").substring(1,
-			// displayTag.getString("Name").length() - 1)
 			boolean isTranslate = name.hasKey("translate");
 			SimpleJSON jsonName = new SimpleJSON().add(
 					isTranslate ? name.getString("translate") : name.getString("text"), !isTranslate,
@@ -226,7 +227,7 @@ public class Durability {
 			displayTag.setString("Name", jsonName.convert());
 		} else {
 			displayTag.setString("Name", new SimpleJSON()
-					.add("item.minecraft." + item.getType().getKey().getKey(), false, false, false, false, color, true)
+					.add("item.minecraft." + nbti.getItem().getType().getKey().getKey(), false, false, false, false, color, true)
 					.convert());
 		}
 
@@ -237,8 +238,5 @@ public class Durability {
 			else
 				nbti.setInteger("Damage", 0);
 		}
-
-		item = nbti.getItem();
-		return item;
 	}
 }

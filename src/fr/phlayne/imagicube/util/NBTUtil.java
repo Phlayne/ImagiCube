@@ -32,9 +32,14 @@ public class NBTUtil {
 	public static ItemStack addLore(ItemStack item, String lore, boolean italic, boolean bold, boolean underlined,
 			boolean strike, boolean translate, SimpleJSON.Color color) {
 		NBTItem nbti = new NBTItem(item);
+		addLore(nbti, lore, italic, bold, underlined, strike, translate, color);
+		return nbti.getItem();
+	}
+
+	public static void addLore(NBTItem nbti, String lore, boolean italic, boolean bold, boolean underlined,
+			boolean strike, boolean translate, SimpleJSON.Color color) {
 		NBTCompound displayTag = nbti.getOrCreateCompound("display");
 		addLore(displayTag, new SimpleJSON().add(lore, italic, bold, underlined, strike, color, translate).convert());
-		return nbti.getItem();
 	}
 
 	public static void addLore(NBTCompound displayTag, String formatedLore) {
