@@ -199,7 +199,7 @@ public class Durability {
 		setDurability(nbti, durability);
 		return nbti.getItem();
 	}
-	
+
 	public static void setDurability(NBTItem nbti, int durability) {
 		NBTCompound displayTag = nbti.getOrCreateCompound("display");
 		if (!displayTag.hasKey("Lore"))
@@ -212,7 +212,8 @@ public class Durability {
 						.add(" " + percent + "%", false, false, false, false, color.multiply(2 / 3F), false).convert(),
 				0);
 		if (displayTag.hasKey("Name")) {
-			NBTContainer name = new NBTContainer(displayTag.getString("Name"));
+			String s = displayTag.getString("Name");
+			NBTContainer name = new NBTContainer(s.substring(1, s.length() - 1));
 			boolean isTranslate = name.hasKey("translate");
 			SimpleJSON jsonName = new SimpleJSON().add(
 					isTranslate ? name.getString("translate") : name.getString("text"), !isTranslate,
@@ -226,9 +227,9 @@ public class Durability {
 			}
 			displayTag.setString("Name", jsonName.convert());
 		} else {
-			displayTag.setString("Name", new SimpleJSON()
-					.add("item.minecraft." + nbti.getItem().getType().getKey().getKey(), false, false, false, false, color, true)
-					.convert());
+			displayTag.setString("Name",
+					new SimpleJSON().add("item.minecraft." + nbti.getItem().getType().getKey().getKey(), false, false,
+							false, false, color, true).convert());
 		}
 
 		nbti.setInteger(NBTUtil.DURABILITY, durability);

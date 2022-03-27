@@ -14,8 +14,6 @@ import org.bukkit.inventory.ShapelessRecipe;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.ImagiCube;
-import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
-import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
 import fr.phlayne.imagicube.util.ItemUpdater;
@@ -337,9 +335,6 @@ public class Crafts {
 		Bukkit.addRecipe(RED_DYE);
 		Bukkit.addRecipe(CACTUS_LEATHER);
 		// Bukkit.addRecipe(ARMOR_STAND_WITH_ARMS_CRAFT);
-
-		ArmorRecipes.init(plugin);
-		WeaponRecipes.init(plugin);
 	}
 
 	public static void removeCrafts() {
@@ -415,7 +410,6 @@ public class Crafts {
 	}
 
 	public static void remove(Material m) {
-
 		Iterator<Recipe> it = Bukkit.recipeIterator();
 		Recipe recipe;
 		while (it.hasNext()) {

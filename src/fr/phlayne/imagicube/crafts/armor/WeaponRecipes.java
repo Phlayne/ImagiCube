@@ -192,7 +192,6 @@ public class WeaponRecipes {
 			addCraft(plugin, blackstoneShovel, Material.BLACKSTONE, CraftType.SHOVEL);
 			addCraft(plugin, blackstoneHoe, Material.BLACKSTONE, CraftType.HOE);
 		}
-		System.out.println("Weapon crafts initialized");
 	}
 
 	public static void addCraft(ImagiCube plugin, ItemStack result, Material ingredient, CraftType craftType) {

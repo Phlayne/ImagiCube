@@ -52,7 +52,7 @@ public class ItemUpdater {
 		if (item != null && !item.getType().equals(Material.AIR)) {
 			if (MaterialToUpdate.contains(item.getType())) {
 				NBTItem nbti = new NBTItem(item);
-				if ((nbti.hasKey(NBTUtil.ITEM_TYPE) || nbti.hasKey(NBTUtil.DURABILITY))
+				if ((!nbti.hasKey(NBTUtil.ITEM_TYPE) || !nbti.hasKey(NBTUtil.DURABILITY))
 						|| (nbti.hasKey(NBTUtil.UPDATEVERSION) ? nbti.getInteger(NBTUtil.UPDATEVERSION) != updateVersion
 								: false)) {
 
