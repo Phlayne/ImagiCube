@@ -1,0 +1,16 @@
+name: ImagiCubeAPI
+main: fr.phlayne.imagicube.ImagiCube
+version: 2.0.0-alpha
+commands:
+    invsee:
+        description: Allows seeing and interacting with player inventories.
+        usage: "/<command> <inv|end> <joueur>"
+        permission: imagicube.invsee
+    itemdata:
+        description: Allows changing tags of the hold item.
+        usage: "/<command> {Data} OR /<command> +Data OR /<command> ?"
+        permission: imagicube.itemdata
+    item:
+        description: Shows the list of items added in ImagiCube subplugins.
+        usage: "/<command> [item]"
+        permission: imagicube.item
