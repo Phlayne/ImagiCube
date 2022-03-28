@@ -3,6 +3,7 @@ package fr.phlayne.imagicube.events;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -18,11 +19,11 @@ import fr.phlayne.imagicube.util.ItemUpdater;
 public class ItemUpdatingEvents implements Listener {
 
 	private ImagiCube plugin;
-	
+
 	public ItemUpdatingEvents(ImagiCube plugin) {
 		this.plugin = plugin;
 	}
-	
+
 	@EventHandler
 	public void onInventoryOpen(InventoryOpenEvent event) {
 		updateItemInInventory(event.getInventory(), ItemUpdatingCause.PLAYER);
@@ -53,7 +54,7 @@ public class ItemUpdatingEvents implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onItemUpdate(ItemUpdatingEvent event) {
 		try {
 			ItemStack result = ItemUpdater.updateItem(event.getItemToUpdate(), event.getCause(), this.plugin);

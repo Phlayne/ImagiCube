@@ -37,14 +37,10 @@ public class Durability {
 	// TODO Create a config file where you can change the max durability.
 	public static int getMaxDurability(String type) {
 		switch (type) {
-		case "spell":
-			return 342;
 		case "elytra":
 			return 432;
 		case "bow":
 			return 384;
-		case "bamboo_bow":
-			return 268;
 		case "crossbow":
 			return 326;
 		case "trident":
@@ -61,8 +57,6 @@ public class Durability {
 			return 100;
 		case "shears":
 			return 238;
-		case "slingshot":
-			return 312;
 		}
 		return 1;
 	}
@@ -126,49 +120,32 @@ public class Durability {
 	}
 
 	public static Color getColorDurability(float percentDurability) {
-		return getColorDurability(percentDurability, false, null);
-	}
-
-	public static Color getColorDurability(float percentDurability, boolean isSpell) {
-		return getColorDurability(percentDurability, isSpell, null);
+		return getColorDurability(percentDurability, null);
 	}
 
 	public static Color getColorDurability(float percentDurability, Color forcedColor) {
-		return getColorDurability(percentDurability, false, forcedColor);
-	}
-
-	public static Color getColorDurability(float percentDurability, boolean isSpell, Color forcedColor) {
 		if (forcedColor != null)
 			return forcedColor.multiply(percentDurability);
-		/*
-		 * // "Stair" Mode.
-		 * 
-		 * if (percentDurability <= 0.02) return Color.DARK_RED; if (percentDurability
-		 * <= 0.1) return Color.RED; if (percentDurability <= 0.5) return Color.YELLOW;
-		 * return Color.WHITE;
-		 */
-		// Continuous Mode.
 		if (percentDurability < 0.02)
-			if (!isSpell)
-				return new Color(128, 0, 0);
+			/* if (!isSpell) */
+			return new Color(128, 0, 0);
 		float red = 1.0F;
 		float green = 1.0F;
 		float blue = 1.0F;
-		if (isSpell) {
-			red = percentDurability;
-			green = 0.334F * percentDurability;
-			blue = percentDurability;
-		} else {
-			red = Math.min(1F, 0.3359375F * percentDurability + 0.9140625F);
-			green = 1F - (1 - percentDurability) * (1 - percentDurability);
-			blue = 1F - (float) Math.sqrt(1 - percentDurability);
-		}
+		/*
+		 * if (isSpell) { red = percentDurability; green = 0.334F * percentDurability;
+		 * blue = percentDurability; } else {
+		 */
+		red = Math.min(1F, 0.3359375F * percentDurability + 0.9140625F);
+		green = 1F - (1 - percentDurability) * (1 - percentDurability);
+		blue = 1F - (float) Math.sqrt(1 - percentDurability);
+		/* } */
 		return new Color((int) (red * 255), (int) (green * 255), (int) (blue * 255));
 	}
 
 	public static Color getColorDurability(ItemStack item, int durability, ImagiCube plugin) {
 		NBTItem nbti = new NBTItem(item);
-		return getColorDurability(getPercentDurability(item, durability, plugin), nbti.hasKey(NBTUtil.SPELL),
+		return getColorDurability(getPercentDurability(item, durability, plugin),
 				nbti.hasKey("imagicube.forced_color")
 						? nbti.getString("imagicube.forced_color").equals("none")
 								? new Color(nbti.getString("imagicube.forced_color"))
@@ -177,13 +154,12 @@ public class Durability {
 	}
 
 	public static Color getColorDurability(ItemStack item, int durability, Color forcedColor, ImagiCube plugin) {
-		return getColorDurability(getPercentDurability(item, durability, plugin), new NBTItem(item).hasKey(NBTUtil.SPELL),
-				forcedColor);
+		return getColorDurability(getPercentDurability(item, durability, plugin), forcedColor);
 	}
 
 	public static Color getColorDurability(ItemStack item, ImagiCube plugin) {
 		NBTItem nbti = new NBTItem(item);
-		return getColorDurability(getPercentDurability(item, plugin), nbti.hasKey(NBTUtil.SPELL),
+		return getColorDurability(getPercentDurability(item, plugin),
 				nbti.hasKey("imagicube.forced_color")
 						? nbti.getString("imagicube.forced_color").equals("none")
 								? new Color(nbti.getString("imagicube.forced_color"))
@@ -192,7 +168,7 @@ public class Durability {
 	}
 
 	public static Color getColorDurability(ItemStack item, Color forcedColor, ImagiCube plugin) {
-		return getColorDurability(getPercentDurability(item, plugin), new NBTItem(item).hasKey(NBTUtil.SPELL), forcedColor);
+		return getColorDurability(getPercentDurability(item, plugin), forcedColor);
 	}
 
 	public static ItemStack setDurability(ItemStack item, int durability, ImagiCube plugin) {
@@ -202,12 +178,16 @@ public class Durability {
 	}
 
 	public static void setDurability(NBTItem nbti, int durability, ImagiCube plugin) {
+		setDurability(nbti, durability, getPercentDurability(nbti, durability, plugin));
+	}
+
+	public static void setDurability(NBTItem nbti, int durability, float percentDurability) {
+		Color color = getColorDurability(percentDurability);
+		int percent = (int) (100F * percentDurability);
 		NBTCompound displayTag = nbti.getOrCreateCompound("display");
 		if (!displayTag.hasKey("Lore"))
 			NBTUtil.addLore(displayTag,
 					new SimpleJSON().add("", false, false, false, false, new Color(255, 255, 255), false).convert());
-		int percent = (int) (100F * getPercentDurability(nbti, durability, plugin));
-		Color color = getColorDurability(nbti.getItem(), durability, plugin);
 		NBTUtil.changeLore(displayTag,
 				new SimpleJSON().add("imagicube.durability", false, false, false, false, Color.GRAY, true)
 						.add(" " + percent + "%", false, false, false, false, color.multiply(2 / 3F), false).convert(),

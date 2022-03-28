@@ -52,38 +52,6 @@ public enum WeaponProperties implements WeaponProperty {
 	NETHERITE_HOE(2031, 1F, 4.0F, "hoe", "netherite", Material.NETHERITE_HOE, 0), //
 	PRISMARINE_HOE(631, 1F, 3.0F, "hoe", "prismarine", Material.IRON_HOE, 1), //
 
-	OAK_DAGGER(59, 2.5F, 20F, "dagger", "oak", Material.DIAMOND_SWORD, 16), //
-	SPRUCE_DAGGER(59, 2.5F, 20F, "dagger", "spruce", Material.DIAMOND_SWORD, 25), //
-	BIRCH_DAGGER(59, 2.5F, 20F, "dagger", "birch", Material.DIAMOND_SWORD, 28), //
-	JUNGLE_DAGGER(59, 2.5F, 20F, "dagger", "jungle", Material.DIAMOND_SWORD, 31), //
-	ACACIA_DAGGER(59, 2.5F, 20F, "dagger", "acacia", Material.DIAMOND_SWORD, 34), //
-	DARK_OAK_DAGGER(59, 2.5F, 20F, "dagger", "dark_oak", Material.DIAMOND_SWORD, 37), //
-	CRIMSON_DAGGER(59, 2.5F, 20F, "dagger", "crimson", Material.DIAMOND_SWORD, 40), //
-	WARPED_DAGGER(59, 2.5F, 20F, "dagger", "warped", Material.DIAMOND_SWORD, 43), //
-	GOLDEN_DAGGER(847, 3.5F, 20F, "dagger", "golden", Material.DIAMOND_SWORD, 10), //
-	STONE_DAGGER(131, 3.0F, 20F, "dagger", "stone", Material.DIAMOND_SWORD, 13), //
-	BLACKSTONE_DAGGER(190, 3.0F, 20F, "dagger", "blackstone", Material.DIAMOND_SWORD, 46), //
-	IRON_DAGGER(250, 3.5F, 20F, "dagger", "iron", Material.DIAMOND_SWORD, 7), //
-	DIAMOND_DAGGER(1561, 4.0F, 20F, "dagger", "diamond", Material.DIAMOND_SWORD, 4), //
-	NETHERITE_DAGGER(2031, 3.5F, 20F, "dagger", "netherite", Material.DIAMOND_SWORD, 19), //
-	PRISMARINE_DAGGER(631, 4.5F, 20F, "dagger", "prismarine", Material.DIAMOND_SWORD, 22), //
-
-	OAK_KATANA(59, 3.5F, 2.3F, "katana", "oak", Material.DIAMOND_SWORD, 17), //
-	SPRUCE_KATANA(59, 3.5F, 2.3F, "katana", "spruce", Material.DIAMOND_SWORD, 26), //
-	BIRCH_KATANA(59, 3.5F, 2.3F, "katana", "birch", Material.DIAMOND_SWORD, 29), //
-	JUNGLE_KATANA(59, 3.5F, 2.3F, "katana", "jungle", Material.DIAMOND_SWORD, 32), //
-	ACACIA_KATANA(59, 3.5F, 2.3F, "katana", "acacia", Material.DIAMOND_SWORD, 35), //
-	DARK_OAK_KATANA(59, 3.5F, 2.3F, "katana", "dark_oak", Material.DIAMOND_SWORD, 38), //
-	CRIMSON_KATANA(59, 3.5F, 2.3F, "katana", "crimson", Material.DIAMOND_SWORD, 41), //
-	WARPED_KATANA(59, 3.5F, 2.3F, "katana", "warped", Material.DIAMOND_SWORD, 44), //
-	GOLDEN_KATANA(847, 4.5F, 2.3F, "katana", "golden", Material.DIAMOND_SWORD, 11), //
-	STONE_KATANA(131, 4F, 2.3F, "katana", "stone", Material.DIAMOND_SWORD, 14), //
-	BLACKSTONE_KATANA(190, 4F, 2.3F, "katana", "blackstone", Material.DIAMOND_SWORD, 47), //
-	IRON_KATANA(250, 4.5F, 2.3F, "katana", "iron", Material.DIAMOND_SWORD, 8), //
-	DIAMOND_KATANA(1561, 5F, 2.3F, "katana", "diamond", Material.DIAMOND_SWORD, 5), //
-	NETHERITE_KATANA(2031, 5.5F, 2.3F, "katana", "netherite", Material.DIAMOND_SWORD, 20), //
-	PRISMARINE_KATANA(631, 4.5F, 2.3F, "katana", "prismarine", Material.DIAMOND_SWORD, 23), //
-
 	OAK_SWORD(59, 4F, 1.6F, "sword", "oak", Material.WOODEN_SWORD, 0), //
 	SPRUCE_SWORD(59, 4F, 1.6F, "sword", "spruce", Material.WOODEN_SWORD, 1), //
 	BIRCH_SWORD(59, 4F, 1.6F, "sword", "birch", Material.WOODEN_SWORD, 2), //
@@ -99,22 +67,6 @@ public enum WeaponProperties implements WeaponProperty {
 	DIAMOND_SWORD(1561, 7F, 1.6F, "sword", "diamond", Material.DIAMOND_SWORD, 0), //
 	NETHERITE_SWORD(2031, 8F, 1.6F, "sword", "netherite", Material.NETHERITE_SWORD, 0), //
 	PRISMARINE_SWORD(631, 6F, 1.6F, "sword", "prismarine", Material.IRON_SWORD, 1), //
-
-	OAK_HAMMER(59, 6F, 1.4F, "hammer", "oak", Material.DIAMOND_SWORD, 18), //
-	SPRUCE_HAMMER(59, 6F, 1.4F, "hammer", "spruce", Material.DIAMOND_SWORD, 27), //
-	BIRCH_HAMMER(59, 6F, 1.4F, "hammer", "birch", Material.DIAMOND_SWORD, 30), //
-	JUNGLE_HAMMER(59, 6F, 1.4F, "hammer", "jungle", Material.DIAMOND_SWORD, 33), //
-	ACACIA_HAMMER(59, 6F, 1.4F, "hammer", "acacia", Material.DIAMOND_SWORD, 36), //
-	DARK_OAK_HAMMER(59, 6F, 1.4F, "hammer", "dark_oak", Material.DIAMOND_SWORD, 39), //
-	CRIMSON_HAMMER(59, 6F, 1.4F, "hammer", "crimson", Material.DIAMOND_SWORD, 42), //
-	WARPED_HAMMER(59, 6F, 1.4F, "hammer", "warped", Material.DIAMOND_SWORD, 45), //
-	GOLDEN_HAMMER(847, 8F, 1.4F, "hammer", "golden", Material.DIAMOND_SWORD, 12), //
-	STONE_HAMMER(131, 7F, 1.4F, "hammer", "stone", Material.DIAMOND_SWORD, 15), //
-	BLACKSTONE_HAMMER(190, 7F, 1.4F, "hammer", "blackstone", Material.DIAMOND_SWORD, 48), //
-	IRON_HAMMER(250, 8F, 1.4F, "hammer", "iron", Material.DIAMOND_SWORD, 9), //
-	DIAMOND_HAMMER(1561, 9F, 1.4F, "hammer", "diamond", Material.DIAMOND_SWORD, 6), //
-	NETHERITE_HAMMER(2031, 10F, 1.4F, "hammer", "netherite", Material.DIAMOND_SWORD, 21), //
-	PRISMARINE_HAMMER(631, 8F, 1.4F, "hammer", "prismarine", Material.DIAMOND_SWORD, 24), //
 
 	OAK_AXE(59, 6.5F, 0.8F, "axe", "oak", Material.WOODEN_AXE, 0), //
 	SPRUCE_AXE(59, 6.5F, 0.8F, "axe", "spruce", Material.WOODEN_AXE, 1), //

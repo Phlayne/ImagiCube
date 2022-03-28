@@ -50,7 +50,8 @@ public class ItemUpdater {
 
 	public static final int updateVersion = 1;
 
-	public static ItemStack updateItem(ItemStack item, ItemUpdatingCause cause, ImagiCube plugin) throws CannotUpdateItemException {
+	public static ItemStack updateItem(ItemStack item, ItemUpdatingCause cause, ImagiCube plugin)
+			throws CannotUpdateItemException {
 		if (item != null && !item.getType().equals(Material.AIR)) {
 			if (MaterialToUpdate.contains(item.getType())) {
 				NBTItem nbti = new NBTItem(item);
@@ -92,16 +93,14 @@ public class ItemUpdater {
 							|| item.getType().equals(Material.FISHING_ROD)
 							|| item.getType().equals(Material.CARROT_ON_A_STICK)
 							|| item.getType().equals(Material.WARPED_FUNGUS_ON_A_STICK)) {
-						boolean bambooBow = nbti.hasKey(NBTUtil.ITEM_TYPE)
-								&& nbti.getString(NBTUtil.ITEM_TYPE).equals("bamboo_bow");
 						nbti.setBoolean("Unbreakable", true);
-						nbti.setInteger("CustomModelData", bambooBow ? 1 : 0);
+						nbti.setInteger("CustomModelData", 0);
 						nbti.setShort("HideFlags", (short) 6);
 						nbti.setInteger(NBTUtil.UPDATEVERSION, updateVersion);
 						String itemType = null;
 						switch (item.getType()) {
 						case BOW:
-							itemType = bambooBow ? "bamboo_bow" : "bow";
+							itemType = "bow";
 							break;
 						case CROSSBOW:
 							itemType = "crossbow";
@@ -156,7 +155,8 @@ public class ItemUpdater {
 							if (weaponProperty != null)
 								WeaponRecipes.setWeaponValues(plugin, nbti, weaponProperty);
 							else if (armorProperty != null)
-								item = ArmorRecipes.setArmorValues(plugin, new ItemStack(item.getType()), armorProperty);
+								item = ArmorRecipes.setArmorValues(plugin, new ItemStack(item.getType()),
+										armorProperty);
 							setValues(nbti, repairCost, enchantments, forcedColor, cosmeticEffect, itemName, color);
 							nbti.setInteger(NBTUtil.UPDATEVERSION, updateVersion);
 							// Change the old Damage to the new CustomModelData in order to change the
@@ -239,7 +239,8 @@ public class ItemUpdater {
 					}
 					NBTUtil.removeUselessLines(nbti);
 					if ((cause.equals(ItemUpdatingCause.VILLAGER) || isUncraftable
-							|| nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED)) && CraftingEvents.uncraft(item, plugin) != null) {
+							|| nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED))
+							&& CraftingEvents.uncraft(item, plugin) != null) {
 						nbti.setBoolean(NBTUtil.CANNOT_BE_UNCRAFTED,
 								nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED) ? nbti.getBoolean(NBTUtil.CANNOT_BE_UNCRAFTED)
 										: true);
@@ -252,8 +253,8 @@ public class ItemUpdater {
 						// 50% chance of having a blackstone sword
 						if (random.nextBoolean()) {
 							List<WeaponProperty> list = new ArrayList<WeaponProperty>();
-							for(WeaponProperty wp : plugin.getItemList().weapons)
-								if(wp.getMaterial().equals("blackstone"))
+							for (WeaponProperty wp : plugin.getItemList().weapons)
+								if (wp.getMaterial().equals("blackstone"))
 									list.add(wp);
 							WeaponProperty wp = list.get(random.nextInt(list.size()));
 							return WeaponRecipes.setWeaponValues(plugin, wp);
@@ -277,10 +278,9 @@ public class ItemUpdater {
 					item = FoodProperty.setFoodNeededLore(item, food, saturation);
 				}
 				return item;
-			} else
-				return null;
-		} else
-			return null;
+			}
+		}
+		return null;
 	}
 
 	public static void setValues(NBTItem nbti, int repairCost, NBTCompoundList enchantments, String forcedColor,
