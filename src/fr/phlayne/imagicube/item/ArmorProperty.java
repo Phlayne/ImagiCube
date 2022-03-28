@@ -84,7 +84,7 @@ public interface ArmorProperty {
 		String material = nbt.hasKey(NBTUtil.MATERIAL) ? nbt.getString(NBTUtil.MATERIAL) : "";
 		if (itemType.equals("") || material.equals(""))
 			return null;
-		for (ArmorProperty armorProperty : plugin.armors) {
+		for (ArmorProperty armorProperty : plugin.getItemList().armors) {
 			if (armorProperty.getType().equals(itemType) && armorProperty.getMaterial().equals(material))
 				return armorProperty;
 		}

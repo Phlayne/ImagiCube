@@ -97,7 +97,7 @@ public interface WeaponProperty {
 		String material = nbt.hasKey(NBTUtil.MATERIAL) ? nbt.getString(NBTUtil.MATERIAL) : "";
 		if (itemType == "" || material == "")
 			return null;
-		for (WeaponProperty weaponProperty : plugin.weapons) {
+		for (WeaponProperty weaponProperty : plugin.getItemList().weapons) {
 			if (weaponProperty.getType().equals(itemType) && weaponProperty.getMaterial().equals(material))
 				return weaponProperty;
 		}

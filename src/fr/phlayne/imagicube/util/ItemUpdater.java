@@ -252,7 +252,7 @@ public class ItemUpdater {
 						// 50% chance of having a blackstone sword
 						if (random.nextBoolean()) {
 							List<WeaponProperty> list = new ArrayList<WeaponProperty>();
-							for(WeaponProperty wp : plugin.weapons)
+							for(WeaponProperty wp : plugin.getItemList().weapons)
 								if(wp.getMaterial().equals("blackstone"))
 									list.add(wp);
 							WeaponProperty wp = list.get(random.nextInt(list.size()));

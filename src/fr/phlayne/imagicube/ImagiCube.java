@@ -85,6 +85,10 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		}
 	}
 
+	public ItemList getItemList() {
+		return this.itemList;
+	}
+	
 	public void onDisable() {
 		getServer().clearRecipes();
 	}
