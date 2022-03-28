@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.event.ItemUpdatingEvent;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
@@ -16,6 +17,12 @@ import fr.phlayne.imagicube.util.ItemUpdater;
 
 public class ItemUpdatingEvents implements Listener {
 
+	private ImagiCube plugin;
+	
+	public ItemUpdatingEvents(ImagiCube plugin) {
+		this.plugin = plugin;
+	}
+	
 	@EventHandler
 	public void onInventoryOpen(InventoryOpenEvent event) {
 		updateItemInInventory(event.getInventory(), ItemUpdatingCause.PLAYER);
@@ -26,7 +33,7 @@ public class ItemUpdatingEvents implements Listener {
 		if (event.getEntity() instanceof Item) {
 			Item entityItem = (Item) event.getEntity();
 			ItemUpdatingEvent itemUpdatingEvent = new ItemUpdatingEvent(entityItem.getItemStack(),
-					ItemUpdatingCause.DROP_OR_SPAWN);
+					ItemUpdatingCause.DROP_OR_SPAWN, plugin);
 			Bukkit.getPluginManager().callEvent(itemUpdatingEvent);
 			if (!itemUpdatingEvent.isCancelled()) {
 				entityItem.setItemStack(itemUpdatingEvent.getResult());
@@ -34,10 +41,10 @@ public class ItemUpdatingEvents implements Listener {
 		}
 	}
 
-	public static void updateItemInInventory(Inventory inv, ItemUpdatingCause cause) {
+	public void updateItemInInventory(Inventory inv, ItemUpdatingCause cause) {
 		if (inv != null) {
 			for (int i = 0; i < inv.getSize(); i++) {
-				ItemUpdatingEvent event = new ItemUpdatingEvent(inv.getItem(i), cause);
+				ItemUpdatingEvent event = new ItemUpdatingEvent(inv.getItem(i), cause, this.plugin);
 				Bukkit.getPluginManager().callEvent(event);
 				if (event.isUpdated()) {
 					inv.setItem(i, event.getResult());
@@ -49,7 +56,7 @@ public class ItemUpdatingEvents implements Listener {
 	@EventHandler
 	public void onItemUpdate(ItemUpdatingEvent event) {
 		try {
-			ItemStack result = ItemUpdater.updateItem(event.getItemToUpdate(), event.getCause());
+			ItemStack result = ItemUpdater.updateItem(event.getItemToUpdate(), event.getCause(), this.plugin);
 			event.setResult(result);
 			event.update();
 			if (event.getResult() == null)

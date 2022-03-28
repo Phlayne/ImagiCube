@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
+import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.Durability;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
@@ -26,6 +27,12 @@ import fr.phlayne.imagicube.util.NBTUtil;
 
 public class CraftingEvents implements Listener {
 
+	private ImagiCube plugin;
+	
+	public CraftingEvents(ImagiCube plugin) {
+		this.plugin = plugin;
+	}
+	
 	@EventHandler
 	public void onCraft(PrepareItemCraftEvent event) {
 		ItemStack decraftItem = null;
@@ -39,9 +46,9 @@ public class CraftingEvents implements Listener {
 		}
 		if (decraftItem == null)
 			return;
-		ItemStack result = uncraft(decraftItem);
+		ItemStack result = uncraft(decraftItem, plugin);
 		if (result != null)
-			event.getInventory().setResult(uncraft(decraftItem));
+			event.getInventory().setResult(uncraft(decraftItem, plugin));
 	}
 
 	// @EventHandler Unused for now
@@ -116,7 +123,7 @@ public class CraftingEvents implements Listener {
 					}
 					ItemStack resultItem = new ItemStack(Material.AIR);
 					try {
-						resultItem = ItemUpdater.updateItem(new ItemStack(resultMaterial), ItemUpdatingCause.CRAFT);
+						resultItem = ItemUpdater.updateItem(new ItemStack(resultMaterial), ItemUpdatingCause.CRAFT, this.plugin);
 					} catch (CannotUpdateItemException e) {
 						e.printStackTrace();
 					}
@@ -296,7 +303,7 @@ public class CraftingEvents implements Listener {
 		return Color.fromRGB((int) averageRed, (int) averageGreen, (int) averageBlue);
 	}
 
-	public static ItemStack uncraft(ItemStack item) {
+	public static ItemStack uncraft(ItemStack item, ImagiCube plugin) {
 		NBTItem nbti = new NBTItem(item);
 		if (nbti.hasKey(NBTUtil.MATERIAL) && nbti.hasKey(NBTUtil.ITEM_TYPE) && nbti.hasKey(NBTUtil.DURABILITY)) {
 			if (nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED) && nbti.getBoolean(NBTUtil.CANNOT_BE_UNCRAFTED))
@@ -332,7 +339,7 @@ public class CraftingEvents implements Listener {
 				break;
 			}
 			switch (material) {
-			case "wooden":
+			case "wood":
 				resultMaterial = Material.OAK_PLANKS;
 				break;
 			case "oak":
@@ -371,7 +378,7 @@ public class CraftingEvents implements Listener {
 			case "diamond":
 				resultMaterial = Material.DIAMOND;
 				break;
-			case "golden":
+			case "gold":
 				resultMaterial = Material.GOLD_INGOT;
 				break;
 			case "leather":
@@ -395,7 +402,7 @@ public class CraftingEvents implements Listener {
 				return null;
 			}
 			return new ItemStack(resultMaterial,
-					(int) ((Durability.getPercentDurability(item) * ((float) resultCount))));
+					(int) ((Durability.getPercentDurability(item, plugin) * ((float) resultCount))));
 		}
 		return null;
 	}

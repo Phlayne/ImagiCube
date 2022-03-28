@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import de.tr7zw.nbtapi.NBTItem;
+import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.item.Durability;
 
 public class DamageStats {
@@ -115,7 +116,7 @@ public class DamageStats {
 		return (float) (40 - getMagicalResistance(entity)) / (float) 40;
 	}
 
-	public static EntityDamageEvent changeStats(EntityDamageEvent event) {
+	public static EntityDamageEvent changeStats(EntityDamageEvent event, ImagiCube plugin) {
 		if (event.getEntity() instanceof Item)
 			return event;
 		DamageCause dst = event.getCause();
@@ -222,14 +223,14 @@ public class DamageStats {
 									ItemStack newShield = player.getEquipment().getItemInMainHand();
 									for (int i = 0; i < shieldDamage; i++)
 										newShield = Durability.applyDurability(newShield,
-												newShield.getEnchantmentLevel(Enchantment.DURABILITY));
+												newShield.getEnchantmentLevel(Enchantment.DURABILITY), plugin);
 									player.getEquipment().setItemInMainHand(newShield);
 								} else if (player.getEquipment().getItemInMainHand().getType()
 										.equals(Material.SHIELD)) {
 									ItemStack newShield = player.getEquipment().getItemInOffHand();
 									for (int i = 0; i < shieldDamage; i++)
 										newShield = Durability.applyDurability(newShield,
-												newShield.getEnchantmentLevel(Enchantment.DURABILITY));
+												newShield.getEnchantmentLevel(Enchantment.DURABILITY), plugin);
 									player.getEquipment().setItemInOffHand(newShield);
 								}
 							}

@@ -15,6 +15,7 @@ import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.Reference;
 import fr.phlayne.imagicube.item.Durability;
+import fr.phlayne.imagicube.item.WeaponProperties;
 import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.util.ItemUpdater;
 import fr.phlayne.imagicube.util.NBTUtil;
@@ -25,52 +26,52 @@ public class WeaponRecipes {
 	public static Random random = new Random();
 
 	public static void init(ImagiCube plugin) {
-		ItemStack oakSword = setWeaponValues(WeaponProperty.OAK_SWORD);
-		ItemStack oakAxe = setWeaponValues(WeaponProperty.OAK_AXE);
-		ItemStack oakPickaxe = setWeaponValues(WeaponProperty.OAK_PICKAXE);
-		ItemStack oakShovel = setWeaponValues(WeaponProperty.OAK_SHOVEL);
-		ItemStack oakHoe = setWeaponValues(WeaponProperty.OAK_HOE);
+		ItemStack oakSword = setWeaponValues(plugin, WeaponProperties.OAK_SWORD);
+		ItemStack oakAxe = setWeaponValues(plugin, WeaponProperties.OAK_AXE);
+		ItemStack oakPickaxe = setWeaponValues(plugin, WeaponProperties.OAK_PICKAXE);
+		ItemStack oakShovel = setWeaponValues(plugin, WeaponProperties.OAK_SHOVEL);
+		ItemStack oakHoe = setWeaponValues(plugin, WeaponProperties.OAK_HOE);
 		addCraft(plugin, oakSword, Material.OAK_PLANKS, CraftType.SWORD);
 		addCraft(plugin, oakAxe, Material.OAK_PLANKS, CraftType.AXE);
 		addCraft(plugin, oakPickaxe, Material.OAK_PLANKS, CraftType.PICKAXE);
 		addCraft(plugin, oakShovel, Material.OAK_PLANKS, CraftType.SHOVEL);
 		addCraft(plugin, oakHoe, Material.OAK_PLANKS, CraftType.HOE);
 		if (plugin.getConfig().getBoolean("woodToolsVariants")) {
-			ItemStack spruceSword = setWeaponValues(WeaponProperty.SPRUCE_SWORD);
-			ItemStack spruceAxe = setWeaponValues(WeaponProperty.SPRUCE_AXE);
-			ItemStack sprucePickaxe = setWeaponValues(WeaponProperty.SPRUCE_PICKAXE);
-			ItemStack spruceShovel = setWeaponValues(WeaponProperty.SPRUCE_SHOVEL);
-			ItemStack spruceHoe = setWeaponValues(WeaponProperty.SPRUCE_HOE);
-			ItemStack birchSword = setWeaponValues(WeaponProperty.BIRCH_SWORD);
-			ItemStack birchAxe = setWeaponValues(WeaponProperty.BIRCH_AXE);
-			ItemStack birchPickaxe = setWeaponValues(WeaponProperty.BIRCH_PICKAXE);
-			ItemStack birchShovel = setWeaponValues(WeaponProperty.BIRCH_SHOVEL);
-			ItemStack birchHoe = setWeaponValues(WeaponProperty.BIRCH_HOE);
-			ItemStack jungleSword = setWeaponValues(WeaponProperty.JUNGLE_SWORD);
-			ItemStack jungleAxe = setWeaponValues(WeaponProperty.JUNGLE_AXE);
-			ItemStack junglePickaxe = setWeaponValues(WeaponProperty.JUNGLE_PICKAXE);
-			ItemStack jungleShovel = setWeaponValues(WeaponProperty.JUNGLE_SHOVEL);
-			ItemStack jungleHoe = setWeaponValues(WeaponProperty.JUNGLE_HOE);
-			ItemStack acaciaSword = setWeaponValues(WeaponProperty.ACACIA_SWORD);
-			ItemStack acaciaAxe = setWeaponValues(WeaponProperty.ACACIA_AXE);
-			ItemStack acaciaPickaxe = setWeaponValues(WeaponProperty.ACACIA_PICKAXE);
-			ItemStack acaciaShovel = setWeaponValues(WeaponProperty.ACACIA_SHOVEL);
-			ItemStack acaciaHoe = setWeaponValues(WeaponProperty.ACACIA_HOE);
-			ItemStack dark_oakSword = setWeaponValues(WeaponProperty.DARK_OAK_SWORD);
-			ItemStack dark_oakAxe = setWeaponValues(WeaponProperty.DARK_OAK_AXE);
-			ItemStack dark_oakPickaxe = setWeaponValues(WeaponProperty.DARK_OAK_PICKAXE);
-			ItemStack dark_oakShovel = setWeaponValues(WeaponProperty.DARK_OAK_SHOVEL);
-			ItemStack dark_oakHoe = setWeaponValues(WeaponProperty.DARK_OAK_HOE);
-			ItemStack crimsonSword = setWeaponValues(WeaponProperty.CRIMSON_SWORD);
-			ItemStack crimsonAxe = setWeaponValues(WeaponProperty.CRIMSON_AXE);
-			ItemStack crimsonPickaxe = setWeaponValues(WeaponProperty.CRIMSON_PICKAXE);
-			ItemStack crimsonShovel = setWeaponValues(WeaponProperty.CRIMSON_SHOVEL);
-			ItemStack crimsonHoe = setWeaponValues(WeaponProperty.CRIMSON_HOE);
-			ItemStack warpedSword = setWeaponValues(WeaponProperty.WARPED_SWORD);
-			ItemStack warpedAxe = setWeaponValues(WeaponProperty.WARPED_AXE);
-			ItemStack warpedPickaxe = setWeaponValues(WeaponProperty.WARPED_PICKAXE);
-			ItemStack warpedShovel = setWeaponValues(WeaponProperty.WARPED_SHOVEL);
-			ItemStack warpedHoe = setWeaponValues(WeaponProperty.WARPED_HOE);
+			ItemStack spruceSword = setWeaponValues(plugin, WeaponProperties.SPRUCE_SWORD);
+			ItemStack spruceAxe = setWeaponValues(plugin, WeaponProperties.SPRUCE_AXE);
+			ItemStack sprucePickaxe = setWeaponValues(plugin, WeaponProperties.SPRUCE_PICKAXE);
+			ItemStack spruceShovel = setWeaponValues(plugin, WeaponProperties.SPRUCE_SHOVEL);
+			ItemStack spruceHoe = setWeaponValues(plugin, WeaponProperties.SPRUCE_HOE);
+			ItemStack birchSword = setWeaponValues(plugin, WeaponProperties.BIRCH_SWORD);
+			ItemStack birchAxe = setWeaponValues(plugin, WeaponProperties.BIRCH_AXE);
+			ItemStack birchPickaxe = setWeaponValues(plugin, WeaponProperties.BIRCH_PICKAXE);
+			ItemStack birchShovel = setWeaponValues(plugin, WeaponProperties.BIRCH_SHOVEL);
+			ItemStack birchHoe = setWeaponValues(plugin, WeaponProperties.BIRCH_HOE);
+			ItemStack jungleSword = setWeaponValues(plugin, WeaponProperties.JUNGLE_SWORD);
+			ItemStack jungleAxe = setWeaponValues(plugin, WeaponProperties.JUNGLE_AXE);
+			ItemStack junglePickaxe = setWeaponValues(plugin, WeaponProperties.JUNGLE_PICKAXE);
+			ItemStack jungleShovel = setWeaponValues(plugin, WeaponProperties.JUNGLE_SHOVEL);
+			ItemStack jungleHoe = setWeaponValues(plugin, WeaponProperties.JUNGLE_HOE);
+			ItemStack acaciaSword = setWeaponValues(plugin, WeaponProperties.ACACIA_SWORD);
+			ItemStack acaciaAxe = setWeaponValues(plugin, WeaponProperties.ACACIA_AXE);
+			ItemStack acaciaPickaxe = setWeaponValues(plugin, WeaponProperties.ACACIA_PICKAXE);
+			ItemStack acaciaShovel = setWeaponValues(plugin, WeaponProperties.ACACIA_SHOVEL);
+			ItemStack acaciaHoe = setWeaponValues(plugin, WeaponProperties.ACACIA_HOE);
+			ItemStack dark_oakSword = setWeaponValues(plugin, WeaponProperties.DARK_OAK_SWORD);
+			ItemStack dark_oakAxe = setWeaponValues(plugin, WeaponProperties.DARK_OAK_AXE);
+			ItemStack dark_oakPickaxe = setWeaponValues(plugin, WeaponProperties.DARK_OAK_PICKAXE);
+			ItemStack dark_oakShovel = setWeaponValues(plugin, WeaponProperties.DARK_OAK_SHOVEL);
+			ItemStack dark_oakHoe = setWeaponValues(plugin, WeaponProperties.DARK_OAK_HOE);
+			ItemStack crimsonSword = setWeaponValues(plugin, WeaponProperties.CRIMSON_SWORD);
+			ItemStack crimsonAxe = setWeaponValues(plugin, WeaponProperties.CRIMSON_AXE);
+			ItemStack crimsonPickaxe = setWeaponValues(plugin, WeaponProperties.CRIMSON_PICKAXE);
+			ItemStack crimsonShovel = setWeaponValues(plugin, WeaponProperties.CRIMSON_SHOVEL);
+			ItemStack crimsonHoe = setWeaponValues(plugin, WeaponProperties.CRIMSON_HOE);
+			ItemStack warpedSword = setWeaponValues(plugin, WeaponProperties.WARPED_SWORD);
+			ItemStack warpedAxe = setWeaponValues(plugin, WeaponProperties.WARPED_AXE);
+			ItemStack warpedPickaxe = setWeaponValues(plugin, WeaponProperties.WARPED_PICKAXE);
+			ItemStack warpedShovel = setWeaponValues(plugin, WeaponProperties.WARPED_SHOVEL);
+			ItemStack warpedHoe = setWeaponValues(plugin, WeaponProperties.WARPED_HOE);
 			addCraft(plugin, spruceSword, Material.SPRUCE_PLANKS, CraftType.SWORD);
 			addCraft(plugin, spruceAxe, Material.SPRUCE_PLANKS, CraftType.AXE);
 			addCraft(plugin, sprucePickaxe, Material.SPRUCE_PLANKS, CraftType.PICKAXE);
@@ -108,55 +109,55 @@ public class WeaponRecipes {
 			addCraft(plugin, warpedHoe, Material.WARPED_PLANKS, CraftType.HOE);
 		}
 
-		ItemStack stoneSword = setWeaponValues(WeaponProperty.STONE_SWORD);
-		ItemStack stoneAxe = setWeaponValues(WeaponProperty.STONE_AXE);
-		ItemStack stonePickaxe = setWeaponValues(WeaponProperty.STONE_PICKAXE);
-		ItemStack stoneShovel = setWeaponValues(WeaponProperty.STONE_SHOVEL);
-		ItemStack stoneHoe = setWeaponValues(WeaponProperty.STONE_HOE);
+		ItemStack stoneSword = setWeaponValues(plugin, WeaponProperties.STONE_SWORD);
+		ItemStack stoneAxe = setWeaponValues(plugin, WeaponProperties.STONE_AXE);
+		ItemStack stonePickaxe = setWeaponValues(plugin, WeaponProperties.STONE_PICKAXE);
+		ItemStack stoneShovel = setWeaponValues(plugin, WeaponProperties.STONE_SHOVEL);
+		ItemStack stoneHoe = setWeaponValues(plugin, WeaponProperties.STONE_HOE);
 		addCraft(plugin, stoneSword, Material.COBBLESTONE, CraftType.SWORD);
 		addCraft(plugin, stoneAxe, Material.COBBLESTONE, CraftType.AXE);
 		addCraft(plugin, stonePickaxe, Material.COBBLESTONE, CraftType.PICKAXE);
 		addCraft(plugin, stoneShovel, Material.COBBLESTONE, CraftType.SHOVEL);
 		addCraft(plugin, stoneHoe, Material.COBBLESTONE, CraftType.HOE);
 
-		ItemStack ironSword = setWeaponValues(WeaponProperty.IRON_SWORD);
-		ItemStack ironAxe = setWeaponValues(WeaponProperty.IRON_AXE);
-		ItemStack ironPickaxe = setWeaponValues(WeaponProperty.IRON_PICKAXE);
-		ItemStack ironShovel = setWeaponValues(WeaponProperty.IRON_SHOVEL);
-		ItemStack ironHoe = setWeaponValues(WeaponProperty.IRON_HOE);
+		ItemStack ironSword = setWeaponValues(plugin, WeaponProperties.IRON_SWORD);
+		ItemStack ironAxe = setWeaponValues(plugin, WeaponProperties.IRON_AXE);
+		ItemStack ironPickaxe = setWeaponValues(plugin, WeaponProperties.IRON_PICKAXE);
+		ItemStack ironShovel = setWeaponValues(plugin, WeaponProperties.IRON_SHOVEL);
+		ItemStack ironHoe = setWeaponValues(plugin, WeaponProperties.IRON_HOE);
 		addCraft(plugin, ironSword, Material.IRON_INGOT, CraftType.SWORD);
 		addCraft(plugin, ironAxe, Material.IRON_INGOT, CraftType.AXE);
 		addCraft(plugin, ironPickaxe, Material.IRON_INGOT, CraftType.PICKAXE);
 		addCraft(plugin, ironShovel, Material.IRON_INGOT, CraftType.SHOVEL);
 		addCraft(plugin, ironHoe, Material.IRON_INGOT, CraftType.HOE);
 
-		ItemStack goldenSword = setWeaponValues(WeaponProperty.GOLDEN_SWORD);
-		ItemStack goldenAxe = setWeaponValues(WeaponProperty.GOLDEN_AXE);
-		ItemStack goldenPickaxe = setWeaponValues(WeaponProperty.GOLDEN_PICKAXE);
-		ItemStack goldenShovel = setWeaponValues(WeaponProperty.GOLDEN_SHOVEL);
-		ItemStack goldenHoe = setWeaponValues(WeaponProperty.GOLDEN_HOE);
+		ItemStack goldenSword = setWeaponValues(plugin, WeaponProperties.GOLDEN_SWORD);
+		ItemStack goldenAxe = setWeaponValues(plugin, WeaponProperties.GOLDEN_AXE);
+		ItemStack goldenPickaxe = setWeaponValues(plugin, WeaponProperties.GOLDEN_PICKAXE);
+		ItemStack goldenShovel = setWeaponValues(plugin, WeaponProperties.GOLDEN_SHOVEL);
+		ItemStack goldenHoe = setWeaponValues(plugin, WeaponProperties.GOLDEN_HOE);
 		addCraft(plugin, goldenSword, Material.GOLD_INGOT, CraftType.SWORD);
 		addCraft(plugin, goldenAxe, Material.GOLD_INGOT, CraftType.AXE);
 		addCraft(plugin, goldenPickaxe, Material.GOLD_INGOT, CraftType.PICKAXE);
 		addCraft(plugin, goldenShovel, Material.GOLD_INGOT, CraftType.SHOVEL);
 		addCraft(plugin, goldenHoe, Material.GOLD_INGOT, CraftType.HOE);
 
-		ItemStack diamondSword = setWeaponValues(WeaponProperty.DIAMOND_SWORD);
-		ItemStack diamondAxe = setWeaponValues(WeaponProperty.DIAMOND_AXE);
-		ItemStack diamondPickaxe = setWeaponValues(WeaponProperty.DIAMOND_PICKAXE);
-		ItemStack diamondShovel = setWeaponValues(WeaponProperty.DIAMOND_SHOVEL);
-		ItemStack diamondHoe = setWeaponValues(WeaponProperty.DIAMOND_HOE);
+		ItemStack diamondSword = setWeaponValues(plugin, WeaponProperties.DIAMOND_SWORD);
+		ItemStack diamondAxe = setWeaponValues(plugin, WeaponProperties.DIAMOND_AXE);
+		ItemStack diamondPickaxe = setWeaponValues(plugin, WeaponProperties.DIAMOND_PICKAXE);
+		ItemStack diamondShovel = setWeaponValues(plugin, WeaponProperties.DIAMOND_SHOVEL);
+		ItemStack diamondHoe = setWeaponValues(plugin, WeaponProperties.DIAMOND_HOE);
 		addCraft(plugin, diamondSword, Material.DIAMOND, CraftType.SWORD);
 		addCraft(plugin, diamondAxe, Material.DIAMOND, CraftType.AXE);
 		addCraft(plugin, diamondPickaxe, Material.DIAMOND, CraftType.PICKAXE);
 		addCraft(plugin, diamondShovel, Material.DIAMOND, CraftType.SHOVEL);
 		addCraft(plugin, diamondHoe, Material.DIAMOND, CraftType.HOE);
 
-		ItemStack netheriteSword = setWeaponValues(WeaponProperty.NETHERITE_SWORD);
-		ItemStack netheriteAxe = setWeaponValues(WeaponProperty.NETHERITE_AXE);
-		ItemStack netheritePickaxe = setWeaponValues(WeaponProperty.NETHERITE_PICKAXE);
-		ItemStack netheriteShovel = setWeaponValues(WeaponProperty.NETHERITE_SHOVEL);
-		ItemStack netheriteHoe = setWeaponValues(WeaponProperty.NETHERITE_HOE);
+		ItemStack netheriteSword = setWeaponValues(plugin, WeaponProperties.NETHERITE_SWORD);
+		ItemStack netheriteAxe = setWeaponValues(plugin, WeaponProperties.NETHERITE_AXE);
+		ItemStack netheritePickaxe = setWeaponValues(plugin, WeaponProperties.NETHERITE_PICKAXE);
+		ItemStack netheriteShovel = setWeaponValues(plugin, WeaponProperties.NETHERITE_SHOVEL);
+		ItemStack netheriteHoe = setWeaponValues(plugin, WeaponProperties.NETHERITE_HOE);
 		addCraft(plugin, netheriteSword, Material.NETHERITE_INGOT, CraftType.SWORD);
 		addCraft(plugin, netheriteAxe, Material.NETHERITE_INGOT, CraftType.AXE);
 		addCraft(plugin, netheritePickaxe, Material.NETHERITE_INGOT, CraftType.PICKAXE);
@@ -164,28 +165,28 @@ public class WeaponRecipes {
 		addCraft(plugin, netheriteHoe, Material.NETHERITE_INGOT, CraftType.HOE);
 
 		if (plugin.getConfig().getBoolean("prismarineTools")) {
-			ItemStack prismarineSword = setWeaponValues(WeaponProperty.PRISMARINE_SWORD);
-			ItemStack prismarineAxe = setWeaponValues(WeaponProperty.PRISMARINE_AXE);
-			ItemStack prismarinePickaxe = setWeaponValues(WeaponProperty.PRISMARINE_PICKAXE);
-			ItemStack prismarineShovel = setWeaponValues(WeaponProperty.PRISMARINE_SHOVEL);
-			ItemStack prismarineHoe = setWeaponValues(WeaponProperty.PRISMARINE_HOE);
+			ItemStack prismarineSword = setWeaponValues(plugin, WeaponProperties.PRISMARINE_SWORD);
+			ItemStack prismarineAxe = setWeaponValues(plugin, WeaponProperties.PRISMARINE_AXE);
+			ItemStack prismarinePickaxe = setWeaponValues(plugin, WeaponProperties.PRISMARINE_PICKAXE);
+			ItemStack prismarineShovel = setWeaponValues(plugin, WeaponProperties.PRISMARINE_SHOVEL);
+			ItemStack prismarineHoe = setWeaponValues(plugin, WeaponProperties.PRISMARINE_HOE);
 			addCraft(plugin, prismarineSword, Material.PRISMARINE, CraftType.SWORD);
 			addCraft(plugin, prismarineAxe, Material.PRISMARINE, CraftType.AXE);
 			addCraft(plugin, prismarinePickaxe, Material.PRISMARINE, CraftType.PICKAXE);
 			addCraft(plugin, prismarineShovel, Material.PRISMARINE, CraftType.SHOVEL);
 			addCraft(plugin, prismarineHoe, Material.PRISMARINE, CraftType.HOE);
 			if (plugin.getConfig().getBoolean("craftableTrident")) {
-				 ItemStack trident = setWeaponValues(WeaponProperty.TRIDENT);
+				 ItemStack trident = setWeaponValues(plugin, WeaponProperties.TRIDENT);
 				 addCraft(plugin, trident, Material.PRISMARINE, CraftType.TRIDENT, "trident");
 			}
 		}
 
 		if (plugin.getConfig().getBoolean("stoneToolsVariants")) {
-			ItemStack blackstoneSword = setWeaponValues(WeaponProperty.BLACKSTONE_SWORD);
-			ItemStack blackstoneAxe = setWeaponValues(WeaponProperty.BLACKSTONE_AXE);
-			ItemStack blackstonePickaxe = setWeaponValues(WeaponProperty.BLACKSTONE_PICKAXE);
-			ItemStack blackstoneShovel = setWeaponValues(WeaponProperty.BLACKSTONE_SHOVEL);
-			ItemStack blackstoneHoe = setWeaponValues(WeaponProperty.BLACKSTONE_HOE);
+			ItemStack blackstoneSword = setWeaponValues(plugin, WeaponProperties.BLACKSTONE_SWORD);
+			ItemStack blackstoneAxe = setWeaponValues(plugin, WeaponProperties.BLACKSTONE_AXE);
+			ItemStack blackstonePickaxe = setWeaponValues(plugin, WeaponProperties.BLACKSTONE_PICKAXE);
+			ItemStack blackstoneShovel = setWeaponValues(plugin, WeaponProperties.BLACKSTONE_SHOVEL);
+			ItemStack blackstoneHoe = setWeaponValues(plugin, WeaponProperties.BLACKSTONE_HOE);
 			addCraft(plugin, blackstoneSword, Material.BLACKSTONE, CraftType.SWORD);
 			addCraft(plugin, blackstoneAxe, Material.BLACKSTONE, CraftType.AXE);
 			addCraft(plugin, blackstonePickaxe, Material.BLACKSTONE, CraftType.PICKAXE);
@@ -226,17 +227,17 @@ public class WeaponRecipes {
 		}
 	}
 
-	public static ItemStack setWeaponValues(WeaponProperty weaponProperty) {
-		return setWeaponValues(new ItemStack(weaponProperty.getBukkitMaterial()), weaponProperty);
+	public static ItemStack setWeaponValues(ImagiCube plugin, WeaponProperty weaponProperty) {
+		return setWeaponValues(plugin, new ItemStack(weaponProperty.getBukkitMaterial()), weaponProperty);
 	}
 
-	public static ItemStack setWeaponValues(ItemStack item, WeaponProperty weaponProperty) {
+	public static ItemStack setWeaponValues(ImagiCube plugin, ItemStack item, WeaponProperty weaponProperty) {
 		NBTItem nbti = new NBTItem(item);
-		setWeaponValues(nbti, weaponProperty);
+		setWeaponValues(plugin, nbti, weaponProperty);
 		return nbti.getItem();
 	}
 	
-	public static void setWeaponValues(NBTItem nbti, WeaponProperty weaponProperty) {
+	public static void setWeaponValues(ImagiCube plugin, NBTItem nbti, WeaponProperty weaponProperty) {
 		nbti.setInteger("CustomModelData", weaponProperty.getCustomModelData());
 		nbti.setBoolean("Unbreakable", true);
 		nbti.setInteger("HideFlags", 6);
@@ -280,7 +281,7 @@ public class WeaponRecipes {
 			display.setString("Name", new SimpleJSON()
 					.add(weaponName, false, false, false, false, SimpleJSON.Color.WHITE, true).convert());
 		nbti.setInteger(NBTUtil.UPDATEVERSION, ItemUpdater.updateVersion);
-		Durability.setDurability(nbti, 0);
+		Durability.setDurability(nbti, 0, plugin);
 	}
 
 	public static String getWeaponName(WeaponProperty weaponProperty) {

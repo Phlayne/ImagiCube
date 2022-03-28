@@ -1,5 +1,6 @@
 package fr.phlayne.imagicube;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -21,15 +22,21 @@ import fr.phlayne.imagicube.crafts.ConcreteCrafts;
 import fr.phlayne.imagicube.crafts.Crafts;
 import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
 import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
+import fr.phlayne.imagicube.event.ImagiCubeLoadingEvent;
 import fr.phlayne.imagicube.events.CraftingEvents;
 import fr.phlayne.imagicube.events.ItemUpdatingEvents;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
+import fr.phlayne.imagicube.item.ArmorProperties;
+import fr.phlayne.imagicube.item.ItemList;
+import fr.phlayne.imagicube.item.MineralProperties;
+import fr.phlayne.imagicube.item.WeaponProperties;
 import fr.phlayne.imagicube.util.NBTUtil;
 import fr.phlayne.imagicube.util.ResourcePackUtil;
 
 public class ImagiCube extends JavaPlugin implements Listener {
 
 	protected ResourcePackUtil resourcePackUtil = new ResourcePackUtil();
+	protected ItemList itemList;
 
 	public void onEnable() {
 
@@ -37,9 +44,21 @@ public class ImagiCube extends JavaPlugin implements Listener {
 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(this, this);
-		pm.registerEvents(new CraftingEvents(), this);
-		pm.registerEvents(new ItemUpdatingEvents(), this);
+		pm.registerEvents(new CraftingEvents(this), this);
+		pm.registerEvents(new ItemUpdatingEvents(this), this);
 		pm.registerEvents(resourcePackUtil, this);
+
+		/* Plugin extensions */
+
+		
+		
+		itemList.weapons = Arrays.asList(WeaponProperties.values());
+		itemList.armors = Arrays.asList(ArmorProperties.values());
+		itemList.minerals = Arrays.asList(MineralProperties.values());
+		ImagiCubeLoadingEvent event = new ImagiCubeLoadingEvent(itemList);
+		Bukkit.getPluginManager().callEvent(event);
+
+		// TODO Call an event to extend the list with plugin extensions
 
 		/* Crafts */
 

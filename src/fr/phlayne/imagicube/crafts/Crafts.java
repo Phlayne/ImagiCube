@@ -155,7 +155,7 @@ public class Crafts {
 		WARPED_TRAPDOOR_CRAFT.shape("---", "---");
 		WARPED_TRAPDOOR_CRAFT.setIngredient('-', Material.WARPED_PLANKS);
 
-		ItemStack bow = ItemUpdater.updateItem(new ItemStack(Material.BOW), ItemUpdatingCause.CRAFT);
+		ItemStack bow = ItemUpdater.updateItem(new ItemStack(Material.BOW), ItemUpdatingCause.CRAFT, plugin);
 		NamespacedKey leftBowKey = new NamespacedKey(plugin,
 				"left_bow");
 		NamespacedKey rightBowKey = new NamespacedKey(plugin,
@@ -169,7 +169,7 @@ public class Crafts {
 		R_BOW_CRAFT.setIngredient('|', Material.STICK);
 		R_BOW_CRAFT.setIngredient('s', Material.STRING);
 
-		ItemStack crossbow = ItemUpdater.updateItem(new ItemStack(Material.CROSSBOW), ItemUpdatingCause.CRAFT);
+		ItemStack crossbow = ItemUpdater.updateItem(new ItemStack(Material.CROSSBOW), ItemUpdatingCause.CRAFT, plugin);
 		NamespacedKey crossbowKey = new NamespacedKey(plugin,
 				"crossbow");
 		CROSSBOW_CRAFT = new ShapedRecipe(crossbowKey, crossbow);
@@ -179,7 +179,7 @@ public class Crafts {
 		CROSSBOW_CRAFT.setIngredient('i', Material.IRON_INGOT);
 		CROSSBOW_CRAFT.setIngredient('c', Material.TRIPWIRE_HOOK);
 
-		ItemStack shield = ItemUpdater.updateItem(new ItemStack(Material.SHIELD), ItemUpdatingCause.CRAFT);
+		ItemStack shield = ItemUpdater.updateItem(new ItemStack(Material.SHIELD), ItemUpdatingCause.CRAFT, plugin);
 		NamespacedKey shieldKey = new NamespacedKey(plugin,
 				"shield");
 		SHIELD_CRAFT = new ShapedRecipe(shieldKey, shield);
@@ -190,14 +190,14 @@ public class Crafts {
 						Material.CRIMSON_PLANKS, Material.WARPED_PLANKS));
 		SHIELD_CRAFT.setIngredient('i', Material.IRON_INGOT);
 
-		ItemStack flintAndSteel = ItemUpdater.updateItem(new ItemStack(Material.FLINT_AND_STEEL), ItemUpdatingCause.CRAFT);
+		ItemStack flintAndSteel = ItemUpdater.updateItem(new ItemStack(Material.FLINT_AND_STEEL), ItemUpdatingCause.CRAFT, plugin);
 		NamespacedKey flintAndSteelKey = new NamespacedKey(plugin,
 				"flint_and_steel");
 		FLINT_AND_STEEL_CRAFT = new ShapelessRecipe(flintAndSteelKey, flintAndSteel);
 		FLINT_AND_STEEL_CRAFT.addIngredient(Material.FLINT);
 		FLINT_AND_STEEL_CRAFT.addIngredient(Material.IRON_INGOT);
 
-		ItemStack shears = ItemUpdater.updateItem(new ItemStack(Material.SHEARS), ItemUpdatingCause.CRAFT);
+		ItemStack shears = ItemUpdater.updateItem(new ItemStack(Material.SHEARS), ItemUpdatingCause.CRAFT, plugin);
 		NamespacedKey leftShearsKey = new NamespacedKey(plugin,
 				"left_shears");
 		NamespacedKey rightShearsKey = new NamespacedKey(plugin,
@@ -209,7 +209,7 @@ public class Crafts {
 		R_SHEARS_CRAFT.shape(" i", "i ");
 		R_SHEARS_CRAFT.setIngredient('i', Material.IRON_INGOT);
 
-		ItemStack fishing_rod = ItemUpdater.updateItem(new ItemStack(Material.FISHING_ROD), ItemUpdatingCause.CRAFT);
+		ItemStack fishing_rod = ItemUpdater.updateItem(new ItemStack(Material.FISHING_ROD), ItemUpdatingCause.CRAFT, plugin);
 		NamespacedKey leftFishingRodKey = new NamespacedKey(plugin,
 				"left_fishing_rod");
 		NamespacedKey rightFishingRodKey = new NamespacedKey(plugin,
