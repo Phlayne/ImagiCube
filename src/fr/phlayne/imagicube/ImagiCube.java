@@ -50,8 +50,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 
 		/* Plugin extensions */
 
-		
-		
+		itemList = new ItemList();
 		itemList.weapons = Arrays.asList(WeaponProperties.values());
 		itemList.armors = Arrays.asList(ArmorProperties.values());
 		itemList.minerals = Arrays.asList(MineralProperties.values());
@@ -88,7 +87,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 	public ItemList getItemList() {
 		return this.itemList;
 	}
-	
+
 	public void onDisable() {
 		getServer().clearRecipes();
 	}
