@@ -25,6 +25,9 @@ import fr.phlayne.imagicube.crafts.Crafts;
 import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
 import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
 import fr.phlayne.imagicube.data.AddonList;
+import fr.phlayne.imagicube.display.DisplayScript;
+import fr.phlayne.imagicube.display.LeftHandDurabilityScript;
+import fr.phlayne.imagicube.display.RightHandDurabilityScript;
 import fr.phlayne.imagicube.event.ImagiCubeLoadingEvent;
 import fr.phlayne.imagicube.events.CraftingEvents;
 import fr.phlayne.imagicube.events.ItemUpdatingEvents;
@@ -35,6 +38,9 @@ import fr.phlayne.imagicube.item.MineralProperties;
 import fr.phlayne.imagicube.item.MineralProperty;
 import fr.phlayne.imagicube.item.WeaponProperties;
 import fr.phlayne.imagicube.item.WeaponProperty;
+import fr.phlayne.imagicube.schedulers.DisplayScriptScheduler;
+import fr.phlayne.imagicube.schedulers.GeneralScheduler;
+import fr.phlayne.imagicube.schedulers.SchedulerScript;
 import fr.phlayne.imagicube.util.NBTUtil;
 import fr.phlayne.imagicube.util.ResourcePackUtil;
 
@@ -78,6 +84,10 @@ public class ImagiCube extends JavaPlugin implements Listener {
 			resourcePackUtil.resourcePackLoaded.put(player, true);
 		}
 
+		/* Schedulers */
+
+		GeneralScheduler.init();
+
 		/* Subplugins */
 
 		// TODO Call an event to extend the list with plugin extensions
@@ -87,6 +97,9 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		this.addonList.armors = new ArrayList<ArmorProperty>(Arrays.asList(ArmorProperties.values()));
 		this.addonList.minerals = new ArrayList<MineralProperty>(Arrays.asList(MineralProperties.values()));
 		this.addonList.uniqueItems = new ArrayList<ItemStack>(Arrays.asList(Crafts.INVISIBLE_ITEM_FRAME.getResult()));
+		this.addonList.displayScripts = new ArrayList<DisplayScript>(
+				Arrays.asList(new LeftHandDurabilityScript(), new RightHandDurabilityScript()));
+		this.addonList.schedulerScripts = new ArrayList<SchedulerScript>(Arrays.asList(new DisplayScriptScheduler()));
 		ImagiCubeLoadingEvent imagiCubeLoadingEvent = new ImagiCubeLoadingEvent(this.addonList);
 
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {

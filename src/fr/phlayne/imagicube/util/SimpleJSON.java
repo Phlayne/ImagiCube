@@ -15,6 +15,11 @@ public class SimpleJSON {
 		return this;
 	}
 
+	public SimpleJSON add(SimpleJSON sj) {
+		this.contents.addAll(sj.contents);
+		return this;
+	}
+
 	public String convert() {
 		String string = "[";
 		for (int i = 0; i < contents.size(); i++) {

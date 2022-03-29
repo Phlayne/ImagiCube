@@ -66,7 +66,8 @@ public class ItemUpdater {
 					if (nbti.hasKey("display") && nbti.getCompound("display").hasKey("Name"))
 						itemName = nbti.getCompound("display").getString("Name");
 					int repairCost = nbti.hasKey("RepairCost") ? nbti.getInteger("RepairCost") : 0;
-					int durability = nbti.hasKey("Damage") ? nbti.getInteger("Damage") : 0;
+					int durability = nbti.hasKey(NBTUtil.DURABILITY) ? nbti.getInteger(NBTUtil.DURABILITY)
+							: nbti.hasKey("Damage") ? nbti.getInteger("Damage") : 0;
 					NBTCompoundList enchantments = nbti.hasKey("Enchantments") ? nbti.getCompoundList("Enchantments")
 							: null;
 					boolean isUncraftable = nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED)
@@ -135,7 +136,7 @@ public class ItemUpdater {
 								.add("", false, false, false, false, SimpleJSON.Color.WHITE, false).convert());
 						// This method is deprecated because it should only be used in this plugin.
 						Durability.setDurability(nbti, durability, Durability.getPercentDurability(nbti));
-					}
+					} else
 
 					// Weapons and armors
 
@@ -153,15 +154,16 @@ public class ItemUpdater {
 							throw new CannotUpdateItemException(cause + " could not update the following Item:", item);
 						} else {
 							if (weaponProperty != null)
-								WeaponRecipes.setWeaponValues(nbti, weaponProperty);
+								nbti = new NBTItem(WeaponRecipes.setWeaponValues(weaponProperty));
 							else if (armorProperty != null)
-								item = ArmorRecipes.setArmorValues(new ItemStack(item.getType()), armorProperty);
-							setValues(nbti, repairCost, enchantments, forcedColor, cosmeticEffect, itemName, color);
+								nbti = new NBTItem(ArmorRecipes.setArmorValues(armorProperty));
+							setValues(nbti, repairCost, enchantments, forcedColor, cosmeticEffect, itemName, color,
+									durability);
 							nbti.setInteger(NBTUtil.UPDATEVERSION, updateVersion);
 							// Change the old Damage to the new CustomModelData in order to change the
 							// texture.
 							if (!nbti.hasKey(NBTUtil.UPDATEVERSION))
-								Durability.setDurability(nbti, 0, 1);
+								Durability.setDurability(nbti, durability, Durability.getPercentDurability(nbti));
 							if (!cosmeticEffect.equals("none"))
 								item = NBTUtil.addLore(item, "imagicube.cosmetic_effect." + cosmeticEffect, false,
 										false, false, false, true, Color.YELLOW);
@@ -283,7 +285,7 @@ public class ItemUpdater {
 	}
 
 	public static void setValues(NBTItem nbti, int repairCost, NBTCompoundList enchantments, String forcedColor,
-			String cosmeticEffect, String itemName, int color) {
+			String cosmeticEffect, String itemName, int color, int durability) {
 		boolean shouldColor = color >= 0;
 		boolean shouldName = itemName != null && itemName != "";
 		if (shouldColor || shouldName) {
@@ -301,6 +303,7 @@ public class ItemUpdater {
 			nbti.setString("imagicube.forced_color", forcedColor);
 		if (!cosmeticEffect.equals("none"))
 			nbti.setString("imagicube.cosmetic_effect", cosmeticEffect);
+		Durability.setDurability(nbti, durability, Durability.getPercentDurability(nbti));
 	}
 
 }
