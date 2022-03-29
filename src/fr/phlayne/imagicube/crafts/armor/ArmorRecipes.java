@@ -25,7 +25,7 @@ public class ArmorRecipes {
 
 	public static Random random = new Random();
 
-	public static void init(ImagiCube plugin) {
+	public static void init() {
 		ItemStack leatherBoots = setArmorValues(new ItemStack(Material.LEATHER_BOOTS), ArmorProperties.LEATHER_BOOTS);
 		ItemStack leatherLeggings = setArmorValues(new ItemStack(Material.LEATHER_LEGGINGS),
 				ArmorProperties.LEATHER_LEGGINGS);

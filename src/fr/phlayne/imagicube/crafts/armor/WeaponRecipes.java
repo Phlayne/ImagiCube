@@ -12,8 +12,8 @@ import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTCompoundList;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
-import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.Reference;
+import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.item.Durability;
 import fr.phlayne.imagicube.item.WeaponProperties;
 import fr.phlayne.imagicube.item.WeaponProperty;
@@ -25,7 +25,7 @@ public class WeaponRecipes {
 
 	public static Random random = new Random();
 
-	public static void init(ImagiCube plugin) {
+	public static void init() {
 		ItemStack oakSword = setWeaponValues(WeaponProperties.OAK_SWORD);
 		ItemStack oakAxe = setWeaponValues(WeaponProperties.OAK_AXE);
 		ItemStack oakPickaxe = setWeaponValues(WeaponProperties.OAK_PICKAXE);
@@ -36,7 +36,7 @@ public class WeaponRecipes {
 		addCraft(oakPickaxe, Material.OAK_PLANKS, CraftRecipe.PICKAXE);
 		addCraft(oakShovel, Material.OAK_PLANKS, CraftRecipe.SHOVEL);
 		addCraft(oakHoe, Material.OAK_PLANKS, CraftRecipe.HOE);
-		if (plugin.getConfig().getBoolean("woodToolsVariants")) {
+		if (Config.getConfig().getBoolean("woodToolsVariants")) {
 			ItemStack spruceSword = setWeaponValues(WeaponProperties.SPRUCE_SWORD);
 			ItemStack spruceAxe = setWeaponValues(WeaponProperties.SPRUCE_AXE);
 			ItemStack sprucePickaxe = setWeaponValues(WeaponProperties.SPRUCE_PICKAXE);
@@ -164,7 +164,7 @@ public class WeaponRecipes {
 		addCraft(netheriteShovel, Material.NETHERITE_INGOT, CraftRecipe.SHOVEL);
 		addCraft(netheriteHoe, Material.NETHERITE_INGOT, CraftRecipe.HOE);
 
-		if (plugin.getConfig().getBoolean("prismarineTools")) {
+		if (Config.getConfig().getBoolean("prismarineTools")) {
 			ItemStack prismarineSword = setWeaponValues(WeaponProperties.PRISMARINE_SWORD);
 			ItemStack prismarineAxe = setWeaponValues(WeaponProperties.PRISMARINE_AXE);
 			ItemStack prismarinePickaxe = setWeaponValues(WeaponProperties.PRISMARINE_PICKAXE);
@@ -175,13 +175,13 @@ public class WeaponRecipes {
 			addCraft(prismarinePickaxe, Material.PRISMARINE, CraftRecipe.PICKAXE);
 			addCraft(prismarineShovel, Material.PRISMARINE, CraftRecipe.SHOVEL);
 			addCraft(prismarineHoe, Material.PRISMARINE, CraftRecipe.HOE);
-			if (plugin.getConfig().getBoolean("craftableTrident")) {
+			if (Config.getConfig().getBoolean("craftableTrident")) {
 				ItemStack trident = setWeaponValues(WeaponProperties.TRIDENT);
 				addCraft(trident, Material.PRISMARINE, CraftRecipe.TRIDENT, "trident");
 			}
 		}
 
-		if (plugin.getConfig().getBoolean("stoneToolsVariants")) {
+		if (Config.getConfig().getBoolean("stoneToolsVariants")) {
 			ItemStack blackstoneSword = setWeaponValues(WeaponProperties.BLACKSTONE_SWORD);
 			ItemStack blackstoneAxe = setWeaponValues(WeaponProperties.BLACKSTONE_AXE);
 			ItemStack blackstonePickaxe = setWeaponValues(WeaponProperties.BLACKSTONE_PICKAXE);
@@ -269,8 +269,8 @@ public class WeaponRecipes {
 		NBTUtil.addLore(display, new SimpleJSON()
 				.add("item.modifiers.mainhand", false, false, false, false, SimpleJSON.Color.GRAY, true).convert());
 		NBTUtil.addLore(display, new SimpleJSON().add(" ", false, false, false, false, SimpleJSON.Color.WHITE, false)
-				.add("+" + weaponProperty.getAttackSpeed() + " ", false, false, false, false, SimpleJSON.Color.BLUE,
-						false)
+				.add("+" + Math.round((weaponProperty.getAttackSpeed()) * 1000D) / 1000D + " ", false, false, false,
+						false, SimpleJSON.Color.BLUE, false)
 				.add("imagicube.attack.speed", false, false, false, false, SimpleJSON.Color.BLUE, true).convert());
 		NBTUtil.addLore(display, new SimpleJSON().add(" ", false, false, false, false, SimpleJSON.Color.WHITE, false)
 				.add("+" + weaponProperty.getDamage() + " ", false, false, false, false, SimpleJSON.Color.BLUE, false)

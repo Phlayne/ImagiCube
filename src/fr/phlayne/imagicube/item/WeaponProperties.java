@@ -84,22 +84,6 @@ public enum WeaponProperties implements WeaponProperty {
 	NETHERITE_AXE(2031, 12F, 1F, "axe", "netherite", Material.NETHERITE_AXE, 0), //
 	PRISMARINE_AXE(631, 9.5F, 0.9F, "axe", "prismarine", Material.IRON_AXE, 1), //
 
-	OAK_SCYTHE(59, 4F, 1.2F, "scythe", "oak", Material.WOODEN_HOE, 10), //
-	SPRUCE_SCYTHE(59, 4F, 1.2F, "scythe", "spruce", Material.WOODEN_HOE, 11), //
-	BIRCH_SCYTHE(59, 4F, 1.2F, "scythe", "birch", Material.WOODEN_HOE, 12), //
-	JUNGLE_SCYTHE(59, 4F, 1.2F, "scythe", "jungle", Material.WOODEN_HOE, 13), //
-	ACACIA_SCYTHE(59, 4F, 1.2F, "scythe", "acacia", Material.WOODEN_HOE, 14), //
-	DARK_OAK_SCYTHE(59, 4F, 1.2F, "scythe", "dark_oak", Material.WOODEN_HOE, 15), //
-	CRIMSON_SCYTHE(59, 4F, 1.2F, "scythe", "crimson", Material.WOODEN_HOE, 16), //
-	WARPED_SCYTHE(59, 4F, 1.2F, "scythe", "warped", Material.WOODEN_HOE, 17), //
-	GOLDEN_SCYTHE(847, 6F, 1.3F, "scythe", "golden", Material.GOLDEN_HOE, 1), //
-	STONE_SCYTHE(131, 5F, 1.2F, "scythe", "stone", Material.STONE_HOE, 2), //
-	BLACKSTONE_SCYTHE(190, 5F, 1.2F, "scythe", "blackstone", Material.STONE_HOE, 3), //
-	IRON_SCYTHE(250, 6F, 1.3F, "scythe", "iron", Material.IRON_HOE, 2), //
-	DIAMOND_SCYTHE(1561, 7F, 1.4F, "scythe", "diamond", Material.DIAMOND_HOE, 1), //
-	NETHERITE_SCYTHE(2031, 8F, 1.4F, "scythe", "netherite", Material.NETHERITE_HOE, 1), //
-	PRISMARINE_SCYTHE(631, 6F, 1.3F, "scythe", "prismarine", Material.IRON_HOE, 3), //
-
 	TRIDENT(631, 9F, 1.1F, "trident", "prismarine", Material.TRIDENT, 0); //
 
 	private int durability;

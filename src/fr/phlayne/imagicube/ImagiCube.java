@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -60,9 +61,9 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		} catch (CannotUpdateItemException e) {
 			e.printStackTrace();
 		}
-		ConcreteCrafts.init(this);
-		ArmorRecipes.init(this);
-		WeaponRecipes.init(this);
+		ConcreteCrafts.init();
+		ArmorRecipes.init();
+		WeaponRecipes.init();
 
 		/* Player Data */
 
@@ -85,6 +86,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		this.addonList.weapons = new ArrayList<WeaponProperty>(Arrays.asList(WeaponProperties.values()));
 		this.addonList.armors = new ArrayList<ArmorProperty>(Arrays.asList(ArmorProperties.values()));
 		this.addonList.minerals = new ArrayList<MineralProperty>(Arrays.asList(MineralProperties.values()));
+		this.addonList.uniqueItems = new ArrayList<ItemStack>(Arrays.asList(Crafts.INVISIBLE_ITEM_FRAME.getResult()));
 		ImagiCubeLoadingEvent imagiCubeLoadingEvent = new ImagiCubeLoadingEvent(this.addonList);
 
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
@@ -159,10 +161,44 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		}
 		if (command.getName().equalsIgnoreCase("item")) {
 			if (sender instanceof Player) {
-				// Get every plugin that extends ImagiCube and add their activated items here.
+				try {
+					List<ItemStack> itemList = new ArrayList<ItemStack>();
+					itemList.addAll(this.addonList.uniqueItems);
+					for (WeaponProperty weaponProperty : this.addonList.weapons)
+						itemList.add(WeaponRecipes.setWeaponValues(weaponProperty));
+					for (ArmorProperty armorProperty : this.addonList.armors)
+						itemList.add(ArmorRecipes.setArmorValues(new ItemStack(armorProperty.getBukkitMaterial()),
+								armorProperty));
+					int size = itemList.size();
+					int page = 1;
+					if (args.length > 0)
+						page = Integer.parseInt(args[0]);
+					int maxPage = (int) Math.ceil(size / 54f);
+					if (page < 1)
+						page = 1;
+					else if (page > maxPage)
+						page = maxPage;
+					if (maxPage > 1)
+						sender.sendMessage("Showing items, page " + page + "/" + maxPage);
+					while (page > 1) {
+						for (int i = 0; i < 54; i++) {
+							itemList.remove(0);
+						}
+						page--;
+					}
+					size = itemList.size();
+					Inventory inv = Bukkit.createInventory(null, Math.min((int) Math.ceil(size / 9f) * 9, 54));
+					for (int i = 0; i < Math.min(itemList.size(), 54); i++) {
+						inv.setItem(i, itemList.get(i));
+					}
+					((Player) sender).openInventory(inv);
+				} catch (NumberFormatException e) {
+					sender.sendMessage("Invalid page number: \"" + args[0] + "\" is not a number");
+				}
 			}
 		}
 		return true;
+
 	}
 
 	@Override

@@ -11,8 +11,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.plugin.Plugin;
 
-import fr.phlayne.imagicube.ImagiCube;
+import fr.phlayne.imagicube.Reference;
 
 public class ConcreteCrafts implements Listener {
 
@@ -33,7 +34,8 @@ public class ConcreteCrafts implements Listener {
 	public static ShapelessRecipe RED_CONCRETE_CRAFT;
 	public static ShapelessRecipe BLACK_CONCRETE_CRAFT;
 
-	public static void init(ImagiCube plugin) {
+	public static void init() {
+		Plugin plugin = Bukkit.getPluginManager().getPlugin(Reference.PLUGIN_NAME);
 		WHITE_CONCRETE_CRAFT = new ShapelessRecipe(new NamespacedKey(plugin, "white_concrete_powder_recipe"),
 				new ItemStack(Material.WHITE_CONCRETE, 8));
 		ORANGE_CONCRETE_CRAFT = new ShapelessRecipe(new NamespacedKey(plugin, "orange_concrete_powder_recipe"),

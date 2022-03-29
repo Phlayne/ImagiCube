@@ -32,7 +32,7 @@ public class ItemUpdatingEvents implements Listener {
 			ItemUpdatingEvent itemUpdatingEvent = new ItemUpdatingEvent(entityItem.getItemStack(),
 					ItemUpdatingCause.DROP_OR_SPAWN);
 			Bukkit.getPluginManager().callEvent(itemUpdatingEvent);
-			if (!itemUpdatingEvent.isCancelled()) {
+			if (itemUpdatingEvent.isUpdated() && !itemUpdatingEvent.isCancelled()) {
 				entityItem.setItemStack(itemUpdatingEvent.getResult());
 			}
 		}
@@ -43,7 +43,7 @@ public class ItemUpdatingEvents implements Listener {
 			for (int i = 0; i < inv.getSize(); i++) {
 				ItemUpdatingEvent event = new ItemUpdatingEvent(inv.getItem(i), cause);
 				Bukkit.getPluginManager().callEvent(event);
-				if (event.isUpdated()) {
+				if (event.isUpdated() && !event.isCancelled()) {
 					inv.setItem(i, event.getResult());
 				}
 			}
@@ -55,9 +55,8 @@ public class ItemUpdatingEvents implements Listener {
 		try {
 			ItemStack result = ItemUpdater.updateItem(event.getItemToUpdate(), event.getCause());
 			event.setResult(result);
-			event.update();
-			if (event.getResult() == null)
-				event.setCancelled(true);
+			if (event.getResult() != null)
+				event.update();
 		} catch (CannotUpdateItemException e) {
 			e.printStackTrace();
 			event.setCancelled(true);

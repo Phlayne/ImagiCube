@@ -186,7 +186,7 @@ public class CraftingEvents implements Listener {
 		int leatherItemAmount = 0;
 		int leatherArmorIndex = 0;
 		for (int i = 0; i < matrix.length; i++) {
-			if (ItemUtil.getMaterial(matrix[i]).equals("leather")) {
+			if (matrix[i] != null && ItemUtil.getMaterial(matrix[i]).equals("leather")) {
 				leatherItemAmount += 1;
 				leatherArmorIndex = i;
 			}
