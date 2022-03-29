@@ -5,7 +5,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
 
 public class ItemUpdatingEvent extends Event implements Cancellable {
@@ -14,7 +13,6 @@ public class ItemUpdatingEvent extends Event implements Cancellable {
 
 	protected ItemStack itemToUpdate;
 	protected ItemStack result;
-	protected ImagiCube plugin;
 	protected boolean updated, cancelled;
 	protected ItemUpdatingCause cause;
 
@@ -27,12 +25,11 @@ public class ItemUpdatingEvent extends Event implements Cancellable {
 		return HANDLERS;
 	}
 
-	public ItemUpdatingEvent(ItemStack itemToUpdate, ItemUpdatingCause cause, ImagiCube plugin) {
+	public ItemUpdatingEvent(ItemStack itemToUpdate, ItemUpdatingCause cause) {
 		this.itemToUpdate = itemToUpdate;
 		this.cause = cause;
 		this.updated = false;
 		this.cancelled = false;
-		this.plugin = plugin;
 	}
 
 	public ItemStack getItemToUpdate() {

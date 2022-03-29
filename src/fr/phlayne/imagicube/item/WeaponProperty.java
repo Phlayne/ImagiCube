@@ -22,7 +22,6 @@ public interface WeaponProperty {
 
 	public int getCustomModelData();
 
-
 	public static WeaponProperty getVanillaWeaponProperty(Material material) {
 		switch (material) {
 		case NETHERITE_AXE:
@@ -92,12 +91,12 @@ public interface WeaponProperty {
 		}
 	}
 
-	public static WeaponProperty getWeaponProperty(NBTCompound nbt, ImagiCube plugin) {
+	public static WeaponProperty getWeaponProperty(NBTCompound nbt) {
 		String itemType = nbt.hasKey(NBTUtil.ITEM_TYPE) ? nbt.getString(NBTUtil.ITEM_TYPE) : "";
 		String material = nbt.hasKey(NBTUtil.MATERIAL) ? nbt.getString(NBTUtil.MATERIAL) : "";
 		if (itemType == "" || material == "")
 			return null;
-		for (WeaponProperty weaponProperty : plugin.getItemList().weapons) {
+		for (WeaponProperty weaponProperty : ImagiCube.getInstance().addonList.weapons) {
 			if (weaponProperty.getType().equals(itemType) && weaponProperty.getMaterial().equals(material))
 				return weaponProperty;
 		}

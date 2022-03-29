@@ -1,16 +1,15 @@
 package fr.phlayne.imagicube.item;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
 
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTCompoundList;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
-import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.util.NBTUtil;
 import fr.phlayne.imagicube.util.SimpleJSON;
 import fr.phlayne.imagicube.util.SimpleJSON.Color;
@@ -19,22 +18,16 @@ public class Durability {
 
 	public static Random random = new Random();
 
-	public static int getMaxDurability(ItemStack item, ImagiCube plugin) {
-		NBTItem nbti = new NBTItem(item);
-		WeaponProperty weaponProperty = WeaponProperty.getWeaponProperty(nbti, plugin);
-		ArmorProperty armorProperty = ArmorProperty.getArmorProperty(nbti, plugin);
-		if (weaponProperty != null)
-			return weaponProperty.getDurability();
-		if (armorProperty != null)
-			return armorProperty.getDurability();
-		if (nbti.hasKey(NBTUtil.ITEM_TYPE)) {
-			String itemType = nbti.getString(NBTUtil.ITEM_TYPE);
-			return getMaxDurability(itemType);
-		}
-		return 1;
+	public static int getMaxDurability(WeaponProperty weaponProperty) {
+		return weaponProperty.getDurability();
 	}
 
-	// TODO Create a config file where you can change the max durability.
+	public static int getMaxDurability(ArmorProperty armorProperty) {
+		return armorProperty.getDurability();
+	}
+
+	// TODO Create a config file where you can change the max durability. Do it for
+	// the new imagicube items too.
 	public static int getMaxDurability(String type) {
 		switch (type) {
 		case "elytra":
@@ -61,62 +54,61 @@ public class Durability {
 		return 1;
 	}
 
-	public static ItemStack applyRandomDurability(ItemStack item, ImagiCube plugin) {
-		if (new NBTItem(item).hasKey(NBTUtil.DURABILITY))
-			return setDurability(item, random.nextInt(getMaxDurability(item, plugin)), plugin);
-		else
-			return item;
+	public static int getMaxDurability(NBTItem nbti) {
+		ArmorProperty armorProperty = ArmorProperty.getArmorProperty(nbti);
+		if (armorProperty != null)
+			return armorProperty.getDurability();
+		WeaponProperty weaponProperty = WeaponProperty.getWeaponProperty(nbti);
+		if (weaponProperty != null)
+			return weaponProperty.getDurability();
+		if (nbti.hasKey(NBTUtil.ITEM_TYPE))
+			return getMaxDurability(nbti.getString(NBTUtil.ITEM_TYPE));
+		return 1;
 	}
 
-	public static ItemStack applyDurability(ItemStack item, ImagiCube plugin) {
-		return applyDurability(item, item.getEnchantmentLevel(Enchantment.DURABILITY), plugin);
+	// Must be executed on a updated item;
+	public static void applyRandomDurability(NBTItem nbti, int maxDurability) {
+		int durability = random.nextInt(maxDurability);
+		setDurability(nbti, durability, getPercentDurability(nbti, maxDurability, maxDurability));
 	}
 
-	public static ItemStack applyDurability(ItemStack item, int unbreakingLevel, ImagiCube plugin) {
-		NBTItem nbti = new NBTItem(item);
-		if (nbti != null) {
-			if (nbti.hasKey(NBTUtil.DURABILITY)) {
-				int maxDurability = getMaxDurability(item, plugin);
-				if (maxDurability != 1) {
-					ArmorProperty armorProperty = ArmorProperty.getArmorProperty(nbti, plugin);
-					boolean damage = random.nextFloat() < (armorProperty == null ? (1F / (unbreakingLevel + 1F))
-							: (0.6F * (0.4F / (unbreakingLevel + 1F))));
-					if (damage) {
-						int durability = nbti.getInteger(NBTUtil.DURABILITY);
-						item = setDurability(item, durability + 1, plugin);
-						boolean isElytra = (nbti.hasKey(NBTUtil.ITEM_TYPE) ? nbti.getString(NBTUtil.ITEM_TYPE) : "")
-								.equals("elytra");
-						if (!isElytra && durability + 1 >= maxDurability) {
-							item = new ItemStack(Material.AIR);
-						}
-					}
+	public static boolean isDamageable(NBTItem nbti) {
+		return nbti.hasKey(NBTUtil.DURABILITY);
+	}
+
+	public static void applyDurability(NBTItem nbti, int maxDurability) {
+		applyDurability(nbti, nbti.getItem().getEnchantmentLevel(Enchantment.DURABILITY), maxDurability);
+	}
+
+	// Returns true if the item should break;
+	public static boolean applyDurability(NBTItem nbti, int unbreakingLevel, int maxDurability) {
+		if (nbti != null && nbti.hasKey(NBTUtil.DURABILITY) && maxDurability != 1) {
+			List<String> armorParts = Arrays.asList("boots", "leggings", "chestplate", "helmet");
+			boolean isArmor = nbti.hasKey(NBTUtil.ITEM_TYPE) ? armorParts.contains(nbti.getString(NBTUtil.ITEM_TYPE))
+					: false;
+			boolean damage = random.nextFloat() < (!isArmor ? (1F / (unbreakingLevel + 1F))
+					: (0.6F * (0.4F / (unbreakingLevel + 1F))));
+			if (damage) {
+				int durability = nbti.getInteger(NBTUtil.DURABILITY);
+				setDurability(nbti, durability + 1, maxDurability);
+				boolean isElytra = (nbti.hasKey(NBTUtil.ITEM_TYPE) ? nbti.getString(NBTUtil.ITEM_TYPE) : "")
+						.equals("elytra");
+				if (!isElytra && durability + 1 >= maxDurability) {
+					return true;
 				}
 			}
 		}
-		return item;
+		return false;
 	}
 
-	public static float getPercentDurability(ItemStack item, ImagiCube plugin) {
-		return getPercentDurability(item, -1, plugin);
+	public static float getPercentDurability(NBTItem nbti) {
+		return getPercentDurability(nbti, nbti.getInteger(NBTUtil.DURABILITY), getMaxDurability(nbti));
 	}
-
-	public static float getPercentDurability(ItemStack item, int durability, ImagiCube plugin) {
-		return getPercentDurability(new NBTItem(item), durability, plugin);
-	}
-
-	public static float getPercentDurability(NBTCompound tag, ImagiCube plugin) {
-		return getPercentDurability(tag, -1, plugin);
-	}
-
-	public static float getPercentDurability(NBTCompound tag, int durability, ImagiCube plugin) {
-		WeaponProperty weaponProperty = WeaponProperty.getWeaponProperty(tag, plugin);
-		ArmorProperty armorProperty = ArmorProperty.getArmorProperty(tag, plugin);
+	
+	public static float getPercentDurability(NBTItem nbti, int durability, int maxDurability) {
 		if (durability < 0)
-			durability = tag.hasKey(NBTUtil.DURABILITY) ? tag.getInteger(NBTUtil.DURABILITY) : 0;
-		return 1 - ((float) durability / ((float) (weaponProperty != null ? weaponProperty.getDurability()
-				: armorProperty != null ? armorProperty.getDurability()
-						: getMaxDurability(
-								((tag.hasKey(NBTUtil.ITEM_TYPE) ? tag.getString(NBTUtil.ITEM_TYPE) : ""))))));
+			durability = nbti.hasKey(NBTUtil.DURABILITY) ? nbti.getInteger(NBTUtil.DURABILITY) : 0;
+		return 1 - ((float) durability / ((float) maxDurability));
 	}
 
 	public static Color getColorDurability(float percentDurability) {
@@ -143,9 +135,8 @@ public class Durability {
 		return new Color((int) (red * 255), (int) (green * 255), (int) (blue * 255));
 	}
 
-	public static Color getColorDurability(ItemStack item, int durability, ImagiCube plugin) {
-		NBTItem nbti = new NBTItem(item);
-		return getColorDurability(getPercentDurability(item, durability, plugin),
+	public static Color getColorDurability(NBTItem nbti, int durability, int maxDurability) {
+		return getColorDurability(getPercentDurability(nbti, durability, maxDurability),
 				nbti.hasKey("imagicube.forced_color")
 						? nbti.getString("imagicube.forced_color").equals("none")
 								? new Color(nbti.getString("imagicube.forced_color"))
@@ -153,32 +144,8 @@ public class Durability {
 						: null);
 	}
 
-	public static Color getColorDurability(ItemStack item, int durability, Color forcedColor, ImagiCube plugin) {
-		return getColorDurability(getPercentDurability(item, durability, plugin), forcedColor);
-	}
-
-	public static Color getColorDurability(ItemStack item, ImagiCube plugin) {
-		NBTItem nbti = new NBTItem(item);
-		return getColorDurability(getPercentDurability(item, plugin),
-				nbti.hasKey("imagicube.forced_color")
-						? nbti.getString("imagicube.forced_color").equals("none")
-								? new Color(nbti.getString("imagicube.forced_color"))
-								: null
-						: null);
-	}
-
-	public static Color getColorDurability(ItemStack item, Color forcedColor, ImagiCube plugin) {
-		return getColorDurability(getPercentDurability(item, plugin), forcedColor);
-	}
-
-	public static ItemStack setDurability(ItemStack item, int durability, ImagiCube plugin) {
-		NBTItem nbti = new NBTItem(item);
-		setDurability(nbti, durability, plugin);
-		return nbti.getItem();
-	}
-
-	public static void setDurability(NBTItem nbti, int durability, ImagiCube plugin) {
-		setDurability(nbti, durability, getPercentDurability(nbti, durability, plugin));
+	public static Color getColorDurability(NBTItem nbti, int durability, int maxDurability, Color forcedColor) {
+		return getColorDurability(getPercentDurability(nbti, durability, maxDurability), forcedColor);
 	}
 
 	public static void setDurability(NBTItem nbti, int durability, float percentDurability) {
@@ -221,4 +188,5 @@ public class Durability {
 				nbti.setInteger("Damage", 0);
 		}
 	}
+
 }

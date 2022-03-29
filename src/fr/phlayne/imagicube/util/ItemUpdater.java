@@ -13,7 +13,6 @@ import org.bukkit.inventory.meta.Damageable;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTCompoundList;
 import de.tr7zw.nbtapi.NBTItem;
-import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
 import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
 import fr.phlayne.imagicube.data.Config;
@@ -23,6 +22,7 @@ import fr.phlayne.imagicube.item.ArmorProperty;
 import fr.phlayne.imagicube.item.Durability;
 import fr.phlayne.imagicube.item.FoodProperty;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
+import fr.phlayne.imagicube.item.WeaponProperties;
 import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.util.SimpleJSON.Color;
 
@@ -50,8 +50,7 @@ public class ItemUpdater {
 
 	public static final int updateVersion = 1;
 
-	public static ItemStack updateItem(ItemStack item, ItemUpdatingCause cause, ImagiCube plugin)
-			throws CannotUpdateItemException {
+	public static ItemStack updateItem(ItemStack item, ItemUpdatingCause cause) throws CannotUpdateItemException {
 		if (item != null && !item.getType().equals(Material.AIR)) {
 			if (MaterialToUpdate.contains(item.getType())) {
 				NBTItem nbti = new NBTItem(item);
@@ -134,13 +133,14 @@ public class ItemUpdater {
 						NBTCompound displayTag = nbti.getOrCreateCompound("display");
 						NBTUtil.addLore(displayTag, new SimpleJSON()
 								.add("", false, false, false, false, SimpleJSON.Color.WHITE, false).convert());
-						Durability.setDurability(nbti, durability, plugin);
+						// This method is deprecated because it should only be used in this plugin.
+						Durability.setDurability(nbti, durability, Durability.getPercentDurability(nbti));
 					}
 
 					// Weapons and armors
 
 					if (!nbti.hasKey(NBTUtil.ITEM_TYPE)) {
-						WeaponProperty weaponProperty = WeaponProperty.getWeaponProperty(nbti, plugin);
+						WeaponProperty weaponProperty = WeaponProperty.getWeaponProperty(nbti);
 						ArmorProperty armorProperty = ArmorProperty.getVanillaArmorProperty(item.getType());
 						if (armorProperty == null && weaponProperty == null)
 							weaponProperty = WeaponProperty.getVanillaWeaponProperty(item.getType());
@@ -153,16 +153,15 @@ public class ItemUpdater {
 							throw new CannotUpdateItemException(cause + " could not update the following Item:", item);
 						} else {
 							if (weaponProperty != null)
-								WeaponRecipes.setWeaponValues(plugin, nbti, weaponProperty);
+								WeaponRecipes.setWeaponValues(nbti, weaponProperty);
 							else if (armorProperty != null)
-								item = ArmorRecipes.setArmorValues(plugin, new ItemStack(item.getType()),
-										armorProperty);
+								item = ArmorRecipes.setArmorValues(new ItemStack(item.getType()), armorProperty);
 							setValues(nbti, repairCost, enchantments, forcedColor, cosmeticEffect, itemName, color);
 							nbti.setInteger(NBTUtil.UPDATEVERSION, updateVersion);
 							// Change the old Damage to the new CustomModelData in order to change the
 							// texture.
 							if (!nbti.hasKey(NBTUtil.UPDATEVERSION))
-								Durability.setDurability(nbti, 0, plugin);
+								Durability.setDurability(nbti, 0, 1);
 							if (!cosmeticEffect.equals("none"))
 								item = NBTUtil.addLore(item, "imagicube.cosmetic_effect." + cosmeticEffect, false,
 										false, false, false, true, Color.YELLOW);
@@ -239,8 +238,7 @@ public class ItemUpdater {
 					}
 					NBTUtil.removeUselessLines(nbti);
 					if ((cause.equals(ItemUpdatingCause.VILLAGER) || isUncraftable
-							|| nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED))
-							&& CraftingEvents.uncraft(item, plugin) != null) {
+							|| nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED)) && CraftingEvents.uncraft(item) != null) {
 						nbti.setBoolean(NBTUtil.CANNOT_BE_UNCRAFTED,
 								nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED) ? nbti.getBoolean(NBTUtil.CANNOT_BE_UNCRAFTED)
 										: true);
@@ -253,11 +251,12 @@ public class ItemUpdater {
 						// 50% chance of having a blackstone sword
 						if (random.nextBoolean()) {
 							List<WeaponProperty> list = new ArrayList<WeaponProperty>();
-							for (WeaponProperty wp : plugin.getItemList().weapons)
+							list.addAll(Arrays.asList(WeaponProperties.values()));
+							for (WeaponProperty wp : list) // TODO Add the blackstone items if there is expansion
 								if (wp.getMaterial().equals("blackstone"))
 									list.add(wp);
 							WeaponProperty wp = list.get(random.nextInt(list.size()));
-							return WeaponRecipes.setWeaponValues(plugin, wp);
+							return WeaponRecipes.setWeaponValues(wp);
 						}
 					}
 					return nbti.getItem();

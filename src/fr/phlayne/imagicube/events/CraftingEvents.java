@@ -3,6 +3,7 @@ package fr.phlayne.imagicube.events;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -16,7 +17,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
-import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.Durability;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
@@ -27,12 +27,6 @@ import fr.phlayne.imagicube.util.NBTUtil;
 
 public class CraftingEvents implements Listener {
 
-	private ImagiCube plugin;
-	
-	public CraftingEvents(ImagiCube plugin) {
-		this.plugin = plugin;
-	}
-	
 	@EventHandler
 	public void onCraft(PrepareItemCraftEvent event) {
 		ItemStack decraftItem = null;
@@ -46,9 +40,9 @@ public class CraftingEvents implements Listener {
 		}
 		if (decraftItem == null)
 			return;
-		ItemStack result = uncraft(decraftItem, plugin);
+		ItemStack result = uncraft(decraftItem);
 		if (result != null)
-			event.getInventory().setResult(uncraft(decraftItem, plugin));
+			event.getInventory().setResult(uncraft(decraftItem));
 	}
 
 	// @EventHandler Unused for now
@@ -123,7 +117,7 @@ public class CraftingEvents implements Listener {
 					}
 					ItemStack resultItem = new ItemStack(Material.AIR);
 					try {
-						resultItem = ItemUpdater.updateItem(new ItemStack(resultMaterial), ItemUpdatingCause.CRAFT, this.plugin);
+						resultItem = ItemUpdater.updateItem(new ItemStack(resultMaterial), ItemUpdatingCause.CRAFT);
 					} catch (CannotUpdateItemException e) {
 						e.printStackTrace();
 					}
@@ -303,7 +297,7 @@ public class CraftingEvents implements Listener {
 		return Color.fromRGB((int) averageRed, (int) averageGreen, (int) averageBlue);
 	}
 
-	public static ItemStack uncraft(ItemStack item, ImagiCube plugin) {
+	public static ItemStack uncraft(ItemStack item) {
 		NBTItem nbti = new NBTItem(item);
 		if (nbti.hasKey(NBTUtil.MATERIAL) && nbti.hasKey(NBTUtil.ITEM_TYPE) && nbti.hasKey(NBTUtil.DURABILITY)) {
 			if (nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED) && nbti.getBoolean(NBTUtil.CANNOT_BE_UNCRAFTED))
@@ -398,11 +392,11 @@ public class CraftingEvents implements Listener {
 				break;
 			}
 			if (resultMaterial == null) {
-				System.err.println("Unhandled uncraft material : " + material);
+				Bukkit.getLogger().log(Level.WARNING, "Unhandled uncraft material : " + material);
 				return null;
 			}
 			return new ItemStack(resultMaterial,
-					(int) ((Durability.getPercentDurability(item, plugin) * ((float) resultCount))));
+					(int) ((Durability.getPercentDurability(nbti) * ((float) resultCount))));
 		}
 		return null;
 	}

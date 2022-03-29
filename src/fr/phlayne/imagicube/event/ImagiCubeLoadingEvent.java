@@ -3,14 +3,14 @@ package fr.phlayne.imagicube.event;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import fr.phlayne.imagicube.item.ItemList;
+import fr.phlayne.imagicube.data.AddonList;
 
 public class ImagiCubeLoadingEvent extends Event {
 
 	private static final HandlerList HANDLERS = new HandlerList();
 
 	protected boolean cancelled;
-	protected ItemList itemList;
+	protected AddonList addonList;
 
 	public static HandlerList getHandlerList() {
 		return HANDLERS;
@@ -21,12 +21,12 @@ public class ImagiCubeLoadingEvent extends Event {
 		return HANDLERS;
 	}
 
-	public ImagiCubeLoadingEvent(ItemList itemList) {
+	public ImagiCubeLoadingEvent(AddonList addonList) {
 		this.cancelled = false;
-		this.itemList = itemList;
+		this.addonList = addonList;
 	}
 
-	public ItemList getItemList() {
-		return this.itemList;
+	public AddonList getAddonList() {
+		return this.addonList;
 	}
 }

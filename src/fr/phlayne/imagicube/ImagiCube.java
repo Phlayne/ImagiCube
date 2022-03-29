@@ -1,5 +1,6 @@
 package fr.phlayne.imagicube;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,21 +23,25 @@ import fr.phlayne.imagicube.crafts.ConcreteCrafts;
 import fr.phlayne.imagicube.crafts.Crafts;
 import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
 import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
+import fr.phlayne.imagicube.data.AddonList;
 import fr.phlayne.imagicube.event.ImagiCubeLoadingEvent;
 import fr.phlayne.imagicube.events.CraftingEvents;
 import fr.phlayne.imagicube.events.ItemUpdatingEvents;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.ArmorProperties;
-import fr.phlayne.imagicube.item.ItemList;
+import fr.phlayne.imagicube.item.ArmorProperty;
 import fr.phlayne.imagicube.item.MineralProperties;
+import fr.phlayne.imagicube.item.MineralProperty;
 import fr.phlayne.imagicube.item.WeaponProperties;
+import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.util.NBTUtil;
 import fr.phlayne.imagicube.util.ResourcePackUtil;
 
 public class ImagiCube extends JavaPlugin implements Listener {
 
 	protected ResourcePackUtil resourcePackUtil = new ResourcePackUtil();
-	protected ItemList itemList;
+
+	public AddonList addonList;
 
 	public void onEnable() {
 
@@ -44,25 +49,14 @@ public class ImagiCube extends JavaPlugin implements Listener {
 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(this, this);
-		pm.registerEvents(new CraftingEvents(this), this);
-		pm.registerEvents(new ItemUpdatingEvents(this), this);
+		pm.registerEvents(new CraftingEvents(), this);
+		pm.registerEvents(new ItemUpdatingEvents(), this);
 		pm.registerEvents(resourcePackUtil, this);
-
-		/* Plugin extensions */
-
-		itemList = new ItemList();
-		itemList.weapons = Arrays.asList(WeaponProperties.values());
-		itemList.armors = Arrays.asList(ArmorProperties.values());
-		itemList.minerals = Arrays.asList(MineralProperties.values());
-		ImagiCubeLoadingEvent event = new ImagiCubeLoadingEvent(itemList);
-		Bukkit.getPluginManager().callEvent(event);
-
-		// TODO Call an event to extend the list with plugin extensions
 
 		/* Crafts */
 
 		try {
-			Crafts.loadRecipes(this);
+			Crafts.loadRecipes();
 		} catch (CannotUpdateItemException e) {
 			e.printStackTrace();
 		}
@@ -82,14 +76,31 @@ public class ImagiCube extends JavaPlugin implements Listener {
 					.addModifier(new AttributeModifier("ImagiCube Armor Modifier", -1, Operation.MULTIPLY_SCALAR_1));
 			resourcePackUtil.resourcePackLoaded.put(player, true);
 		}
-	}
 
-	public ItemList getItemList() {
-		return this.itemList;
+		/* Subplugins */
+
+		// TODO Call an event to extend the list with plugin extensions
+
+		this.addonList = new AddonList();
+		this.addonList.weapons = new ArrayList<WeaponProperty>(Arrays.asList(WeaponProperties.values()));
+		this.addonList.armors = new ArrayList<ArmorProperty>(Arrays.asList(ArmorProperties.values()));
+		this.addonList.minerals = new ArrayList<MineralProperty>(Arrays.asList(MineralProperties.values()));
+		ImagiCubeLoadingEvent imagiCubeLoadingEvent = new ImagiCubeLoadingEvent(this.addonList);
+
+		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+			public void run() {
+				Bukkit.getServer().getPluginManager().callEvent(imagiCubeLoadingEvent);
+			}
+		});
+
 	}
 
 	public void onDisable() {
 		getServer().clearRecipes();
+	}
+
+	public static ImagiCube getInstance() {
+		return (ImagiCube) Bukkit.getPluginManager().getPlugin(Reference.PLUGIN_NAME);
 	}
 
 	@Override

@@ -17,7 +17,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import de.tr7zw.nbtapi.NBTItem;
-import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.item.Durability;
 
 public class DamageStats {
@@ -116,7 +115,7 @@ public class DamageStats {
 		return (float) (40 - getMagicalResistance(entity)) / (float) 40;
 	}
 
-	public static EntityDamageEvent changeStats(EntityDamageEvent event, ImagiCube plugin) {
+	public static EntityDamageEvent changeStats(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Item)
 			return event;
 		DamageCause dst = event.getCause();
@@ -219,19 +218,18 @@ public class DamageStats {
 							// TODO cancel damage & calculate new durability
 							int shieldDamage = (int) Math.ceil(event.getDamage());
 							if (shieldDamage > 2) {
+								NBTItem nbti;
 								if (player.getEquipment().getItemInMainHand().getType().equals(Material.SHIELD)) {
-									ItemStack newShield = player.getEquipment().getItemInMainHand();
+									nbti = new NBTItem(player.getEquipment().getItemInMainHand());
 									for (int i = 0; i < shieldDamage; i++)
-										newShield = Durability.applyDurability(newShield,
-												newShield.getEnchantmentLevel(Enchantment.DURABILITY), plugin);
-									player.getEquipment().setItemInMainHand(newShield);
+										Durability.applyDurability(nbti,Durability.getMaxDurability(nbti)/* TODO Get max durability */);
+									player.getEquipment().setItemInMainHand(nbti.getItem());
 								} else if (player.getEquipment().getItemInMainHand().getType()
 										.equals(Material.SHIELD)) {
-									ItemStack newShield = player.getEquipment().getItemInOffHand();
+									nbti = new NBTItem(player.getEquipment().getItemInOffHand());
 									for (int i = 0; i < shieldDamage; i++)
-										newShield = Durability.applyDurability(newShield,
-												newShield.getEnchantmentLevel(Enchantment.DURABILITY), plugin);
-									player.getEquipment().setItemInOffHand(newShield);
+										Durability.applyDurability(nbti, Durability.getMaxDurability(nbti)/* TODO Get max durability */);
+									player.getEquipment().setItemInOffHand(nbti.getItem());
 								}
 							}
 						}

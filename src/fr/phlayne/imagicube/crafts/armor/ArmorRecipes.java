@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTCompoundList;
@@ -25,67 +26,70 @@ public class ArmorRecipes {
 	public static Random random = new Random();
 
 	public static void init(ImagiCube plugin) {
-		ItemStack leatherBoots = setArmorValues(plugin, new ItemStack(Material.LEATHER_BOOTS), ArmorProperties.LEATHER_BOOTS);
-		ItemStack leatherLeggings = setArmorValues(plugin, new ItemStack(Material.LEATHER_LEGGINGS),
+		ItemStack leatherBoots = setArmorValues(new ItemStack(Material.LEATHER_BOOTS), ArmorProperties.LEATHER_BOOTS);
+		ItemStack leatherLeggings = setArmorValues(new ItemStack(Material.LEATHER_LEGGINGS),
 				ArmorProperties.LEATHER_LEGGINGS);
-		ItemStack leatherChestplate = setArmorValues(plugin, new ItemStack(Material.LEATHER_CHESTPLATE),
+		ItemStack leatherChestplate = setArmorValues(new ItemStack(Material.LEATHER_CHESTPLATE),
 				ArmorProperties.LEATHER_CHESTPLATE);
-		ItemStack leatherHelmet = setArmorValues(plugin, new ItemStack(Material.LEATHER_HELMET), ArmorProperties.LEATHER_HELMET);
-		addCraft(plugin, leatherBoots, Material.LEATHER, CraftType.BOOTS);
-		addCraft(plugin, leatherLeggings, Material.LEATHER, CraftType.LEGGINGS);
-		addCraft(plugin, leatherChestplate, Material.LEATHER, CraftType.CHESTPLATE);
-		addCraft(plugin, leatherHelmet, Material.LEATHER, CraftType.HELMET);
+		ItemStack leatherHelmet = setArmorValues(new ItemStack(Material.LEATHER_HELMET),
+				ArmorProperties.LEATHER_HELMET);
+		addCraft(leatherBoots, Material.LEATHER, CraftType.BOOTS);
+		addCraft(leatherLeggings, Material.LEATHER, CraftType.LEGGINGS);
+		addCraft(leatherChestplate, Material.LEATHER, CraftType.CHESTPLATE);
+		addCraft(leatherHelmet, Material.LEATHER, CraftType.HELMET);
 
-		ItemStack chainBoots = setArmorValues(plugin, new ItemStack(Material.CHAINMAIL_BOOTS), ArmorProperties.CHAINMAIL_BOOTS);
-		ItemStack chainLeggings = setArmorValues(plugin, new ItemStack(Material.CHAINMAIL_LEGGINGS),
+		ItemStack chainBoots = setArmorValues(new ItemStack(Material.CHAINMAIL_BOOTS), ArmorProperties.CHAINMAIL_BOOTS);
+		ItemStack chainLeggings = setArmorValues(new ItemStack(Material.CHAINMAIL_LEGGINGS),
 				ArmorProperties.CHAINMAIL_LEGGINGS);
-		ItemStack chainChestplate = setArmorValues(plugin, new ItemStack(Material.CHAINMAIL_CHESTPLATE),
+		ItemStack chainChestplate = setArmorValues(new ItemStack(Material.CHAINMAIL_CHESTPLATE),
 				ArmorProperties.CHAINMAIL_CHESTPLATE);
-		ItemStack chainHelmet = setArmorValues(plugin, new ItemStack(Material.CHAINMAIL_HELMET),
+		ItemStack chainHelmet = setArmorValues(new ItemStack(Material.CHAINMAIL_HELMET),
 				ArmorProperties.CHAINMAIL_HELMET);
-		addCraft(plugin, chainBoots, Material.CHAIN, CraftType.BOOTS);
-		addCraft(plugin, chainLeggings, Material.CHAIN, CraftType.LEGGINGS);
-		addCraft(plugin, chainChestplate, Material.CHAIN, CraftType.CHESTPLATE);
-		addCraft(plugin, chainHelmet, Material.CHAIN, CraftType.HELMET);
+		addCraft(chainBoots, Material.CHAIN, CraftType.BOOTS);
+		addCraft(chainLeggings, Material.CHAIN, CraftType.LEGGINGS);
+		addCraft(chainChestplate, Material.CHAIN, CraftType.CHESTPLATE);
+		addCraft(chainHelmet, Material.CHAIN, CraftType.HELMET);
 
-		ItemStack ironBoots = setArmorValues(plugin, new ItemStack(Material.IRON_BOOTS), ArmorProperties.IRON_BOOTS);
-		ItemStack ironLeggings = setArmorValues(plugin, new ItemStack(Material.IRON_LEGGINGS), ArmorProperties.IRON_LEGGINGS);
-		ItemStack ironChestplate = setArmorValues(plugin, new ItemStack(Material.IRON_CHESTPLATE),
+		ItemStack ironBoots = setArmorValues(new ItemStack(Material.IRON_BOOTS), ArmorProperties.IRON_BOOTS);
+		ItemStack ironLeggings = setArmorValues(new ItemStack(Material.IRON_LEGGINGS), ArmorProperties.IRON_LEGGINGS);
+		ItemStack ironChestplate = setArmorValues(new ItemStack(Material.IRON_CHESTPLATE),
 				ArmorProperties.IRON_CHESTPLATE);
-		ItemStack ironHelmet = setArmorValues(plugin, new ItemStack(Material.IRON_HELMET), ArmorProperties.IRON_HELMET);
-		addCraft(plugin, ironBoots, Material.IRON_INGOT, CraftType.BOOTS);
-		addCraft(plugin, ironLeggings, Material.IRON_INGOT, CraftType.LEGGINGS);
-		addCraft(plugin, ironChestplate, Material.IRON_INGOT, CraftType.CHESTPLATE);
-		addCraft(plugin, ironHelmet, Material.IRON_INGOT, CraftType.HELMET);
+		ItemStack ironHelmet = setArmorValues(new ItemStack(Material.IRON_HELMET), ArmorProperties.IRON_HELMET);
+		addCraft(ironBoots, Material.IRON_INGOT, CraftType.BOOTS);
+		addCraft(ironLeggings, Material.IRON_INGOT, CraftType.LEGGINGS);
+		addCraft(ironChestplate, Material.IRON_INGOT, CraftType.CHESTPLATE);
+		addCraft(ironHelmet, Material.IRON_INGOT, CraftType.HELMET);
 
-		ItemStack goldBoots = setArmorValues(plugin, new ItemStack(Material.GOLDEN_BOOTS), ArmorProperties.GOLDEN_BOOTS);
-		ItemStack goldLeggings = setArmorValues(plugin, new ItemStack(Material.GOLDEN_LEGGINGS), ArmorProperties.GOLDEN_LEGGINGS);
-		ItemStack goldChestplate = setArmorValues(plugin, new ItemStack(Material.GOLDEN_CHESTPLATE),
+		ItemStack goldBoots = setArmorValues(new ItemStack(Material.GOLDEN_BOOTS), ArmorProperties.GOLDEN_BOOTS);
+		ItemStack goldLeggings = setArmorValues(new ItemStack(Material.GOLDEN_LEGGINGS),
+				ArmorProperties.GOLDEN_LEGGINGS);
+		ItemStack goldChestplate = setArmorValues(new ItemStack(Material.GOLDEN_CHESTPLATE),
 				ArmorProperties.GOLDEN_CHESTPLATE);
-		ItemStack goldHelmet = setArmorValues(plugin, new ItemStack(Material.GOLDEN_HELMET), ArmorProperties.GOLDEN_HELMET);
-		addCraft(plugin, goldBoots, Material.GOLD_INGOT, CraftType.BOOTS);
-		addCraft(plugin, goldLeggings, Material.GOLD_INGOT, CraftType.LEGGINGS);
-		addCraft(plugin, goldChestplate, Material.GOLD_INGOT, CraftType.CHESTPLATE);
-		addCraft(plugin, goldHelmet, Material.GOLD_INGOT, CraftType.HELMET);
+		ItemStack goldHelmet = setArmorValues(new ItemStack(Material.GOLDEN_HELMET), ArmorProperties.GOLDEN_HELMET);
+		addCraft(goldBoots, Material.GOLD_INGOT, CraftType.BOOTS);
+		addCraft(goldLeggings, Material.GOLD_INGOT, CraftType.LEGGINGS);
+		addCraft(goldChestplate, Material.GOLD_INGOT, CraftType.CHESTPLATE);
+		addCraft(goldHelmet, Material.GOLD_INGOT, CraftType.HELMET);
 
-		ItemStack diamondBoots = setArmorValues(plugin, new ItemStack(Material.DIAMOND_BOOTS), ArmorProperties.DIAMOND_BOOTS);
-		ItemStack diamondLeggings = setArmorValues(plugin, new ItemStack(Material.DIAMOND_LEGGINGS),
+		ItemStack diamondBoots = setArmorValues(new ItemStack(Material.DIAMOND_BOOTS), ArmorProperties.DIAMOND_BOOTS);
+		ItemStack diamondLeggings = setArmorValues(new ItemStack(Material.DIAMOND_LEGGINGS),
 				ArmorProperties.DIAMOND_LEGGINGS);
-		ItemStack diamondChestplate = setArmorValues(plugin, new ItemStack(Material.DIAMOND_CHESTPLATE),
+		ItemStack diamondChestplate = setArmorValues(new ItemStack(Material.DIAMOND_CHESTPLATE),
 				ArmorProperties.DIAMOND_CHESTPLATE);
-		ItemStack diamondHelmet = setArmorValues(plugin, new ItemStack(Material.DIAMOND_HELMET), ArmorProperties.DIAMOND_HELMET);
-		addCraft(plugin, diamondBoots, Material.DIAMOND, CraftType.BOOTS);
-		addCraft(plugin, diamondLeggings, Material.DIAMOND, CraftType.LEGGINGS);
-		addCraft(plugin, diamondChestplate, Material.DIAMOND, CraftType.CHESTPLATE);
-		addCraft(plugin, diamondHelmet, Material.DIAMOND, CraftType.HELMET);
+		ItemStack diamondHelmet = setArmorValues(new ItemStack(Material.DIAMOND_HELMET),
+				ArmorProperties.DIAMOND_HELMET);
+		addCraft(diamondBoots, Material.DIAMOND, CraftType.BOOTS);
+		addCraft(diamondLeggings, Material.DIAMOND, CraftType.LEGGINGS);
+		addCraft(diamondChestplate, Material.DIAMOND, CraftType.CHESTPLATE);
+		addCraft(diamondHelmet, Material.DIAMOND, CraftType.HELMET);
 
-		ItemStack turtleHelmet = setArmorValues(plugin, new ItemStack(Material.TURTLE_HELMET), ArmorProperties.TURTLE_HELMET);
-		addCraft(plugin, turtleHelmet, Material.SCUTE, CraftType.HELMET);
+		ItemStack turtleHelmet = setArmorValues(new ItemStack(Material.TURTLE_HELMET), ArmorProperties.TURTLE_HELMET);
+		addCraft(turtleHelmet, Material.SCUTE, CraftType.HELMET);
 
 	}
 
-	public static void addCraft(ImagiCube plugin, ItemStack result, Material ingredient, CraftType craftType) {
-		NamespacedKey key = new NamespacedKey(plugin,
+	public static void addCraft(ItemStack result, Material ingredient, CraftType craftType) {
+		NamespacedKey key = new NamespacedKey(JavaPlugin.getPlugin(ImagiCube.class),
 				ingredient.getKey().getKey() + "_" + craftType.craftName);
 		ShapedRecipe recipe = new ShapedRecipe(key, result);
 		recipe.shape(craftType.getCraft());
@@ -93,13 +97,13 @@ public class ArmorRecipes {
 		Bukkit.addRecipe(recipe);
 	}
 
-	public static ItemStack setArmorValues(ImagiCube plugin, ItemStack item, ArmorProperty armorProperty) {
+	public static ItemStack setArmorValues(ItemStack item, ArmorProperty armorProperty) {
 		NBTItem nbti = new NBTItem(item);
-		setArmorValues(plugin, nbti, armorProperty);
+		setArmorValues(nbti, armorProperty);
 		return nbti.getItem();
 	}
-	
-	public static void setArmorValues(ImagiCube plugin, NBTItem nbti, ArmorProperty armorProperty) {
+
+	public static void setArmorValues(NBTItem nbti, ArmorProperty armorProperty) {
 		int physical = armorProperty.getPhysicalResistance();
 		int magical = armorProperty.getMagicalResistance();
 		int weight = armorProperty.getWeight();
@@ -175,7 +179,7 @@ public class ArmorRecipes {
 				new SimpleJSON().add(" ", false, false, false, false, SimpleJSON.Color.WHITE, false)
 						.add("+" + weight + " ", false, false, false, false, SimpleJSON.Color.BLUE, false)
 						.add("imagicube.weight", false, false, false, false, SimpleJSON.Color.BLUE, true).convert());
-		Durability.setDurability(nbti, 0, plugin);
+		Durability.setDurability(nbti, 0, 1);
 	}
 
 	public enum CraftType {

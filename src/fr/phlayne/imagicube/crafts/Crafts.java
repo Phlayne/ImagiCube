@@ -10,6 +10,7 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
@@ -59,19 +60,18 @@ public class Crafts {
 	public static ShapelessRecipe RED_DYE;
 	public static ShapelessRecipe CACTUS_LEATHER;
 
-	public static void loadRecipes(ImagiCube plugin) throws CannotUpdateItemException {
+	public static void loadRecipes() throws CannotUpdateItemException {
 		removeCrafts();
+		JavaPlugin plugin = JavaPlugin.getPlugin(ImagiCube.class);
 		ItemStack wetSponge = new ItemStack(Material.WET_SPONGE);
-		NamespacedKey wetSpongeKey = new NamespacedKey(plugin,
-				"wet_sponge");
+		NamespacedKey wetSpongeKey = new NamespacedKey(plugin, "wet_sponge");
 		WET_SPONGE_CRAFT = new ShapedRecipe(wetSpongeKey, wetSponge);
 		WET_SPONGE_CRAFT.shape("...", ".-.", "...");
 		WET_SPONGE_CRAFT.setIngredient('.', Material.DRIED_KELP);
 		WET_SPONGE_CRAFT.setIngredient('-', Material.SAND);
 
 		ItemStack saddle = new ItemStack(Material.SADDLE);
-		NamespacedKey saddleKey = new NamespacedKey(plugin,
-				"saddle");
+		NamespacedKey saddleKey = new NamespacedKey(plugin, "saddle");
 		SADDLE_CRAFT = new ShapedRecipe(saddleKey, saddle);
 		SADDLE_CRAFT.shape("LLL", "SIS", "I I");
 		SADDLE_CRAFT.setIngredient('L', Material.LEATHER);
@@ -79,87 +79,74 @@ public class Crafts {
 		SADDLE_CRAFT.setIngredient('I', Material.IRON_INGOT);
 
 		ItemStack netherBricks = new ItemStack(Material.NETHER_BRICKS, 4);
-		NamespacedKey netherBricksKey = new NamespacedKey(plugin,
-				"nether_bricks");
+		NamespacedKey netherBricksKey = new NamespacedKey(plugin, "nether_bricks");
 		NETHER_BRICK_CRAFT = new ShapedRecipe(netherBricksKey, netherBricks);
 		NETHER_BRICK_CRAFT.shape("oo", "oo");
 		NETHER_BRICK_CRAFT.setIngredient('o', Material.NETHER_BRICK);
 
 		ItemStack redNetherBricks = new ItemStack(Material.RED_NETHER_BRICKS, 2);
-		NamespacedKey redLeftNetherBricksKey = new NamespacedKey(
-				plugin, "left_red_nether_bricks");
+		NamespacedKey redLeftNetherBricksKey = new NamespacedKey(plugin, "left_red_nether_bricks");
 		LEFT_RED_NETHER_BRICK_CRAFT = new ShapedRecipe(redLeftNetherBricksKey, redNetherBricks);
 		LEFT_RED_NETHER_BRICK_CRAFT.shape("oi", "io");
 		LEFT_RED_NETHER_BRICK_CRAFT.setIngredient('o', Material.NETHER_BRICK);
 		LEFT_RED_NETHER_BRICK_CRAFT.setIngredient('i', Material.NETHER_WART);
-		NamespacedKey redRightNetherBricksKey = new NamespacedKey(
-				plugin, "right_red_nether_bricks");
+		NamespacedKey redRightNetherBricksKey = new NamespacedKey(plugin, "right_red_nether_bricks");
 		RIGHT_RED_NETHER_BRICK_CRAFT = new ShapedRecipe(redRightNetherBricksKey, redNetherBricks);
 		RIGHT_RED_NETHER_BRICK_CRAFT.shape("io", "oi");
 		RIGHT_RED_NETHER_BRICK_CRAFT.setIngredient('o', Material.NETHER_BRICK);
 		RIGHT_RED_NETHER_BRICK_CRAFT.setIngredient('i', Material.NETHER_WART);
 
 		ItemStack acaciaTrapdoor = new ItemStack(Material.ACACIA_TRAPDOOR, 6);
-		NamespacedKey acaciaTrapdoorKey = new NamespacedKey(plugin,
-				"acacia_trapdoor");
+		NamespacedKey acaciaTrapdoorKey = new NamespacedKey(plugin, "acacia_trapdoor");
 		ACACIA_TRAPDOOR_CRAFT = new ShapedRecipe(acaciaTrapdoorKey, acaciaTrapdoor);
 		ACACIA_TRAPDOOR_CRAFT.shape("---", "---");
 		ACACIA_TRAPDOOR_CRAFT.setIngredient('-', Material.ACACIA_PLANKS);
 
 		ItemStack birchTrapdoor = new ItemStack(Material.BIRCH_TRAPDOOR, 6);
-		NamespacedKey birchTrapdoorKey = new NamespacedKey(plugin,
-				"birch_trapdoor");
+		NamespacedKey birchTrapdoorKey = new NamespacedKey(plugin, "birch_trapdoor");
 		BIRCH_TRAPDOOR_CRAFT = new ShapedRecipe(birchTrapdoorKey, birchTrapdoor);
 		BIRCH_TRAPDOOR_CRAFT.shape("---", "---");
 		BIRCH_TRAPDOOR_CRAFT.setIngredient('-', Material.BIRCH_PLANKS);
 
 		ItemStack dark_oakTrapdoor = new ItemStack(Material.DARK_OAK_TRAPDOOR, 6);
-		NamespacedKey dark_oakTrapdoorKey = new NamespacedKey(
-				plugin, "dark_oak_trapdoor");
+		NamespacedKey dark_oakTrapdoorKey = new NamespacedKey(plugin, "dark_oak_trapdoor");
 		DARK_OAK_TRAPDOOR_CRAFT = new ShapedRecipe(dark_oakTrapdoorKey, dark_oakTrapdoor);
 		DARK_OAK_TRAPDOOR_CRAFT.shape("---", "---");
 		DARK_OAK_TRAPDOOR_CRAFT.setIngredient('-', Material.DARK_OAK_PLANKS);
 
 		ItemStack jungleTrapdoor = new ItemStack(Material.JUNGLE_TRAPDOOR, 6);
-		NamespacedKey jungleTrapdoorKey = new NamespacedKey(plugin,
-				"jungle_trapdoor");
+		NamespacedKey jungleTrapdoorKey = new NamespacedKey(plugin, "jungle_trapdoor");
 		JUNGLE_TRAPDOOR_CRAFT = new ShapedRecipe(jungleTrapdoorKey, jungleTrapdoor);
 		JUNGLE_TRAPDOOR_CRAFT.shape("---", "---");
 		JUNGLE_TRAPDOOR_CRAFT.setIngredient('-', Material.JUNGLE_PLANKS);
 
 		ItemStack oakTrapdoor = new ItemStack(Material.OAK_TRAPDOOR, 6);
-		NamespacedKey oakTrapdoorKey = new NamespacedKey(plugin,
-				"oak_trapdoor");
+		NamespacedKey oakTrapdoorKey = new NamespacedKey(plugin, "oak_trapdoor");
 		OAK_TRAPDOOR_CRAFT = new ShapedRecipe(oakTrapdoorKey, oakTrapdoor);
 		OAK_TRAPDOOR_CRAFT.shape("---", "---");
 		OAK_TRAPDOOR_CRAFT.setIngredient('-', Material.OAK_PLANKS);
 
 		ItemStack spruceTrapdoor = new ItemStack(Material.SPRUCE_TRAPDOOR, 6);
-		NamespacedKey spruceTrapdoorKey = new NamespacedKey(plugin,
-				"spruce_trapdoor");
+		NamespacedKey spruceTrapdoorKey = new NamespacedKey(plugin, "spruce_trapdoor");
 		SPRUCE_TRAPDOOR_CRAFT = new ShapedRecipe(spruceTrapdoorKey, spruceTrapdoor);
 		SPRUCE_TRAPDOOR_CRAFT.shape("---", "---");
 		SPRUCE_TRAPDOOR_CRAFT.setIngredient('-', Material.SPRUCE_PLANKS);
 
 		ItemStack crimsonTrapdoor = new ItemStack(Material.CRIMSON_TRAPDOOR, 6);
-		NamespacedKey crimsonTrapdoorKey = new NamespacedKey(plugin,
-				"crimson_trapdoor");
+		NamespacedKey crimsonTrapdoorKey = new NamespacedKey(plugin, "crimson_trapdoor");
 		CRIMSON_TRAPDOOR_CRAFT = new ShapedRecipe(crimsonTrapdoorKey, crimsonTrapdoor);
 		CRIMSON_TRAPDOOR_CRAFT.shape("---", "---");
 		CRIMSON_TRAPDOOR_CRAFT.setIngredient('-', Material.CRIMSON_PLANKS);
 
 		ItemStack warpedTrapdoor = new ItemStack(Material.WARPED_TRAPDOOR, 6);
-		NamespacedKey warpedTrapdoorKey = new NamespacedKey(plugin,
-				"warped_trapdoor");
+		NamespacedKey warpedTrapdoorKey = new NamespacedKey(plugin, "warped_trapdoor");
 		WARPED_TRAPDOOR_CRAFT = new ShapedRecipe(warpedTrapdoorKey, warpedTrapdoor);
 		WARPED_TRAPDOOR_CRAFT.shape("---", "---");
 		WARPED_TRAPDOOR_CRAFT.setIngredient('-', Material.WARPED_PLANKS);
 
-		ItemStack bow = ItemUpdater.updateItem(new ItemStack(Material.BOW), ItemUpdatingCause.CRAFT, plugin);
-		NamespacedKey leftBowKey = new NamespacedKey(plugin,
-				"left_bow");
-		NamespacedKey rightBowKey = new NamespacedKey(plugin,
-				"right_bow");
+		ItemStack bow = ItemUpdater.updateItem(new ItemStack(Material.BOW), ItemUpdatingCause.CRAFT);
+		NamespacedKey leftBowKey = new NamespacedKey(plugin, "left_bow");
+		NamespacedKey rightBowKey = new NamespacedKey(plugin, "right_bow");
 		L_BOW_CRAFT = new ShapedRecipe(leftBowKey, bow);
 		L_BOW_CRAFT.shape(" |s", "| s", " |s");
 		L_BOW_CRAFT.setIngredient('|', Material.STICK);
@@ -169,9 +156,8 @@ public class Crafts {
 		R_BOW_CRAFT.setIngredient('|', Material.STICK);
 		R_BOW_CRAFT.setIngredient('s', Material.STRING);
 
-		ItemStack crossbow = ItemUpdater.updateItem(new ItemStack(Material.CROSSBOW), ItemUpdatingCause.CRAFT, plugin);
-		NamespacedKey crossbowKey = new NamespacedKey(plugin,
-				"crossbow");
+		ItemStack crossbow = ItemUpdater.updateItem(new ItemStack(Material.CROSSBOW), ItemUpdatingCause.CRAFT);
+		NamespacedKey crossbowKey = new NamespacedKey(plugin, "crossbow");
 		CROSSBOW_CRAFT = new ShapedRecipe(crossbowKey, crossbow);
 		CROSSBOW_CRAFT.shape("|i|", "scs", " | ");
 		CROSSBOW_CRAFT.setIngredient('|', Material.STICK);
@@ -179,9 +165,8 @@ public class Crafts {
 		CROSSBOW_CRAFT.setIngredient('i', Material.IRON_INGOT);
 		CROSSBOW_CRAFT.setIngredient('c', Material.TRIPWIRE_HOOK);
 
-		ItemStack shield = ItemUpdater.updateItem(new ItemStack(Material.SHIELD), ItemUpdatingCause.CRAFT, plugin);
-		NamespacedKey shieldKey = new NamespacedKey(plugin,
-				"shield");
+		ItemStack shield = ItemUpdater.updateItem(new ItemStack(Material.SHIELD), ItemUpdatingCause.CRAFT);
+		NamespacedKey shieldKey = new NamespacedKey(plugin, "shield");
 		SHIELD_CRAFT = new ShapedRecipe(shieldKey, shield);
 		SHIELD_CRAFT.shape("pip", "ppp", " p ");
 		SHIELD_CRAFT.setIngredient('p',
@@ -190,18 +175,16 @@ public class Crafts {
 						Material.CRIMSON_PLANKS, Material.WARPED_PLANKS));
 		SHIELD_CRAFT.setIngredient('i', Material.IRON_INGOT);
 
-		ItemStack flintAndSteel = ItemUpdater.updateItem(new ItemStack(Material.FLINT_AND_STEEL), ItemUpdatingCause.CRAFT, plugin);
-		NamespacedKey flintAndSteelKey = new NamespacedKey(plugin,
-				"flint_and_steel");
+		ItemStack flintAndSteel = ItemUpdater.updateItem(new ItemStack(Material.FLINT_AND_STEEL),
+				ItemUpdatingCause.CRAFT);
+		NamespacedKey flintAndSteelKey = new NamespacedKey(plugin, "flint_and_steel");
 		FLINT_AND_STEEL_CRAFT = new ShapelessRecipe(flintAndSteelKey, flintAndSteel);
 		FLINT_AND_STEEL_CRAFT.addIngredient(Material.FLINT);
 		FLINT_AND_STEEL_CRAFT.addIngredient(Material.IRON_INGOT);
 
-		ItemStack shears = ItemUpdater.updateItem(new ItemStack(Material.SHEARS), ItemUpdatingCause.CRAFT, plugin);
-		NamespacedKey leftShearsKey = new NamespacedKey(plugin,
-				"left_shears");
-		NamespacedKey rightShearsKey = new NamespacedKey(plugin,
-				"right_shears");
+		ItemStack shears = ItemUpdater.updateItem(new ItemStack(Material.SHEARS), ItemUpdatingCause.CRAFT);
+		NamespacedKey leftShearsKey = new NamespacedKey(plugin, "left_shears");
+		NamespacedKey rightShearsKey = new NamespacedKey(plugin, "right_shears");
 		L_SHEARS_CRAFT = new ShapedRecipe(leftShearsKey, shears);
 		L_SHEARS_CRAFT.shape("i ", " i");
 		L_SHEARS_CRAFT.setIngredient('i', Material.IRON_INGOT);
@@ -209,11 +192,9 @@ public class Crafts {
 		R_SHEARS_CRAFT.shape(" i", "i ");
 		R_SHEARS_CRAFT.setIngredient('i', Material.IRON_INGOT);
 
-		ItemStack fishing_rod = ItemUpdater.updateItem(new ItemStack(Material.FISHING_ROD), ItemUpdatingCause.CRAFT, plugin);
-		NamespacedKey leftFishingRodKey = new NamespacedKey(plugin,
-				"left_fishing_rod");
-		NamespacedKey rightFishingRodKey = new NamespacedKey(plugin,
-				"right_fishing_rod");
+		ItemStack fishing_rod = ItemUpdater.updateItem(new ItemStack(Material.FISHING_ROD), ItemUpdatingCause.CRAFT);
+		NamespacedKey leftFishingRodKey = new NamespacedKey(plugin, "left_fishing_rod");
+		NamespacedKey rightFishingRodKey = new NamespacedKey(plugin, "right_fishing_rod");
 		L_FISHING_ROD_CRAFT = new ShapedRecipe(leftFishingRodKey, fishing_rod);
 		L_FISHING_ROD_CRAFT.shape("  |", " |s", "| s");
 		L_FISHING_ROD_CRAFT.setIngredient('|', Material.STICK);
@@ -224,8 +205,7 @@ public class Crafts {
 		R_FISHING_ROD_CRAFT.setIngredient('s', Material.STRING);
 
 		ItemStack dragonBreath = new ItemStack(Material.DRAGON_BREATH);
-		NamespacedKey dragonBreathKey = new NamespacedKey(plugin,
-				"dragon_breath");
+		NamespacedKey dragonBreathKey = new NamespacedKey(plugin, "dragon_breath");
 		DRAGON_BREATH = new ShapelessRecipe(dragonBreathKey, dragonBreath);
 		DRAGON_BREATH.addIngredient(Material.GLASS_BOTTLE);
 		DRAGON_BREATH.addIngredient(Material.CHORUS_FLOWER);
@@ -236,65 +216,55 @@ public class Crafts {
 		invisibleItemFrameEntityNBT.setBoolean("Invisible", true);
 		invisibleItemFrameNBTI.setInteger("CustomModelData", 1);
 		invisibleItemFrame = invisibleItemFrameNBTI.getItem();
-		NamespacedKey invisibleItemFrameKey = new NamespacedKey(
-				plugin, "invisible_item_frame");
+		NamespacedKey invisibleItemFrameKey = new NamespacedKey(plugin, "invisible_item_frame");
 		INVISIBLE_ITEM_FRAME = new ShapedRecipe(invisibleItemFrameKey, invisibleItemFrame);
 		INVISIBLE_ITEM_FRAME.shape("sss", "s s", "sss");
 		INVISIBLE_ITEM_FRAME.setIngredient('s', Material.STICK);
 
 		ItemStack blackDye = new ItemStack(Material.BLACK_DYE);
-		NamespacedKey blackDyeKey = new NamespacedKey(plugin,
-				"black_dye");
+		NamespacedKey blackDyeKey = new NamespacedKey(plugin, "black_dye");
 		BLACK_DYE = new ShapelessRecipe(blackDyeKey, blackDye);
 		BLACK_DYE.addIngredient(Material.COAL);
-		NamespacedKey blackDye2Key = new NamespacedKey(plugin,
-				"black_dye2");
+		NamespacedKey blackDye2Key = new NamespacedKey(plugin, "black_dye2");
 		BLACK_DYE2 = new ShapelessRecipe(blackDye2Key, blackDye);
 		BLACK_DYE2.addIngredient(Material.CHARCOAL);
 
 		ItemStack grayDye = new ItemStack(Material.GRAY_DYE);
-		NamespacedKey grayDyeKey = new NamespacedKey(plugin,
-				"gray_dye");
+		NamespacedKey grayDyeKey = new NamespacedKey(plugin, "gray_dye");
 		GRAY_DYE = new ShapelessRecipe(grayDyeKey, grayDye);
 		GRAY_DYE.addIngredient(Material.GUNPOWDER);
 
 		ItemStack orangeDye = new ItemStack(Material.ORANGE_DYE);
-		NamespacedKey orangeDyeKey = new NamespacedKey(plugin,
-				"orange_dye");
+		NamespacedKey orangeDyeKey = new NamespacedKey(plugin, "orange_dye");
 		ORANGE_DYE = new ShapelessRecipe(orangeDyeKey, orangeDye);
 		ORANGE_DYE.addIngredient(Material.CARROT);
 
 		ItemStack limeDye = new ItemStack(Material.LIME_DYE);
-		NamespacedKey limeDyeKey = new NamespacedKey(plugin,
-				"lime_dye");
+		NamespacedKey limeDyeKey = new NamespacedKey(plugin, "lime_dye");
 		LIME_DYE = new ShapedRecipe(limeDyeKey, limeDye);
 		LIME_DYE.shape("sss", "sss", "sss");
 		LIME_DYE.setIngredient('s', Material.WHEAT_SEEDS);
 
 		ItemStack brownDye = new ItemStack(Material.BROWN_DYE);
-		NamespacedKey brownDyeKey = new NamespacedKey(plugin,
-				"brown_dye");
+		NamespacedKey brownDyeKey = new NamespacedKey(plugin, "brown_dye");
 		BROWN_DYE = new ShapedRecipe(brownDyeKey, brownDye);
 		BROWN_DYE.shape("sss", "sss", "sss");
 		BROWN_DYE.setIngredient('s', Material.MELON_SEEDS);
 
 		ItemStack purpleDye = new ItemStack(Material.PURPLE_DYE);
-		NamespacedKey purpleDyeKey = new NamespacedKey(plugin,
-				"purple_dye");
+		NamespacedKey purpleDyeKey = new NamespacedKey(plugin, "purple_dye");
 		PURPLE_DYE = new ShapelessRecipe(purpleDyeKey, purpleDye);
 		PURPLE_DYE.addIngredient(Material.CHORUS_FRUIT);
 
 		ItemStack redDye = new ItemStack(Material.RED_DYE);
-		NamespacedKey redDyeKey = new NamespacedKey(plugin,
-				"red_dye");
+		NamespacedKey redDyeKey = new NamespacedKey(plugin, "red_dye");
 		RED_DYE = new ShapelessRecipe(redDyeKey, redDye);
 		RED_DYE.addIngredient(Material.REDSTONE);
 
 		ItemStack cactusLeather = new ItemStack(Material.LEATHER, 2);
 		NBTItem cactusLeatherNBTI = new NBTItem(cactusLeather);
 		cactusLeatherNBTI.setInteger("CustomModelData", 1);
-		NamespacedKey cactusLeatherKey = new NamespacedKey(plugin,
-				"cactus_leather");
+		NamespacedKey cactusLeatherKey = new NamespacedKey(plugin, "cactus_leather");
 		CACTUS_LEATHER = new ShapelessRecipe(cactusLeatherKey, cactusLeatherNBTI.getItem());
 		CACTUS_LEATHER.addIngredient(Material.CACTUS);
 		CACTUS_LEATHER.addIngredient(Material.CACTUS);

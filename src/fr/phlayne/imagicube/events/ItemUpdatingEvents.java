@@ -10,7 +10,6 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.event.ItemUpdatingEvent;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
@@ -18,10 +17,7 @@ import fr.phlayne.imagicube.util.ItemUpdater;
 
 public class ItemUpdatingEvents implements Listener {
 
-	private ImagiCube plugin;
-
-	public ItemUpdatingEvents(ImagiCube plugin) {
-		this.plugin = plugin;
+	public ItemUpdatingEvents() {
 	}
 
 	@EventHandler
@@ -34,7 +30,7 @@ public class ItemUpdatingEvents implements Listener {
 		if (event.getEntity() instanceof Item) {
 			Item entityItem = (Item) event.getEntity();
 			ItemUpdatingEvent itemUpdatingEvent = new ItemUpdatingEvent(entityItem.getItemStack(),
-					ItemUpdatingCause.DROP_OR_SPAWN, plugin);
+					ItemUpdatingCause.DROP_OR_SPAWN);
 			Bukkit.getPluginManager().callEvent(itemUpdatingEvent);
 			if (!itemUpdatingEvent.isCancelled()) {
 				entityItem.setItemStack(itemUpdatingEvent.getResult());
@@ -45,7 +41,7 @@ public class ItemUpdatingEvents implements Listener {
 	public void updateItemInInventory(Inventory inv, ItemUpdatingCause cause) {
 		if (inv != null) {
 			for (int i = 0; i < inv.getSize(); i++) {
-				ItemUpdatingEvent event = new ItemUpdatingEvent(inv.getItem(i), cause, this.plugin);
+				ItemUpdatingEvent event = new ItemUpdatingEvent(inv.getItem(i), cause);
 				Bukkit.getPluginManager().callEvent(event);
 				if (event.isUpdated()) {
 					inv.setItem(i, event.getResult());
@@ -57,7 +53,7 @@ public class ItemUpdatingEvents implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onItemUpdate(ItemUpdatingEvent event) {
 		try {
-			ItemStack result = ItemUpdater.updateItem(event.getItemToUpdate(), event.getCause(), this.plugin);
+			ItemStack result = ItemUpdater.updateItem(event.getItemToUpdate(), event.getCause());
 			event.setResult(result);
 			event.update();
 			if (event.getResult() == null)

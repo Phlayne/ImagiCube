@@ -1,6 +1,7 @@
-name: ImagiCubeAPI
+name: ImagiCube
 main: fr.phlayne.imagicube.ImagiCube
 version: 2.0.0-alpha
+depend: [NBTAPI]
 api-version: 1.13
 commands:
     invsee:
