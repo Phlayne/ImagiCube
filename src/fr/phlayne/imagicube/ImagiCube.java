@@ -30,12 +30,15 @@ import fr.phlayne.imagicube.display.LeftHandDurabilityScript;
 import fr.phlayne.imagicube.display.RightHandDurabilityScript;
 import fr.phlayne.imagicube.event.ImagiCubeLoadingEvent;
 import fr.phlayne.imagicube.events.CraftingEvents;
+import fr.phlayne.imagicube.events.DurabilityEvents;
 import fr.phlayne.imagicube.events.ItemUpdatingEvents;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.ArmorProperties;
 import fr.phlayne.imagicube.item.ArmorProperty;
 import fr.phlayne.imagicube.item.MineralProperties;
 import fr.phlayne.imagicube.item.MineralProperty;
+import fr.phlayne.imagicube.item.Tool;
+import fr.phlayne.imagicube.item.Tools;
 import fr.phlayne.imagicube.item.WeaponProperties;
 import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.schedulers.DisplayScriptScheduler;
@@ -58,6 +61,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		pm.registerEvents(this, this);
 		pm.registerEvents(new CraftingEvents(), this);
 		pm.registerEvents(new ItemUpdatingEvents(), this);
+		pm.registerEvents(new DurabilityEvents(), this);
 		pm.registerEvents(resourcePackUtil, this);
 
 		/* Crafts */
@@ -100,6 +104,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		this.addonList.displayScripts = new ArrayList<DisplayScript>(
 				Arrays.asList(new LeftHandDurabilityScript(), new RightHandDurabilityScript()));
 		this.addonList.schedulerScripts = new ArrayList<SchedulerScript>(Arrays.asList(new DisplayScriptScheduler()));
+		this.addonList.tools = new ArrayList<Tool>(Arrays.asList(Tools.values()));
 		ImagiCubeLoadingEvent imagiCubeLoadingEvent = new ImagiCubeLoadingEvent(this.addonList);
 
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {

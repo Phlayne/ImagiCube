@@ -303,7 +303,8 @@ public class ItemUpdater {
 			nbti.setString("imagicube.forced_color", forcedColor);
 		if (!cosmeticEffect.equals("none"))
 			nbti.setString("imagicube.cosmetic_effect", cosmeticEffect);
-		Durability.setDurability(nbti, durability, Durability.getPercentDurability(nbti));
+		Durability.setDurability(nbti, durability,
+				Durability.getPercentDurability(nbti, durability, Durability.getMaxDurability(nbti)));
 	}
 
 }
