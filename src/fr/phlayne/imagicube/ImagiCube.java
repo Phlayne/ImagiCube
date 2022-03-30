@@ -25,6 +25,7 @@ import fr.phlayne.imagicube.crafts.Crafts;
 import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
 import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
 import fr.phlayne.imagicube.data.AddonList;
+import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.display.DisplayScript;
 import fr.phlayne.imagicube.display.LeftHandDurabilityScript;
 import fr.phlayne.imagicube.display.RightHandDurabilityScript;
@@ -49,7 +50,7 @@ import fr.phlayne.imagicube.util.ResourcePackUtil;
 
 public class ImagiCube extends JavaPlugin implements Listener {
 
-	protected ResourcePackUtil resourcePackUtil = new ResourcePackUtil();
+	protected ResourcePackUtil resourcePackUtil;
 
 	public AddonList addonList;
 
@@ -62,8 +63,15 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		pm.registerEvents(new CraftingEvents(), this);
 		pm.registerEvents(new ItemUpdatingEvents(), this);
 		pm.registerEvents(new DurabilityEvents(), this);
+		resourcePackUtil = new ResourcePackUtil();
+		resourcePackUtil.init();
 		pm.registerEvents(resourcePackUtil, this);
 
+		/* Config checks */
+		
+		Config.copyFilesIfAbsent();
+		Config.checkConfigs();
+		
 		/* Crafts */
 
 		try {

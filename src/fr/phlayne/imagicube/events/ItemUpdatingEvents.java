@@ -53,10 +53,12 @@ public class ItemUpdatingEvents implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onItemUpdate(ItemUpdatingEvent event) {
 		try {
-			ItemStack result = ItemUpdater.updateItem(event.getItemToUpdate(), event.getCause());
-			event.setResult(result);
-			if (event.getResult() != null)
-				event.update();
+			if (!event.isUpdated()) {
+				ItemStack result = ItemUpdater.updateItem(event.getItemToUpdate(), event.getCause());
+				event.setResult(result);
+				if (event.getResult() != null)
+					event.update();
+			}
 		} catch (CannotUpdateItemException e) {
 			e.printStackTrace();
 			event.setCancelled(true);
