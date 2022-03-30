@@ -4,7 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTCompoundList;
@@ -76,8 +81,12 @@ public class Durability {
 		return nbti.hasKey(NBTUtil.DURABILITY);
 	}
 
-	public static void applyDurability(NBTItem nbti, int maxDurability) {
-		applyDurability(nbti, nbti.getItem().getEnchantmentLevel(Enchantment.DURABILITY), maxDurability);
+	public static boolean applyDurability(NBTItem nbti) {
+		return applyDurability(nbti, getMaxDurability(nbti));
+	}
+
+	public static boolean applyDurability(NBTItem nbti, int maxDurability) {
+		return applyDurability(nbti, nbti.getItem().getEnchantmentLevel(Enchantment.DURABILITY), maxDurability);
 	}
 
 	// Returns true if the item should break;
@@ -90,7 +99,7 @@ public class Durability {
 					: (0.6F * (0.4F / (unbreakingLevel + 1F))));
 			if (damage) {
 				int durability = nbti.getInteger(NBTUtil.DURABILITY);
-				setDurability(nbti, durability + 1, maxDurability);
+				setDurability(nbti, durability + 1, getPercentDurability(nbti, durability + 1, maxDurability));
 				boolean isElytra = (nbti.hasKey(NBTUtil.ITEM_TYPE) ? nbti.getString(NBTUtil.ITEM_TYPE) : "")
 						.equals("elytra");
 				if (!isElytra && durability + 1 >= maxDurability) {
@@ -104,7 +113,7 @@ public class Durability {
 	public static float getPercentDurability(NBTItem nbti) {
 		return getPercentDurability(nbti, nbti.getInteger(NBTUtil.DURABILITY), getMaxDurability(nbti));
 	}
-	
+
 	public static float getPercentDurability(NBTItem nbti, int durability, int maxDurability) {
 		if (durability < 0)
 			durability = nbti.hasKey(NBTUtil.DURABILITY) ? nbti.getInteger(NBTUtil.DURABILITY) : 0;
@@ -189,4 +198,10 @@ public class Durability {
 		}
 	}
 
+	public static void playBreakItemAnimation(Player player, ItemStack item) {
+		Location loc = player.getEyeLocation();
+		loc.getWorld().playSound(loc, Sound.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
+		loc.getWorld().spawnParticle(Particle.ITEM_CRACK, loc.add(loc.getDirection()), 10, 0.3, 0.5, 0.3, 0, item);
+
+	}
 }
