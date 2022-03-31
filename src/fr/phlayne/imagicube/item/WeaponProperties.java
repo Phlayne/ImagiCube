@@ -12,7 +12,7 @@ public enum WeaponProperties implements WeaponProperty {
 	DARK_OAK_PICKAXE(59, 2F, 1.2F, Tools.PICKAXE.getName(), "dark_oak", Material.WOODEN_PICKAXE, 5), //
 	CRIMSON_PICKAXE(59, 2F, 1.2F, Tools.PICKAXE.getName(), "crimson", Material.WOODEN_PICKAXE, 6), //
 	WARPED_PICKAXE(59, 2F, 1.2F, Tools.PICKAXE.getName(), "warped", Material.WOODEN_PICKAXE, 7), //
-	GOLDEN_PICKAXE(847, 4F, 1.2F, Tools.PICKAXE.getName(), "golden", Material.GOLDEN_PICKAXE, 0), //
+	GOLDEN_PICKAXE(847, 4F, 1.2F, Tools.PICKAXE.getName(), "gold", Material.GOLDEN_PICKAXE, 0), //
 	STONE_PICKAXE(131, 3F, 1.2F, Tools.PICKAXE.getName(), "stone", Material.STONE_PICKAXE, 0), //
 	BLACKSTONE_PICKAXE(190, 3F, 1.2F, Tools.PICKAXE.getName(), "blackstone", Material.STONE_PICKAXE, 1), //
 	IRON_PICKAXE(250, 4F, 1.2F, Tools.PICKAXE.getName(), "iron", Material.IRON_PICKAXE, 0), //
@@ -28,7 +28,7 @@ public enum WeaponProperties implements WeaponProperty {
 	DARK_OAK_SHOVEL(59, 2.5F, 1F, Tools.SHOVEL.getName(), "dark_oak", Material.WOODEN_SHOVEL, 5), //
 	CRIMSON_SHOVEL(59, 2.5F, 1F, Tools.SHOVEL.getName(), "crimson", Material.WOODEN_SHOVEL, 6), //
 	WARPED_SHOVEL(59, 2.5F, 1F, Tools.SHOVEL.getName(), "warped", Material.WOODEN_SHOVEL, 7), //
-	GOLDEN_SHOVEL(847, 4.5F, 1F, Tools.SHOVEL.getName(), "golden", Material.GOLDEN_SHOVEL, 0), //
+	GOLDEN_SHOVEL(847, 4.5F, 1F, Tools.SHOVEL.getName(), "gold", Material.GOLDEN_SHOVEL, 0), //
 	STONE_SHOVEL(131, 3.5F, 1F, Tools.SHOVEL.getName(), "stone", Material.STONE_SHOVEL, 0), //
 	BLACKSTONE_SHOVEL(190, 3.5F, 1F, Tools.SHOVEL.getName(), "blackstone", Material.STONE_SHOVEL, 1), //
 	IRON_SHOVEL(250, 4.5F, 1F, Tools.SHOVEL.getName(), "iron", Material.IRON_SHOVEL, 0), //
@@ -44,7 +44,7 @@ public enum WeaponProperties implements WeaponProperty {
 	DARK_OAK_HOE(59, 1F, 1.0F, Tools.HOE.getName(), "dark_oak", Material.WOODEN_HOE, 5), //
 	CRIMSON_HOE(59, 1F, 1.0F, Tools.HOE.getName(), "crimson", Material.WOODEN_HOE, 6), //
 	WARPED_HOE(59, 1F, 1.0F, Tools.HOE.getName(), "warped", Material.WOODEN_HOE, 7), //
-	GOLDEN_HOE(847, 1F, 5.0F, Tools.HOE.getName(), "golden", Material.GOLDEN_HOE, 0), //
+	GOLDEN_HOE(847, 1F, 5.0F, Tools.HOE.getName(), "gold", Material.GOLDEN_HOE, 0), //
 	STONE_HOE(131, 1F, 2.0F, Tools.HOE.getName(), "stone", Material.STONE_HOE, 0), //
 	BLACKSTONE_HOE(190, 1F, 2.0F, Tools.HOE.getName(), "blackstone", Material.STONE_HOE, 1), //
 	IRON_HOE(250, 1F, 3.0F, Tools.HOE.getName(), "iron", Material.IRON_HOE, 0), //
@@ -60,7 +60,7 @@ public enum WeaponProperties implements WeaponProperty {
 	DARK_OAK_SWORD(59, 4F, 1.6F, Tools.SWORD.getName(), "dark_oak", Material.WOODEN_SWORD, 5), //
 	CRIMSON_SWORD(59, 4F, 1.6F, Tools.SWORD.getName(), "crimson", Material.WOODEN_SWORD, 6), //
 	WARPED_SWORD(59, 4F, 1.6F, Tools.SWORD.getName(), "warped", Material.WOODEN_SWORD, 7), //
-	GOLDEN_SWORD(847, 6F, 1.6F, Tools.SWORD.getName(), "golden", Material.GOLDEN_SWORD, 0), //
+	GOLDEN_SWORD(847, 6F, 1.6F, Tools.SWORD.getName(), "gold", Material.GOLDEN_SWORD, 0), //
 	STONE_SWORD(131, 5F, 1.6F, Tools.SWORD.getName(), "stone", Material.STONE_SWORD, 0), //
 	BLACKSTONE_SWORD(190, 5F, 1.6F, Tools.SWORD.getName(), "blackstone", Material.STONE_SWORD, 1), //
 	IRON_SWORD(250, 6F, 1.6F, Tools.SWORD.getName(), "iron", Material.IRON_SWORD, 0), //
@@ -76,7 +76,7 @@ public enum WeaponProperties implements WeaponProperty {
 	DARK_OAK_AXE(59, 6.5F, 0.8F, Tools.AXE.getName(), "dark_oak", Material.WOODEN_AXE, 5), //
 	CRIMSON_AXE(59, 6.5F, 0.8F, Tools.AXE.getName(), "crimson", Material.WOODEN_AXE, 6), //
 	WARPED_AXE(59, 6.5F, 0.8F, Tools.AXE.getName(), "warped", Material.WOODEN_AXE, 7), //
-	GOLDEN_AXE(847, 9.5F, 0.9F, Tools.AXE.getName(), "golden", Material.GOLDEN_AXE, 0), //
+	GOLDEN_AXE(847, 9.5F, 0.9F, Tools.AXE.getName(), "gold", Material.GOLDEN_AXE, 0), //
 	STONE_AXE(131, 8.0F, 0.8F, Tools.AXE.getName(), "stone", Material.STONE_AXE, 0), //
 	BLACKSTONE_AXE(190, 8.0F, 0.8F, Tools.AXE.getName(), "blackstone", Material.STONE_AXE, 1), //
 	IRON_AXE(250, 9.5F, 0.9F, Tools.AXE.getName(), "iron", Material.IRON_AXE, 0), //

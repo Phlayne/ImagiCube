@@ -5,7 +5,8 @@ weight_modifier: true
 weight_modifier_in_creative: true
 weight_gliding_modifier: 0
 # weight_gliding_modifier: 0.0025
-# Do not put high values. You'll understand if you test it.
+# Do not put high values for weight_gliding_modifier. You'll understand if you test it.
+lossless_mending_system: true
 prismarineTools: true
 stoneToolsVariants: true
 woodToolsVariants: true

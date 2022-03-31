@@ -41,7 +41,7 @@ public class Config {
 		FileConfiguration config = getConfig();
 		boolean missingValuesConfig = false;
 		for (String key : Arrays.asList("prismarineTools", "stoneToolsVariants", "woodToolsVariants",
-				"concretePowderToConcreteCraftWithBucket")) {
+				"concretePowderToConcreteCraftWithBucket", "lossless_mending_system")) {
 			if (!config.contains(key)) {
 				warnKeyAbsent(key);
 				missingValuesConfig = true;

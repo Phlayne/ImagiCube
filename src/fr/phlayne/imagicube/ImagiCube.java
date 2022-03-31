@@ -29,6 +29,7 @@ import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
 import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
 import fr.phlayne.imagicube.data.AddonList;
 import fr.phlayne.imagicube.data.Config;
+import fr.phlayne.imagicube.display.ArmorScript;
 import fr.phlayne.imagicube.display.DisplayScript;
 import fr.phlayne.imagicube.display.LeftHandDurabilityScript;
 import fr.phlayne.imagicube.display.RightHandDurabilityScript;
@@ -48,6 +49,7 @@ import fr.phlayne.imagicube.item.WeaponProperties;
 import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.schedulers.DisplayScriptScheduler;
 import fr.phlayne.imagicube.schedulers.GeneralScheduler;
+import fr.phlayne.imagicube.schedulers.PlayerScheduler;
 import fr.phlayne.imagicube.schedulers.SchedulerScript;
 import fr.phlayne.imagicube.util.NBTUtil;
 import fr.phlayne.imagicube.util.ResourcePackUtil;
@@ -113,10 +115,12 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		this.addonList.weapons = new ArrayList<WeaponProperty>(Arrays.asList(WeaponProperties.values()));
 		this.addonList.armors = new ArrayList<ArmorProperty>(Arrays.asList(ArmorProperties.values()));
 		this.addonList.minerals = new ArrayList<MineralProperty>(Arrays.asList(MineralProperties.values()));
-		this.addonList.uniqueItems = new ArrayList<ItemStack>(Arrays.asList(Crafts.INVISIBLE_ITEM_FRAME.getResult()));
+		this.addonList.uniqueItems = new ArrayList<ItemStack>(
+				Arrays.asList(Crafts.INVISIBLE_ITEM_FRAME.getResult(), Crafts.CACTUS_LEATHER.getResult()));
 		this.addonList.displayScripts = new ArrayList<DisplayScript>(
-				Arrays.asList(new LeftHandDurabilityScript(), new RightHandDurabilityScript()));
-		this.addonList.schedulerScripts = new ArrayList<SchedulerScript>(Arrays.asList(new DisplayScriptScheduler()));
+				Arrays.asList(new ArmorScript(), new LeftHandDurabilityScript(), new RightHandDurabilityScript()));
+		this.addonList.schedulerScripts = new ArrayList<SchedulerScript>(
+				Arrays.asList(new DisplayScriptScheduler(), new PlayerScheduler()));
 		this.addonList.tools = new ArrayList<Tool>(Arrays.asList(Tools.values()));
 		ImagiCubeLoadingEvent imagiCubeLoadingEvent = new ImagiCubeLoadingEvent(this.addonList);
 
@@ -238,8 +242,11 @@ public class ImagiCube extends JavaPlugin implements Listener {
 					}
 					size = itemList.size();
 					Inventory inv = Bukkit.createInventory(null, Math.min((int) Math.ceil(size / 9f) * 9, 54));
+					ItemStack is;
 					for (int i = 0; i < Math.min(itemList.size(), 54); i++) {
-						inv.setItem(i, itemList.get(i));
+						is = itemList.get(i).clone();
+						is.setAmount(1);
+						inv.setItem(i, is);
 					}
 					((Player) sender).openInventory(inv);
 				} catch (NumberFormatException e) {

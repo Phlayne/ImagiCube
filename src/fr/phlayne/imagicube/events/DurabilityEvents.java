@@ -35,6 +35,7 @@ import org.bukkit.inventory.ItemStack;
 
 import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.Reference;
+import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.item.ArmorProperty;
 import fr.phlayne.imagicube.item.Durability;
 import fr.phlayne.imagicube.item.Tool;
@@ -234,27 +235,35 @@ public class DurabilityEvents implements Listener {
 
 	@EventHandler
 	public void newItemMend(PlayerExpChangeEvent event) {
-		List<ItemStack> itemList = new ArrayList<ItemStack>();
-		List<Byte> numberList = new ArrayList<Byte>();
 		Player player = event.getPlayer();
+		ItemStack item;
+		int index;
+		List<ItemStack> itemList = new ArrayList<ItemStack>();
 		itemList.add(player.getInventory().getItemInMainHand());
 		itemList.add(player.getInventory().getItemInOffHand());
 		itemList.add(player.getInventory().getBoots());
 		itemList.add(player.getInventory().getLeggings());
 		itemList.add(player.getInventory().getChestplate());
 		itemList.add(player.getInventory().getHelmet());
-		for (int i = 0; i < 6; i++) {
-			if (itemList.get(i) != null && itemList.get(i).getType() != Material.AIR) {
-				NBTItem nbti = new NBTItem(itemList.get(i));
-				if (itemList.get(i).getEnchantmentLevel(Enchantment.MENDING) > 0 && nbti.hasKey(NBTUtil.DURABILITY)
-						&& nbti.getInteger(NBTUtil.DURABILITY) > 0) {
-					numberList.add((byte) i);
+		if (Config.getConfig().getBoolean("lossless_mending_system")) {
+			List<Byte> numberList = new ArrayList<Byte>();
+			for (int i = 0; i < 6; i++) {
+				if (itemList.get(i) != null && itemList.get(i).getType() != Material.AIR) {
+					NBTItem nbti = new NBTItem(itemList.get(i));
+					if (itemList.get(i).getEnchantmentLevel(Enchantment.MENDING) > 0 && nbti.hasKey(NBTUtil.DURABILITY)
+							&& nbti.getInteger(NBTUtil.DURABILITY) > 0) {
+						numberList.add((byte) i);
+					}
 				}
 			}
+			index = numberList.get(random.nextInt(numberList.size()));
+
+		} else {
+			index = random.nextInt(6);
 		}
-		if (numberList.size() > 0) {
-			int randomNumber = random.nextInt(numberList.size());
-			NBTItem nbti = new NBTItem(itemList.get(numberList.get(randomNumber)));
+		item = itemList.get(index);
+		if (item != null && !item.getType().equals(Material.AIR)) {
+			NBTItem nbti = new NBTItem(item);
 			int durability = nbti.getInteger(NBTUtil.DURABILITY);
 			int newDurability = 0;
 			if (event.getAmount() * 2 > durability) {
@@ -265,7 +274,7 @@ public class DurabilityEvents implements Listener {
 				event.setAmount(0);
 			}
 			Durability.setDurability(nbti, newDurability, Durability.getMaxDurability(nbti));
-			switch (numberList.get(randomNumber)) {
+			switch (index) {
 			case 0:
 				player.getInventory().setItemInMainHand(nbti.getItem());
 				break;
@@ -359,15 +368,13 @@ public class DurabilityEvents implements Listener {
 			Trident trident = (Trident) event.getEntity();
 			NBTItem nbti = new NBTItem(trident.getItem());
 			Durability.applyDurability(nbti);
-			trident.setItem(nbti.getItem());
-			// TODO If the trident durability does not decreases when thrown
-			/*
-			 * Bukkit.getScheduler().runTaskLater(Main.getPlugin(Main.class), new Runnable()
-			 * {
-			 * 
-			 * @Override public void run() {
-			 * trident.setItem(Durability.applyDurability(trident.getItem())); } }, 0L);
-			 */
+			Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin(Reference.PLUGIN_NAME),
+					new Runnable() {
+						@Override
+						public void run() {
+							trident.setItem(nbti.getItem());
+						}
+					}, 0L);
 		}
 	}
 

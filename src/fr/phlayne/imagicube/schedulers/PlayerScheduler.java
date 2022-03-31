@@ -13,11 +13,11 @@ import fr.phlayne.imagicube.item.ItemWeight;
 import fr.phlayne.imagicube.util.CustomMetadata;
 import fr.phlayne.imagicube.util.NBTUtil;
 
-public class PlayerScheduler {
+public class PlayerScheduler extends SchedulerScript {
 
 	public static long tick = 0;
 
-	public static void schedule() {
+	public void tick() {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			for (CustomMetadata cm : CustomMetadata.customMetadataList) {
 				if (cm.increase)

@@ -14,10 +14,10 @@ public enum ArmorProperties implements ArmorProperty {
 	CHAINMAIL_CHESTPLATE(241, 5, 11, 29, 1, "chestplate", "chainmail", Material.CHAINMAIL_CHESTPLATE), //
 	CHAINMAIL_HELMET(166, 2, 6, 15, 1, "helmet", "chainmail", Material.CHAINMAIL_HELMET), //
 
-	GOLDEN_BOOTS(308, 3, 3, 4, 0, "boots", "golden", Material.GOLDEN_BOOTS), //
-	GOLDEN_LEGGINGS(356, 5, 5, 7, 0, "leggings", "golden", Material.GOLDEN_LEGGINGS), //
-	GOLDEN_CHESTPLATE(379, 7, 7, 9, 0, "chestplate", "golden", Material.GOLDEN_CHESTPLATE), //
-	GOLDEN_HELMET(261, 3, 3, 5, 0, "helmet", "golden", Material.GOLDEN_HELMET), //
+	GOLDEN_BOOTS(308, 3, 3, 4, 0, "boots", "gold", Material.GOLDEN_BOOTS), //
+	GOLDEN_LEGGINGS(356, 5, 5, 7, 0, "leggings", "gold", Material.GOLDEN_LEGGINGS), //
+	GOLDEN_CHESTPLATE(379, 7, 7, 9, 0, "chestplate", "gold", Material.GOLDEN_CHESTPLATE), //
+	GOLDEN_HELMET(261, 3, 3, 5, 0, "helmet", "gold", Material.GOLDEN_HELMET), //
 
 	IRON_BOOTS(196, 4, 4, 12, 1, "boots", "iron", Material.IRON_BOOTS), //
 	IRON_LEGGINGS(226, 6, 6, 19, 1, "leggings", "iron", Material.IRON_LEGGINGS), //
