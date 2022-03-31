@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -12,10 +11,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
-
-import fr.phlayne.imagicube.Reference;
 
 public class OthersUtil {
 
@@ -100,29 +96,23 @@ public class OthersUtil {
 		return returnEntity;
 	}
 
-	public static boolean setFreeze(Entity entity, int ticks) {
-		try {
-			if (entity instanceof Player && getFreeze(entity) <= 0 && ticks > 0)
-				freezeLocation.put((Player) entity, entity.getLocation());
-			entity.setMetadata("freezeTicks",
-					new FixedMetadataValue(Bukkit.getPluginManager().getPlugin(Reference.PLUGIN_NAME), ticks));
-
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	public static int getFreeze(Entity entity) {
-		if (entity.hasMetadata("freezeTicks")) {
-			if (entity.getMetadata("freezeTicks").size() > 0)
-				return entity.getMetadata("freezeTicks").get(0).asInt();
-			else
-				return 0;
-		} else {
-			return 0;
-		}
-	}
+	/*
+	 * TODO Move this in ImagiCubeSpells
+	 * 
+	 * public static boolean setFreeze(Entity entity, int ticks) { try { if (entity
+	 * instanceof Player && getFreeze(entity) <= 0 && ticks > 0)
+	 * freezeLocation.put((Player) entity, entity.getLocation());
+	 * entity.setMetadata("freezeTicks", new
+	 * FixedMetadataValue(Bukkit.getPluginManager().getPlugin(Reference.PLUGIN_NAME)
+	 * , ticks)); return true; } catch (Exception e) { return false; } }
+	 * 
+	 * public static int getFreeze(Entity entity) { if
+	 * (entity.hasMetadata("freezeTicks")) { if
+	 * (entity.getMetadata("freezeTicks").size() > 0) return
+	 * entity.getMetadata("freezeTicks").get(0).asInt(); else return 0; } else {
+	 * return 0; } }
+	 * 
+	 */
 
 	public static void shootArrow(Projectile projectile, double x, double y, double z, float speed, float divergence) {
 		Vector vector = (new Vector(x, y, z)).normalize()

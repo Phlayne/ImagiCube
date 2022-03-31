@@ -5,3 +5,5 @@
 .project
 
 .classpath
+
+src/fr/phlayne/imagicube/display/TestColorsScript.java

@@ -5,13 +5,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
@@ -68,10 +71,10 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		pm.registerEvents(resourcePackUtil, this);
 
 		/* Config checks */
-		
+
 		Config.copyFilesIfAbsent();
 		Config.checkConfigs();
-		
+
 		/* Crafts */
 
 		try {
@@ -124,7 +127,25 @@ public class ImagiCube extends JavaPlugin implements Listener {
 	}
 
 	public void onDisable() {
+		for (Player player : Bukkit.getOnlinePlayers())
+			resetPlayerValues(player);
 		getServer().clearRecipes();
+	}
+
+	@EventHandler
+	public void onQuit(PlayerQuitEvent event) {
+		resetPlayerValues(event.getPlayer());
+	}
+
+	public void resetPlayerValues(Player player) {
+		// If the plugin is removed, no player will have slower or higher speed, and no
+		// player will be stuck invulnerable.
+		player.setWalkSpeed(0.2F);
+		player.setInvulnerable(false);
+	}
+
+	public ResourcePackUtil getResourcePackUtil() {
+		return this.resourcePackUtil;
 	}
 
 	public static ImagiCube getInstance() {
@@ -165,7 +186,8 @@ public class ImagiCube extends JavaPlugin implements Listener {
 							+ " +DataTag:value OU /" + label + " ?");
 					return true;
 				}
-				if (!player.getEquipment().getItemInMainHand().equals(null)) {
+				if (player.getEquipment().getItemInMainHand() != null
+						&& !player.getEquipment().getItemInMainHand().getType().equals(Material.AIR)) {
 					String str = "";
 					for (int j = 0; j < args.length; j++) {
 						if (j == 0)

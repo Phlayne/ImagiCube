@@ -76,7 +76,7 @@ public class SimpleJSON {
 		}
 
 		public String getColor() {
-			return "#" + Integer.toHexString(this.red * 65536 + this.green * 256 + this.blue).toLowerCase();
+			return "#" + String.format("%1$06x", this.red * 65536 + this.green * 256 + this.blue);
 		}
 
 		public static Color get(String string) {

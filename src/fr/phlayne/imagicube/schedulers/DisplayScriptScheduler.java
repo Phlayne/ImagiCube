@@ -23,11 +23,12 @@ public class DisplayScriptScheduler extends SchedulerScript {
 			SimpleJSON message = new SimpleJSON();
 			boolean space = false;
 			for (DisplayScript displayScript : ImagiCube.getInstance().addonList.displayScripts) {
-				if(space)
-					message.add(" ", false, false, false, false, Color.WHITE, false);
-				if (displayScript.shouldDisplay(player))
+				if (displayScript.shouldDisplay(player)) {
+					if (space)
+						message.add(" ", false, false, false, false, Color.WHITE, false);
 					message.add(displayScript.getMessage(player));
-				space = true;
+					space = true;
+				}
 			}
 			player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
 					new TextComponent(ComponentSerializer.parse(message.convert())));

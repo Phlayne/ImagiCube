@@ -244,7 +244,7 @@ public class DurabilityEvents implements Listener {
 		itemList.add(player.getInventory().getChestplate());
 		itemList.add(player.getInventory().getHelmet());
 		for (int i = 0; i < 6; i++) {
-			if (itemList.get(i) != null) {
+			if (itemList.get(i) != null && itemList.get(i).getType() != Material.AIR) {
 				NBTItem nbti = new NBTItem(itemList.get(i));
 				if (itemList.get(i).getEnchantmentLevel(Enchantment.MENDING) > 0 && nbti.hasKey(NBTUtil.DURABILITY)
 						&& nbti.getInteger(NBTUtil.DURABILITY) > 0) {

@@ -1,6 +1,11 @@
 custom_resource_pack_link: false
 # Make sure that when you open the link, your computer directly downloads the file, else it won't work.
 # resource_pack_link: "https://www.website.com/yourfile"
+weight_modifier: true
+weight_modifier_in_creative: true
+weight_gliding_modifier: 0
+# weight_gliding_modifier: 0.0025
+# Do not put high values. You'll understand if you test it.
 prismarineTools: true
 stoneToolsVariants: true
 woodToolsVariants: true

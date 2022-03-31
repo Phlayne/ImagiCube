@@ -43,23 +43,40 @@ public class Config {
 		for (String key : Arrays.asList("prismarineTools", "stoneToolsVariants", "woodToolsVariants",
 				"concretePowderToConcreteCraftWithBucket")) {
 			if (!config.contains(key)) {
-				Bukkit.getLogger().warning("The key \"" + key + "\" is absent from config.yml");
+				warnKeyAbsent(key);
 				missingValuesConfig = true;
 			}
 		}
 		boolean containsCustomResourcePackLink = config.contains("custom_resource_pack_link");
 		if (!containsCustomResourcePackLink) {
-			Bukkit.getLogger().warning("The key \"custom_resource_pack_link\" is absent from config.yml");
+			warnKeyAbsent("custom_resource_pack_link");
 			missingValuesConfig = true;
 		}
 		if (!containsCustomResourcePackLink || config.getBoolean("custom_resource_pack_link")) {
 			if (!config.contains("resource_pack_link")) {
-				Bukkit.getLogger().warning("The key \"resource_pack_link\" is absent from config.yml");
+				warnKeyAbsent("resource_pack_link");
 				missingValuesConfig = true;
+			}
+		}
+		boolean containsWeightModifier = config.contains("weight_modifier");
+		if (!containsWeightModifier) {
+			warnKeyAbsent("weight_modifier");
+			missingValuesConfig = true;
+		}
+		if (!containsWeightModifier || config.getBoolean("weight_modifier")) {
+			for (String key : Arrays.asList("weight_modifier_in_creative", "weight_gliding_modifier")) {
+				if (!config.contains(key)) {
+					warnKeyAbsent(key);
+					missingValuesConfig = true;
+				}
 			}
 		}
 		if (missingValuesConfig)
 			Bukkit.getLogger().warning("Please add these keys in the file.");
+	}
+
+	public static void warnKeyAbsent(String key) {
+		Bukkit.getLogger().warning("The key \"" + key + "\" is absent from config.yml");
 	}
 
 	public static void setDefaults() {
