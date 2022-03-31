@@ -6,21 +6,54 @@ import de.tr7zw.nbtapi.NBTCompound;
 import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.util.NBTUtil;
 
-public interface WeaponProperty {
+public class WeaponProperty {
 
-	public int getDurability();
+	private int durability;
+	private double damage;
+	private double attackSpeed;
+	private String type;
+	private String material;
+	private Material bukkitMaterial;
+	private int customModelData;
 
-	public double getDamage();
+	public WeaponProperty(int durability, float damage, float attackSpeed, String type, String material,
+			Material bukkitMaterial, int customModelData) {
+		this.durability = durability;
+		this.damage = damage;
+		this.attackSpeed = attackSpeed;
+		this.type = type;
+		this.material = material;
+		this.bukkitMaterial = bukkitMaterial;
+		this.customModelData = customModelData;
+	}
 
-	public double getAttackSpeed();
+	public int getDurability() {
+		return durability;
+	}
 
-	public String getType();
+	public double getDamage() {
+		return damage;
+	}
 
-	public String getMaterial();
+	public double getAttackSpeed() {
+		return attackSpeed;
+	}
 
-	public Material getBukkitMaterial();
+	public String getType() {
+		return type;
+	}
 
-	public int getCustomModelData();
+	public String getMaterial() {
+		return material;
+	}
+
+	public Material getBukkitMaterial() {
+		return bukkitMaterial;
+	}
+
+	public int getCustomModelData() {
+		return this.customModelData;
+	}
 
 	public static WeaponProperty getVanillaWeaponProperty(Material material) {
 		switch (material) {

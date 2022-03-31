@@ -100,7 +100,7 @@ public class ArmorRecipes {
 	public static ItemStack setArmorValues(ArmorProperty armorProperty) {
 		return setArmorValues(new ItemStack(armorProperty.getBukkitMaterial()), armorProperty);
 	}
-	
+
 	public static ItemStack setArmorValues(ItemStack item, ArmorProperty armorProperty) {
 		NBTItem nbti = new NBTItem(item);
 		setArmorValues(nbti, armorProperty);

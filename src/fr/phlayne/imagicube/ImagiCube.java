@@ -112,8 +112,8 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		// TODO Call an event to extend the list with plugin extensions
 
 		this.addonList = new AddonList();
-		this.addonList.weapons = new ArrayList<WeaponProperty>(Arrays.asList(WeaponProperties.values()));
-		this.addonList.armors = new ArrayList<ArmorProperty>(Arrays.asList(ArmorProperties.values()));
+		this.addonList.weapons = new ArrayList<WeaponProperty>(WeaponProperties.getWeaponProperties());
+		this.addonList.armors = new ArrayList<ArmorProperty>(ArmorProperties.getArmorProperties());
 		this.addonList.minerals = new ArrayList<MineralProperty>(Arrays.asList(MineralProperties.values()));
 		this.addonList.uniqueItems = new ArrayList<ItemStack>(
 				Arrays.asList(Crafts.INVISIBLE_ITEM_FRAME.getResult(), Crafts.CACTUS_LEATHER.getResult()));

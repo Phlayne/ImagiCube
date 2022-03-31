@@ -6,26 +6,63 @@ import de.tr7zw.nbtapi.NBTCompound;
 import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.util.NBTUtil;
 
-public interface ArmorProperty {
+public class ArmorProperty {
 
-	public int getDurability();
+	private int durability;
+	private int physicalResistance;
+	private int magicalResistance;
+	private int knockbackResistance;
+	private int weight;
+	private String type;
+	private String material;
+	private Material bukkitMaterial;
 
-	public int getMagicalResistance();
+	public ArmorProperty(int durability, int physicalResistance, int magicResistance, int weight,
+			int knockbackResistance, String type, String material, Material bukkitMaterial) {
+		this.durability = durability;
+		this.physicalResistance = physicalResistance;
+		this.magicalResistance = magicResistance;
+		this.knockbackResistance = knockbackResistance;
+		this.weight = weight;
+		this.type = type;
+		this.material = material;
+		this.bukkitMaterial = bukkitMaterial;
+	}
 
-	public int getPhysicalResistance();
+	public int getDurability() {
+		return this.durability;
+	}
 
-	public int getKnockbackResistance();
+	public int getMagicalResistance() {
+		return this.magicalResistance;
+	}
 
-	public int getWeight();
+	public int getPhysicalResistance() {
+		return this.physicalResistance;
+	}
 
-	public String getType();
+	public int getKnockbackResistance() {
+		return this.knockbackResistance;
+	}
 
-	public String getMaterial();
+	public int getWeight() {
+		return this.weight;
+	}
 
-	public Material getBukkitMaterial();
+	public String getType() {
+		return this.type;
+	}
+
+	public String getMaterial() {
+		return this.material;
+	}
+
+	public Material getBukkitMaterial() {
+		return this.bukkitMaterial;
+	}
 
 	public static ArmorProperty getVanillaArmorProperty(Material material) {
-		for (ArmorProperty armorProperty : ArmorProperties.values())
+		for (ArmorProperty armorProperty : ArmorProperties.getArmorProperties())
 			if (armorProperty.getBukkitMaterial().equals(material))
 				return armorProperty;
 		return null;
