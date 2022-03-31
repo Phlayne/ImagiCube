@@ -17,7 +17,13 @@ import fr.phlayne.imagicube.util.ItemUpdater;
 
 public class ItemUpdatingEvents implements Listener {
 
-	public ItemUpdatingEvents() {
+	public static ItemStack update(ItemStack item, ItemUpdatingCause cause) {
+		ItemUpdatingEvent itemUpdatingEvent = new ItemUpdatingEvent(item, cause);
+		Bukkit.getPluginManager().callEvent(itemUpdatingEvent);
+		if (itemUpdatingEvent.isUpdated() && !itemUpdatingEvent.isCancelled())
+			return itemUpdatingEvent.getResult();
+		else
+			return item;
 	}
 
 	@EventHandler

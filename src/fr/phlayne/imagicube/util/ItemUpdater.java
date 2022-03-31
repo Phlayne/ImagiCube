@@ -1,6 +1,5 @@
 package fr.phlayne.imagicube.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -8,7 +7,6 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
 
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTCompoundList;
@@ -22,7 +20,6 @@ import fr.phlayne.imagicube.item.ArmorProperty;
 import fr.phlayne.imagicube.item.Durability;
 import fr.phlayne.imagicube.item.FoodProperty;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
-import fr.phlayne.imagicube.item.WeaponProperties;
 import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.util.SimpleJSON.Color;
 
@@ -57,8 +54,6 @@ public class ItemUpdater {
 				if ((!nbti.hasKey(NBTUtil.ITEM_TYPE) || !nbti.hasKey(NBTUtil.DURABILITY))
 						|| (nbti.hasKey(NBTUtil.UPDATEVERSION) ? nbti.getInteger(NBTUtil.UPDATEVERSION) != updateVersion
 								: false)) {
-
-					FileConfiguration config = Config.getConfig();
 
 					// Properties about the ItemStack
 
@@ -136,6 +131,7 @@ public class ItemUpdater {
 								.add("", false, false, false, false, SimpleJSON.Color.WHITE, false).convert());
 						// This method is deprecated because it should only be used in this plugin.
 						Durability.setDurability(nbti, durability, Durability.getPercentDurability(nbti));
+						return nbti.getItem();
 					} else
 
 					// Weapons and armors
@@ -165,15 +161,15 @@ public class ItemUpdater {
 							if (!nbti.hasKey(NBTUtil.UPDATEVERSION))
 								Durability.setDurability(nbti, durability, Durability.getPercentDurability(nbti));
 							if (!cosmeticEffect.equals("none"))
-								item = NBTUtil.addLore(item, "imagicube.cosmetic_effect." + cosmeticEffect, false,
-										false, false, false, true, Color.YELLOW);
+								NBTUtil.addLore(nbti, "imagicube.cosmetic_effect." + cosmeticEffect, false, false,
+										false, false, true, Color.YELLOW);
+							return nbti.getItem();
 						}
 					} else
-
-					if (item.getType() == Material.DIAMOND_SWORD && item instanceof Damageable
-							&& ((Damageable) item).getDamage() > 0) {
-
 						/*
+						 * if (item.getType() == Material.DIAMOND_SWORD && item instanceof Damageable &&
+						 * ((Damageable) item).getDamage() > 0) {
+						 * 
 						 * Hats - TODO Move it to ImagiCubeHats
 						 * 
 						 * if (Hat.isHat(item)) { Hat hat = Hat.getHat(item); if (!hat.equals(Hat.NONE))
@@ -235,35 +231,18 @@ public class ItemUpdater {
 						 * tag); item = Durability.setDurability(item, newDurability); if
 						 * (!cosmeticEffect.equals("none")) item = NBTUtil.addLore(item,
 						 * "imagicube.cosmetic_effect." + cosmeticEffect, false, false, false, false,
-						 * true, Color.YELLOW); } }
+						 * true, Color.YELLOW); } } }
 						 */
-					}
-					NBTUtil.removeUselessLines(nbti);
+						NBTUtil.removeUselessLines(nbti);
 					if ((cause.equals(ItemUpdatingCause.VILLAGER) || isUncraftable
 							|| nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED)) && CraftingEvents.uncraft(item) != null) {
 						nbti.setBoolean(NBTUtil.CANNOT_BE_UNCRAFTED,
 								nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED) ? nbti.getBoolean(NBTUtil.CANNOT_BE_UNCRAFTED)
 										: true);
 						NBTUtil.addLore(nbti, "imagicube.cannot.uncraft", false, false, false, false, true, Color.BLUE);
+						return nbti.getItem();
 					}
-					if (cause.equals(ItemUpdatingCause.WITHER_SKELETON) && item.getType().equals(Material.STONE_SWORD)
-							&& config.getBoolean("stoneToolsVariants")) {
-						nbti.setString(NBTUtil.MATERIAL, "blackstone");
-						nbti.setInteger("CustomModelData", 1);
-						// 50% chance of having a blackstone sword
-						if (random.nextBoolean()) {
-							List<WeaponProperty> list = new ArrayList<WeaponProperty>();
-							list.addAll(Arrays.asList(WeaponProperties.values()));
-							for (WeaponProperty wp : list) // TODO Add the blackstone items if there is expansion
-								if (wp.getMaterial().equals("blackstone"))
-									list.add(wp);
-							WeaponProperty wp = list.get(random.nextInt(list.size()));
-							return WeaponRecipes.setWeaponValues(wp);
-						}
-					}
-					return nbti.getItem();
-				} else
-					return null;
+				}
 			} else if (item.getType().isEdible() || FoodProperty.getFoodProperty(item) != null) {
 				FoodProperty fp = FoodProperty.getFoodProperty(item);
 				if (fp != null) {
@@ -277,8 +256,8 @@ public class ItemUpdater {
 					double saturation = foodInfo.getDouble(item.getType().getKey().getNamespace() + "."
 							+ item.getType().getKey().getKey() + ".saturationModifier") * food * 2;
 					item = FoodProperty.setFoodNeededLore(item, food, saturation);
+					return item;
 				}
-				return item;
 			}
 		}
 		return null;
