@@ -11,12 +11,12 @@ public class ArmorProperties {
 
 	private static List<ArmorProperty> armorProperties = new ArrayList<ArmorProperty>();
 
-	public static ArmorProperty LEATHER_BOOTS = init(78, 1, 5, 4, 0, "boots", "leather", Material.LEATHER_BOOTS); //
-	public static ArmorProperty LEATHER_LEGGINGS = init(113, 2, 8, 7, 0, "leggings", "leather",
+	public static ArmorProperty LEATHER_BOOTS = init(66, 1, 5, 4, 0, "boots", "leather", Material.LEATHER_BOOTS); //
+	public static ArmorProperty LEATHER_LEGGINGS = init(76, 2, 8, 7, 0, "leggings", "leather",
 			Material.LEATHER_LEGGINGS); //
-	public static ArmorProperty LEATHER_CHESTPLATE = init(106, 4, 10, 9, 0, "chestplate", "leather",
+	public static ArmorProperty LEATHER_CHESTPLATE = init(81, 4, 10, 9, 0, "chestplate", "leather",
 			Material.LEATHER_CHESTPLATE); //
-	public static ArmorProperty LEATHER_HELMET = init(92, 1, 5, 5, 0, "helmet", "leather", Material.LEATHER_HELMET); //
+	public static ArmorProperty LEATHER_HELMET = init(56, 1, 5, 5, 0, "helmet", "leather", Material.LEATHER_HELMET); //
 
 	public static ArmorProperty CHAINMAIL_BOOTS = init(196, 2, 6, 12, 1, "boots", "chainmail",
 			Material.CHAINMAIL_BOOTS); //
@@ -27,11 +27,11 @@ public class ArmorProperties {
 	public static ArmorProperty CHAINMAIL_HELMET = init(166, 2, 6, 15, 1, "helmet", "chainmail",
 			Material.CHAINMAIL_HELMET); //
 
-	public static ArmorProperty GOLDEN_BOOTS = init(308, 3, 3, 4, 0, "boots", "gold", Material.GOLDEN_BOOTS); //
-	public static ArmorProperty GOLDEN_LEGGINGS = init(356, 5, 5, 7, 0, "leggings", "gold", Material.GOLDEN_LEGGINGS); //
-	public static ArmorProperty GOLDEN_CHESTPLATE = init(379, 7, 7, 9, 0, "chestplate", "gold",
+	public static ArmorProperty GOLDEN_BOOTS = init(92, 3, 3, 4, 0, "boots", "gold", Material.GOLDEN_BOOTS); //
+	public static ArmorProperty GOLDEN_LEGGINGS = init(106, 5, 5, 7, 0, "leggings", "gold", Material.GOLDEN_LEGGINGS); //
+	public static ArmorProperty GOLDEN_CHESTPLATE = init(113, 7, 7, 9, 0, "chestplate", "gold",
 			Material.GOLDEN_CHESTPLATE); //
-	public static ArmorProperty GOLDEN_HELMET = init(261, 3, 3, 5, 0, "helmet", "gold", Material.GOLDEN_HELMET); //
+	public static ArmorProperty GOLDEN_HELMET = init(78, 3, 3, 5, 0, "helmet", "gold", Material.GOLDEN_HELMET); //
 
 	public static ArmorProperty IRON_BOOTS = init(196, 4, 4, 12, 1, "boots", "iron", Material.IRON_BOOTS); //
 	public static ArmorProperty IRON_LEGGINGS = init(226, 6, 6, 19, 1, "leggings", "iron", Material.IRON_LEGGINGS); //
