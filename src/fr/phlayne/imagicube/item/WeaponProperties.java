@@ -96,7 +96,9 @@ public class WeaponProperties {
 	public static WeaponProperty init(int durability, float damage, float attackSpeed, String type, String material,
 			Material bukkitMaterial, int customModelData) {
 		String path = "imagicube.tools." + material;
-		if(Config.getConfig("durability").contains(path))
+		if (Config.getConfig("durability").contains(path + "." + type))
+			durability = Config.getConfig("durability").getInt(path + "." + type);
+		else if (Config.getConfig("durability").contains(path))
 			durability = Config.getConfig("durability").getInt(path);
 		WeaponProperty weaponProperty = new WeaponProperty(durability, damage, attackSpeed, type, material,
 				bukkitMaterial, customModelData);

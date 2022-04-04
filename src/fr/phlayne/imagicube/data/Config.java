@@ -13,6 +13,7 @@ import fr.phlayne.imagicube.Reference;
 public class Config {
 
 	public static final String FOOD_PROPERTIES = "food_properties";
+	public static final String DURABILITY = "durability";
 
 	public static FileConfiguration getConfig() {
 		return YamlConfiguration.loadConfiguration(new File("plugins/" + Reference.PLUGIN_NAME + "/config.yml"));
@@ -30,11 +31,14 @@ public class Config {
 	public static void copyFilesIfAbsent() {
 		String configPath = "config.yml";
 		String foodPropertiesPath = FOOD_PROPERTIES + ".yml";
+		String durabilityPath = DURABILITY + ".yml";
 		String folderPath = "plugins/" + Reference.PLUGIN_NAME + "/";
 		if (!new File(folderPath + configPath).exists())
 			ImagiCube.getInstance().saveResource(configPath, false);
 		if (!new File(folderPath + foodPropertiesPath).exists())
 			ImagiCube.getInstance().saveResource(foodPropertiesPath, false);
+		if (!new File(folderPath + durabilityPath).exists())
+			ImagiCube.getInstance().saveResource(durabilityPath, false);
 	}
 
 	public static void checkConfigs() {

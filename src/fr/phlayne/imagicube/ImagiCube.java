@@ -2,6 +2,7 @@ package fr.phlayne.imagicube;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -109,8 +110,6 @@ public class ImagiCube extends JavaPlugin implements Listener {
 
 		/* Subplugins */
 
-		// TODO Call an event to extend the list with plugin extensions
-
 		this.addonList = new AddonList();
 		this.addonList.weapons = new ArrayList<WeaponProperty>(WeaponProperties.getWeaponProperties());
 		this.addonList.armors = new ArrayList<ArmorProperty>(ArmorProperties.getArmorProperties());
@@ -127,6 +126,17 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			public void run() {
 				Bukkit.getServer().getPluginManager().callEvent(imagiCubeLoadingEvent);
+				imagiCubeLoadingEvent.getAddonList().displayScripts.sort(new Comparator<DisplayScript>() {
+					@Override
+					public int compare(DisplayScript ds1, DisplayScript ds2) {
+						if (ds1.getOrder() < ds2.getOrder())
+							return -1;
+						else if (ds1.getOrder() == ds2.getOrder())
+							return 0;
+						else
+							return 1;
+					}
+				});
 			}
 		});
 

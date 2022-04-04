@@ -13,6 +13,18 @@ import fr.phlayne.imagicube.util.SimpleJSON;
 
 public class LeftHandDurabilityScript extends DisplayScript {
 
+	private double order = 5;
+
+	@Override
+	public double getOrder() {
+		return order;
+	}
+
+	@Override
+	public void setOrder(double order) {
+		this.order = order;
+	}
+
 	@Override
 	public String getName(String string) {
 		return "LeftHandDurability";

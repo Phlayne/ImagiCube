@@ -8,6 +8,18 @@ import fr.phlayne.imagicube.util.SimpleJSON.Color;
 
 public class ArmorScript extends DisplayScript {
 
+	private double order = 1;
+
+	@Override
+	public double getOrder() {
+		return order;
+	}
+
+	@Override
+	public void setOrder(double order) {
+		this.order = order;
+	}
+
 	@Override
 	public String getName(String string) {
 		return "LeftHandDurability";

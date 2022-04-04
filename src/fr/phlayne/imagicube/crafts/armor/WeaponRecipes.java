@@ -5,7 +5,9 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 
 import de.tr7zw.nbtapi.NBTCompound;
@@ -205,7 +207,10 @@ public class WeaponRecipes {
 					craftName);
 			ShapedRecipe recipe = new ShapedRecipe(key, result);
 			recipe.shape(craftType.getCraft());
-			recipe.setIngredient('I', ingredient);
+			if (ingredient.equals(Material.OAK_PLANKS) && !Config.getConfig().getBoolean("woodToolsVariants"))
+				recipe.setIngredient('I', new RecipeChoice.MaterialChoice(Tag.PLANKS));
+			else
+				recipe.setIngredient('I', ingredient);
 			recipe.setIngredient('|', Material.STICK);
 			Bukkit.addRecipe(recipe);
 		} else {
@@ -291,9 +296,13 @@ public class WeaponRecipes {
 				|| weaponProperty.getMaterial().equals("dark_oak") || weaponProperty.getMaterial().equals("crimson")
 				|| weaponProperty.getMaterial().equals("warped") || weaponProperty.getType().equals("")
 				|| weaponProperty.getType().equals("") || weaponProperty.getType().equals("")
-				|| weaponProperty.getType().equals(""))
-			return "item.imagicube." + weaponProperty.getMaterial() + "_" + weaponProperty.getType();
-		else
+				|| weaponProperty.getType().equals("")) {
+			boolean woodToolsActive = Config.getConfig().getBoolean("woodToolsVariants");
+			String material = weaponProperty.getMaterial();
+			if (!woodToolsActive && material.equals("oak"))
+				material = "wood";
+			return "item.imagicube." + material + "_" + weaponProperty.getType();
+		} else
 			return null;
 	}
 
