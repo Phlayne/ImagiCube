@@ -4,13 +4,6 @@ import org.bukkit.entity.Player;
 
 public enum TranslatableReference {
 
-	SPELL_GUI("Spell creator", "Créateur de sort", "Creador de hechizo"), //
-	SKILLS("Skills", "Compétences", "Competencias"), //
-	MANA("Mana", "Mana", "Maná"), //
-	COOLDOWN("Energy", "Énergie", "Energía"), //
-	MONEY("Money", "Argent", "Dinero"), //
-	LIFE("Health", "Vie", "Salud"), //
-	WEIGHT("Weight", "Poids", "Peso"), //
 	RESOURCEPACK_KICK(
 			"§3Please accept the downloading of the resource pack §b(Multiplayer " + (char) 8594 + " Edit "
 					+ (char) 8594 + " Server Resource Packs: Enabled)", //
@@ -18,14 +11,12 @@ public enum TranslatableReference {
 					+ (char) 8594 + " Packs de ressources : Activés)", //
 			"§3Por favor, acepte la descarga del paquete de recursos §b(Multijugador " + (char) 8594 + " Editar "
 					+ (char) 8594 + " Paquete de recursos: Sí)"), //
-	RESOURCEPACK_KICK_FAILED("§3Resourcepack download failed. Please contact an administrator on the discord server.", //
-			"§3Échec du téléchargement du pack de ressources. Veuillez contacter un administrateur sur le serveur discord.", //
-			"§3La descarga del paquete de recursos falló. Por favor, póngase en contacto con un administrador del servidor de discordia"), //
+	RESOURCEPACK_KICK_FAILED("§3Resourcepack download failed. Please contact an administrator.", //
+			"§3Échec du téléchargement du pack de ressources. Veuillez contacter un administrateur.", //
+			"§3La descarga del paquete de recursos falló. Por favor, póngase en contacto con un administrador"), //
 	RESOURCEPACK_DOWNLOADING("§b§lDownloading resource pack...", //
 			"§b§lTéléchargement du pack de ressources...", //
-			"§b§lDescargamiento del paquete de recursos..."), //
-	BOSSBAR_DURABILITY("Tool durability", "Durabilité de l'outil", "Durabilidad de la herramienta"), //
-	ARMOR("Armor", "Armure", "Armadura");//
+			"§b§lDescargamiento del paquete de recursos...");
 
 	public String english;
 	public String french;

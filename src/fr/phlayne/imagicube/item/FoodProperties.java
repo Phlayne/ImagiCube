@@ -9,7 +9,7 @@ import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.util.NBTUtil;
 import fr.phlayne.imagicube.util.SimpleJSON;
 
-public enum FoodProperty {
+public enum FoodProperties {
 
 	/*
 	 * TODO Move this in ImagiCubeFood
@@ -70,7 +70,7 @@ public enum FoodProperty {
 	protected float saturationModifier;
 	protected String name;
 
-	FoodProperty(Material baseMaterial, int modelData, int foodLevel, float saturationModifier, String name) {
+	FoodProperties(Material baseMaterial, int modelData, int foodLevel, float saturationModifier, String name) {
 		this.baseMaterial = baseMaterial;
 		this.modelData = modelData;
 		this.foodLevel = foodLevel;
@@ -85,8 +85,8 @@ public enum FoodProperty {
 		return false;
 	}
 
-	public static FoodProperty getFoodProperty(ItemStack item) {
-		for (FoodProperty fp : FoodProperty.values())
+	public static FoodProperties getFoodProperty(ItemStack item) {
+		for (FoodProperties fp : FoodProperties.values())
 			if (fp.corresponds(item))
 				return fp;
 		return null;
@@ -124,15 +124,15 @@ public enum FoodProperty {
 		return setFoodName(item);
 	}
 
-	public static ItemStack setFoodName(ItemStack item, FoodProperty fp) {
+	public static ItemStack setFoodName(ItemStack item, FoodProperties fp) {
 		NBTItem nbti = new NBTItem(item);
 		setFoodName(nbti, fp);
 		return nbti.getItem();
 	}
 
-	public static void setFoodName(NBTItem nbti, FoodProperty fp) {
+	public static void setFoodName(NBTItem nbti, FoodProperties fp) {
 		if (fp == null)
-			fp = FoodProperty.getFoodProperty(nbti.getItem());
+			fp = FoodProperties.getFoodProperty(nbti.getItem());
 		if (fp != null) {
 			if (!nbti.hasKey("display")) {
 				NBTCompound display = nbti.getOrCreateCompound("display");

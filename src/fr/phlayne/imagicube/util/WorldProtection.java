@@ -16,4 +16,6 @@ public class WorldProtection {
 	public static boolean canBreakBlock(Block blockToBreak) {
 		return !(blockToBreak.getWorld().getName().equals("Continent"));
 	}
+	
+	// TODO Add compatibility with WorldGuard or other claim plugins.
 }

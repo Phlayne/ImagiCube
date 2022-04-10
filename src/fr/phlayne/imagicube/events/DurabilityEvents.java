@@ -177,7 +177,7 @@ public class DurabilityEvents implements Listener {
 	}
 
 	// TODO Check if we can simplify this without using schedulers
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onShoot(EntityShootBowEvent event) {
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
@@ -303,7 +303,7 @@ public class DurabilityEvents implements Listener {
 			Player player = event.getPlayer();
 			if ((player.getGameMode().equals(GameMode.SURVIVAL) || player.getGameMode().equals(GameMode.ADVENTURE))) {
 				ItemStack item = player.getEquipment().getItemInMainHand();
-				if (item != null) {
+				if (item != null && !item.getType().equals(Material.AIR)) {
 					NBTItem nbti = new NBTItem(item);
 					String itemType = nbti.hasKey(NBTUtil.ITEM_TYPE) ? nbti.getString(NBTUtil.ITEM_TYPE) : "";
 					Tool tool = Tool.getTool(itemType);

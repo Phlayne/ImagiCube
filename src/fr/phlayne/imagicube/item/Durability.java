@@ -7,6 +7,7 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -15,6 +16,7 @@ import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTCompoundList;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
+import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.util.NBTUtil;
 import fr.phlayne.imagicube.util.SimpleJSON;
 import fr.phlayne.imagicube.util.SimpleJSON.Color;
@@ -31,9 +33,11 @@ public class Durability {
 		return armorProperty.getDurability();
 	}
 
-	// TODO Create a config file where you can change the max durability. Do it for
-	// the new imagicube items too.
 	public static int getMaxDurability(String type) {
+		FileConfiguration durability = Config.getConfig(Config.DURABILITY);
+		String itemPath = "minecraft." + type;
+		if (durability.contains(itemPath))
+			return durability.getInt(itemPath);
 		switch (type) {
 		case "elytra":
 			return 432;

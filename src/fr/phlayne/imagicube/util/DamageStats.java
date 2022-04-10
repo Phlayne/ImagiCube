@@ -77,7 +77,7 @@ public class DamageStats {
 	}
 
 	public static int getArmorToughness(ItemStack item) {
-		// TODO Use armorProperty instead of this chunk of code
+		// TODO Use armorProperty instead of this piece of code
 		if (item == null)
 			return 0;
 		NBTItem nbti = new NBTItem(item);
@@ -222,13 +222,13 @@ public class DamageStats {
 								if (player.getEquipment().getItemInMainHand().getType().equals(Material.SHIELD)) {
 									nbti = new NBTItem(player.getEquipment().getItemInMainHand());
 									for (int i = 0; i < shieldDamage; i++)
-										Durability.applyDurability(nbti,Durability.getMaxDurability(nbti)/* TODO Get max durability */);
+										Durability.applyDurability(nbti, Durability.getMaxDurability(nbti));
 									player.getEquipment().setItemInMainHand(nbti.getItem());
 								} else if (player.getEquipment().getItemInMainHand().getType()
 										.equals(Material.SHIELD)) {
 									nbti = new NBTItem(player.getEquipment().getItemInOffHand());
 									for (int i = 0; i < shieldDamage; i++)
-										Durability.applyDurability(nbti, Durability.getMaxDurability(nbti)/* TODO Get max durability */);
+										Durability.applyDurability(nbti, Durability.getMaxDurability(nbti));
 									player.getEquipment().setItemInOffHand(nbti.getItem());
 								}
 							}

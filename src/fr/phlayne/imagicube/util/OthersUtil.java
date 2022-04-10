@@ -1,118 +1,13 @@
 package fr.phlayne.imagicube.util;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class OthersUtil {
 
-	public static Map<Player, Location> freezeLocation = new HashMap<Player, Location>();
 	public static Random random = new Random();
-
-	public static boolean isIntangible(Location location) {
-		return location.getBlock().isPassable() || !location.getBlock().getBoundingBox().contains(location.toVector());
-	}
-
-	public static boolean isRightClickableWeapon(ItemStack item, Player player) {
-		switch (item.getType()) {
-		case BOW:
-		case CROSSBOW:
-			return player.getInventory().contains(Material.ARROW)
-					|| player.getInventory().contains(Material.SPECTRAL_ARROW)
-					|| player.getInventory().contains(Material.TIPPED_ARROW);
-		default:
-			return false;
-		}
-	}
-
-	public static Location getBlockAt(Player player, int rayon) {
-		Location location = player.getEyeLocation();
-		Location nextloc = player.getEyeLocation();
-		int count = rayon * 4;
-		while (count > 0) {
-			nextloc.add(player.getLocation().getDirection().multiply(0.25));
-			if (nextloc.getBlock().getType().equals(Material.AIR)) {
-				location = nextloc;
-			} else {
-				return location.subtract(player.getLocation().getDirection());
-			}
-
-			count--;
-		}
-		return location;
-	}
-
-	/*
-	 * I'll have to replace the entity by a BoundingBox However, the BBox hasn't a
-	 * spherical radius
-	 */
-	@Deprecated
-	public static void DamageParticle(Location particleLocation, Player player, int damage, float particleRadius,
-			boolean hasKnockBack) {
-		Arrow a = particleLocation.getWorld().spawnArrow(particleLocation, new Vector(0, 0, 0), 0, 0);
-		if (a.getNearbyEntities(particleRadius, particleRadius, particleRadius).size() > 0) {
-			for (Entity entities : a.getNearbyEntities(particleRadius, particleRadius, particleRadius)) {
-				if (entities instanceof Player) {
-					Player players = (Player) entities;
-					if (players != player) {
-						Vector v = player.getVelocity();
-						players.damage(damage, player);
-						if (!hasKnockBack) {
-							players.setVelocity(v);
-						}
-					}
-				}
-			}
-		}
-		a.remove();
-	}
-
-	public static Entity getNearEntity(Entity entity, int rayon, Class<? extends Entity> lookingType) {
-		Entity returnEntity = null;
-		if (entity.getNearbyEntities(rayon, rayon, rayon).size() > 0) {
-			double distance = 0;
-			double baseDistance = Integer.MAX_VALUE;
-			for (Entity entities : entity.getNearbyEntities(rayon, rayon, rayon)) {
-				if (lookingType.isInstance(entities)) {
-					distance = Math.sqrt(Math.pow(entity.getLocation().getX() - entities.getLocation().getX(), 2)
-							+ Math.pow(entity.getLocation().getY() - entities.getLocation().getY(), 2)
-							+ Math.pow(entity.getLocation().getZ() - entities.getLocation().getZ(), 2));
-					if (distance < baseDistance) {
-						baseDistance = distance;
-						returnEntity = entities;
-					}
-				}
-			}
-		}
-		return returnEntity;
-	}
-
-	/*
-	 * TODO Move this in ImagiCubeSpells
-	 * 
-	 * public static boolean setFreeze(Entity entity, int ticks) { try { if (entity
-	 * instanceof Player && getFreeze(entity) <= 0 && ticks > 0)
-	 * freezeLocation.put((Player) entity, entity.getLocation());
-	 * entity.setMetadata("freezeTicks", new
-	 * FixedMetadataValue(Bukkit.getPluginManager().getPlugin(Reference.PLUGIN_NAME)
-	 * , ticks)); return true; } catch (Exception e) { return false; } }
-	 * 
-	 * public static int getFreeze(Entity entity) { if
-	 * (entity.hasMetadata("freezeTicks")) { if
-	 * (entity.getMetadata("freezeTicks").size() > 0) return
-	 * entity.getMetadata("freezeTicks").get(0).asInt(); else return 0; } else {
-	 * return 0; } }
-	 * 
-	 */
 
 	public static void shootArrow(Projectile projectile, double x, double y, double z, float speed, float divergence) {
 		Vector vector = (new Vector(x, y, z)).normalize()

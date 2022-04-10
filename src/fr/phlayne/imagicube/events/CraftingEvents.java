@@ -111,7 +111,7 @@ public class CraftingEvents implements Listener {
 					case WARPED_FUNGUS:
 						resultMaterial = Material.WARPED_FUNGUS_ON_A_STICK;
 						break;
-					// TODO add the bait on a stick
+					// TODO add the bait on a stick, a fishing rod only for fish
 					default:
 						return;
 					}

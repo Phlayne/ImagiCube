@@ -32,6 +32,11 @@ public class ItemUpdatingEvent extends Event implements Cancellable {
 		this.cancelled = false;
 	}
 
+	public void setItemToUpdate(ItemStack itemToUpdate) {
+		this.itemToUpdate = itemToUpdate;
+	}
+
+
 	public ItemStack getItemToUpdate() {
 		return this.itemToUpdate;
 	}

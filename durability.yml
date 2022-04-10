@@ -52,6 +52,7 @@ imagicube:
 minecraft:
     # elytra: 432
     # bow: 384
+    # crossbow: 326
     # trident: 246
     # shield: 336
     # flint_and_steel: 64

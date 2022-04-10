@@ -18,7 +18,7 @@ import fr.phlayne.imagicube.events.CraftingEvents;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.ArmorProperty;
 import fr.phlayne.imagicube.item.Durability;
-import fr.phlayne.imagicube.item.FoodProperty;
+import fr.phlayne.imagicube.item.FoodProperties;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
 import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.util.SimpleJSON.Color;
@@ -186,19 +186,9 @@ public class ItemUpdater {
 						 */
 
 						/*
-						 * Slingshots - TODO Move it to ImagiCubeCombat
+						 * Magic Items - TODO Move it to ImagiCubeSpells
 						 * 
-						 * // TODO check if they're still diamond swords instead of a useless // item
-						 * 
-						 * if (nbti.hasKey(NBTUtil.ITEM_TYPE) &&
-						 * nbti.getString(NBTUtil.ITEM_TYPE).equals("slingshot")) { item =
-						 * ItemList.createSlingshot(); setValues(tag, repairCost, enchantments,
-						 * forcedColor, cosmeticEffect, itemName, color); } else
-						 */
-
-						/*
-						 * Magic Items - TODO Move it to ImagiCubeSpells if
-						 * (nbti.hasKey(NBTUtil.ITEM_TYPE) && Arrays.asList("scepter", "parchment",
+						 * if (nbti.hasKey(NBTUtil.ITEM_TYPE) && Arrays.asList("scepter", "parchment",
 						 * "globe") .contains(nbti.getString(NBTUtil.ITEM_TYPE))) { String itemType =
 						 * nbti.getString(NBTUtil.ITEM_TYPE); item =
 						 * ItemList.createSpellElement(itemType.equals("scepter") ? SpellType.RAY :
@@ -243,19 +233,19 @@ public class ItemUpdater {
 						return nbti.getItem();
 					}
 				}
-			} else if (item.getType().isEdible() || FoodProperty.getFoodProperty(item) != null) {
-				FoodProperty fp = FoodProperty.getFoodProperty(item);
+			} else if (item.getType().isEdible() || FoodProperties.getFoodProperty(item) != null) {
+				FoodProperties fp = FoodProperties.getFoodProperty(item);
 				if (fp != null) {
-					item = FoodProperty.setFoodName(item);
+					item = FoodProperties.setFoodName(item);
 					if (item.getType().isEdible())
-						item = FoodProperty.setFoodNeededLore(item, fp.getFoodLevel(), fp.getSaturation());
+						item = FoodProperties.setFoodNeededLore(item, fp.getFoodLevel(), fp.getSaturation());
 				} else if (item.getType().isEdible()) {
 					FileConfiguration foodInfo = Config.getConfig(Config.FOOD_PROPERTIES);
 					int food = foodInfo.getInt(item.getType().getKey().getNamespace() + "."
 							+ item.getType().getKey().getKey() + ".nutrition");
 					double saturation = foodInfo.getDouble(item.getType().getKey().getNamespace() + "."
 							+ item.getType().getKey().getKey() + ".saturationModifier") * food * 2;
-					item = FoodProperty.setFoodNeededLore(item, food, saturation);
+					item = FoodProperties.setFoodNeededLore(item, food, saturation);
 					return item;
 				}
 			}

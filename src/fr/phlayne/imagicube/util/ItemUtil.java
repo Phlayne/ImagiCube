@@ -11,8 +11,6 @@ public class ItemUtil {
 		return nbti.hasKey(NBTUtil.MATERIAL) ? nbti.getString(NBTUtil.MATERIAL) : "";
 	}
 
-	// nbti == null ? "" : 
-	
 	public static String getItemType(ItemStack item) {
 		NBTItem nbti = new NBTItem(item);
 		return nbti.hasKey(NBTUtil.ITEM_TYPE) ? nbti.getString(NBTUtil.ITEM_TYPE) : "";
