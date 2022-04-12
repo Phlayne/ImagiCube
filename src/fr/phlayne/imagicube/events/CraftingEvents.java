@@ -10,7 +10,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -87,10 +86,6 @@ public class CraftingEvents implements Listener {
 	}
 
 	@EventHandler
-	public void spellCraftDuplicatingItemsFix(CraftItemEvent event) {
-	}
-
-	@EventHandler
 	public void onThingOnAStickCraft(PrepareItemCraftEvent event) {
 		ItemStack[] matrix = event.getInventory().getMatrix();
 
@@ -103,21 +98,23 @@ public class CraftingEvents implements Listener {
 						if (!(matrix[j] == null || matrix[j].getType().equals(Material.AIR)) && (j != i && j != i + 4))
 							return;
 					Material material = matrix[i + 4].getType();
-					Material resultMaterial;
+					NBTItem resultNBTI;
+					// TODO Replace this with an addonList "Map<Material, String> materialTofishingRodType" after this
 					switch (material) {
 					case CARROT:
-						resultMaterial = Material.CARROT_ON_A_STICK;
+						resultNBTI = new NBTItem(new ItemStack(Material.CARROT_ON_A_STICK));
 						break;
 					case WARPED_FUNGUS:
-						resultMaterial = Material.WARPED_FUNGUS_ON_A_STICK;
+						resultNBTI = new NBTItem(new ItemStack(Material.WARPED_FUNGUS_ON_A_STICK));
 						break;
-					// TODO add the bait on a stick, a fishing rod only for fish
+					// TODO add the bait_on_a_stick, a fishing rod only for fish
 					default:
 						return;
 					}
 					ItemStack resultItem = new ItemStack(Material.AIR);
 					try {
-						resultItem = ItemUpdater.updateItem(new ItemStack(resultMaterial), ItemUpdatingCause.CRAFT);
+						// TODO Call events to update the item
+						resultItem = ItemUpdater.updateItem(resultNBTI.getItem(), ItemUpdatingCause.CRAFT);
 					} catch (CannotUpdateItemException e) {
 						e.printStackTrace();
 					}

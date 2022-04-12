@@ -11,14 +11,7 @@ public class RepairWithSimilarItemScript implements FuseScript {
 			if (leftItem.hasKey(NBTUtil.ITEM_TYPE) && rightItem.hasKey(NBTUtil.ITEM_TYPE)
 					&& leftItem.getString(NBTUtil.ITEM_TYPE).equals(rightItem.getString(NBTUtil.ITEM_TYPE)))
 				if (leftItem.hasKey(NBTUtil.DURABILITY) && rightItem.hasKey(NBTUtil.DURABILITY)) {
-					// TODO Move the following to ImagiCubeSpells
-					if (leftItem.hasKey(NBTUtil.SPELL) && rightItem.hasKey(NBTUtil.SPELL)) {
-						if (leftItem.getString(NBTUtil.SPELL).equals(rightItem.getString(NBTUtil.SPELL))) {
-							repairItems(leftItem, rightItem, result);
-						}
-					} else {
-						repairItems(leftItem, rightItem, result);
-					}
+					repairItems(leftItem, rightItem, result);
 					return new FuseResult(result.getItem(), 1, 1).showResult(
 							!leftItem.getInteger(NBTUtil.DURABILITY).equals(result.getInteger(NBTUtil.DURABILITY)));
 				}

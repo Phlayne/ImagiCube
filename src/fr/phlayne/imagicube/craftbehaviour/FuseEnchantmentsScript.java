@@ -63,6 +63,7 @@ public class FuseEnchantmentsScript implements FuseScript {
 						newEnchants.addCompound(enchant);
 				}
 			}
+			result.getCompoundList(item1Enchants).clear();
 			result.getCompoundList(item1Enchants).addAll(newEnchants);
 			return getEnchantCost(newEnchants);
 		}

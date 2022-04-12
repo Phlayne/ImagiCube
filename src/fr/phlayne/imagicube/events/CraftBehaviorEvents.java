@@ -27,7 +27,7 @@ public class CraftBehaviorEvents implements Listener {
 		final ItemStack item2 = anvilInventory.getContents()[1];
 		if (item1 != null && !item1.getType().equals(Material.AIR)) {
 			final FuseResult fuseResult = getFuseResult(item1, item2, anvilInventory.getRenameText());
-			if (fuseResult.showResult() && !item1.equals(fuseResult.getResultItem())) {
+			if (fuseResult.showResult() && !fuseResult.resultCancelled() && !item1.equals(fuseResult.getResultItem())) {
 				event.setResult(fuseResult.getResultItem());
 				Bukkit.getScheduler().scheduleSyncDelayedTask(ImagiCube.getInstance(), new Runnable() {
 					@Override
@@ -45,6 +45,7 @@ public class CraftBehaviorEvents implements Listener {
 		int repairCost = 0;
 		int rightItemRemovedAmount = 0;
 		boolean showResult = false;
+		boolean cancelResult = false;
 		NBTItem nbti1 = new NBTItem(item1.clone());
 		NBTItem nbti2 = null;
 		if (item2 != null && !item2.getType().equals(Material.AIR))
@@ -56,7 +57,10 @@ public class CraftBehaviorEvents implements Listener {
 			repairCost += fuseResult.getRepairCost();
 			rightItemRemovedAmount += fuseResult.getRightItemRemovedAmount();
 			showResult |= fuseResult.showResult();
+			cancelResult |= fuseResult.resultCancelled();
 		}
+		if (cancelResult)
+			return new FuseResult(new ItemStack(Material.AIR), 0, 0);
 		return new FuseResult(result, rightItemRemovedAmount, repairCost).showResult(showResult);
 	}
 

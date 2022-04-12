@@ -45,6 +45,7 @@ import fr.phlayne.imagicube.events.CraftBehaviorEvents;
 import fr.phlayne.imagicube.events.CraftingEvents;
 import fr.phlayne.imagicube.events.DurabilityEvents;
 import fr.phlayne.imagicube.events.ItemUpdatingEvents;
+import fr.phlayne.imagicube.events.ItemUseEvents;
 import fr.phlayne.imagicube.events.SpawnEvents;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.ArmorProperties;
@@ -79,6 +80,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		pm.registerEvents(new DurabilityEvents(), this);
 		pm.registerEvents(new SpawnEvents(), this);
 		pm.registerEvents(new CraftBehaviorEvents(), this);
+		pm.registerEvents(new ItemUseEvents(), this);
 		resourcePackUtil = new ResourcePackUtil();
 		resourcePackUtil.init();
 		pm.registerEvents(resourcePackUtil, this);

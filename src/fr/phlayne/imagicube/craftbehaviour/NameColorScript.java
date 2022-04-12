@@ -30,27 +30,6 @@ public class NameColorScript implements FuseScript {
 		return new FuseResult(result.getItem(), 0, 0);
 	}
 
-	/*
-	 * TODO Move this to ImagiCubeSpells
-	 * 
-	 * public NBTItem spellCreation(NBTItem leftNBTI, NBTItem rightNBTI, NBTItem
-	 * result) { if (rightNBTI.getItem().getType().equals(Material.POTION)) { // Do
-	 * not rename --> execute after renaming? if
-	 * (rightNBTI.hasKey(NBTUtil.ITEM_TYPE) &&
-	 * rightNBTI.hasKey("imagicube.essence_power")) { String type =
-	 * rightNBTI.getString(NBTUtil.ITEM_TYPE); if (type.endsWith("_essence")) {
-	 * String essenceType = type.substring(0, type.length() - 8); int level =
-	 * rightNBTI.getInteger("imagicube.essence_power") + 1; String itemType =
-	 * rightNBTI.hasKey(NBTUtil.ITEM_TYPE) ? rightNBTI.getString(NBTUtil.ITEM_TYPE)
-	 * : ""; if ((Arrays.asList("scepter", "parchment", "globe").contains(itemType))
-	 * && !leftNBTI.hasKey("spell")) { SpellType type = itemType.equals("scepter") ?
-	 * SpellType.RAY : itemType.equals("globe") ? SpellType.ZONE : SpellType.SELF;
-	 * itemResult = SpellUtil.createSpell(type, essenceType, level); takesEveything
-	 * = false; canGiveResult = true; itemTag = NBTUtil.getTag(itemResult); rename =
-	 * false; } } } } return null; }
-	 * 
-	 */
-
 	public Color getColor(NBTItem item) {
 		Color color = null;
 		if (item != null) {

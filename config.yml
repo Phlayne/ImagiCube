@@ -11,4 +11,6 @@ prismarineTools: true
 stoneToolsVariants: true
 woodToolsVariants: true
 craftable_chainmail_armor_with_chains: true
+ender_pearl_cooldown: 20
+# Cooldown is in ticks. In vanilla minecraft, the ender pearl cooldown is 1 second, = 20 ticks.
 concretePowderToConcreteCraftWithBucket: true
