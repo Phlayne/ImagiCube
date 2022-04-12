@@ -10,4 +10,5 @@ lossless_mending_system: true
 prismarineTools: true
 stoneToolsVariants: true
 woodToolsVariants: true
+craftable_chainmail_armor_with_chains: true
 concretePowderToConcreteCraftWithBucket: true

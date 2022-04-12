@@ -14,6 +14,7 @@ import de.tr7zw.nbtapi.NBTCompoundList;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.ImagiCube;
+import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.item.ArmorProperties;
 import fr.phlayne.imagicube.item.ArmorProperty;
 import fr.phlayne.imagicube.item.Durability;
@@ -45,10 +46,12 @@ public class ArmorRecipes {
 				ArmorProperties.CHAINMAIL_CHESTPLATE);
 		ItemStack chainHelmet = setArmorValues(new ItemStack(Material.CHAINMAIL_HELMET),
 				ArmorProperties.CHAINMAIL_HELMET);
-		addCraft(chainBoots, Material.CHAIN, CraftType.BOOTS);
-		addCraft(chainLeggings, Material.CHAIN, CraftType.LEGGINGS);
-		addCraft(chainChestplate, Material.CHAIN, CraftType.CHESTPLATE);
-		addCraft(chainHelmet, Material.CHAIN, CraftType.HELMET);
+		Material chainMaterial = Config.getConfig().getBoolean("craftable_chainmail_armor_with_chains") ? Material.CHAIN
+				: Material.IRON_INGOT;
+		addCraft(chainBoots, chainMaterial, CraftType.BOOTS);
+		addCraft(chainLeggings, chainMaterial, CraftType.LEGGINGS);
+		addCraft(chainChestplate, chainMaterial, CraftType.CHESTPLATE);
+		addCraft(chainHelmet, chainMaterial, CraftType.HELMET);
 
 		ItemStack ironBoots = setArmorValues(new ItemStack(Material.IRON_BOOTS), ArmorProperties.IRON_BOOTS);
 		ItemStack ironLeggings = setArmorValues(new ItemStack(Material.IRON_LEGGINGS), ArmorProperties.IRON_LEGGINGS);

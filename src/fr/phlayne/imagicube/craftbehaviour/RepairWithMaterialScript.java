@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Material;
 
 import de.tr7zw.nbtapi.NBTItem;
+import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.item.Durability;
 import fr.phlayne.imagicube.util.NBTUtil;
 
@@ -16,7 +17,7 @@ public class RepairWithMaterialScript implements FuseScript {
 
 	public FuseResult getAnvilResult(NBTItem leftItem, NBTItem rightItem, NBTItem result, String newName) {
 		int levelAndItemAmount = repairItem(leftItem, rightItem, result);
-		if(levelAndItemAmount>0)
+		if (levelAndItemAmount > 0)
 			return new FuseResult(result.getItem(), levelAndItemAmount, levelAndItemAmount).showResult(true);
 		return new FuseResult(result.getItem(), 0, 0);
 	}
@@ -74,6 +75,12 @@ public class RepairWithMaterialScript implements FuseScript {
 				break;
 			case "iron":
 				if (material.getItem().getType().equals(Material.IRON_INGOT))
+					repair = true;
+				break;
+			case "chainmail":
+				if (Config.getConfig().getBoolean("craftable_chainmail_armor_with_chains")
+						? material.getItem().getType().equals(Material.CHAIN)
+						: material.getItem().getType().equals(Material.IRON_INGOT))
 					repair = true;
 				break;
 			case "gold":
