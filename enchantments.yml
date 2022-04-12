@@ -1,0 +1,309 @@
+"minecraft:sweeping":
+    max_level:
+        base: 3
+    compatibility:
+        every_sword: true
+"minecraft:aqua_affinity":
+    max_level:
+        base: 1
+    compatibility:
+        type:
+            - helmet
+"minecraft:depth_strider":
+    max_level:
+        base: 3
+    compatibility:
+        type:
+            - boots
+        exclude: frost_walker
+"minecraft:soul_speed":
+    max_level:
+        base: 1
+    compatibility:
+        type:
+            - boots
+"minecraft:respiration":
+    max_level:
+        base: 3
+    compatibility:
+        type:
+            - boots
+"minecraft:lure":
+    max_level:
+        base: 2
+    compatibility:
+        every_fishing_rod: true
+"minecraft:fire_aspect":
+    max_level:
+        base: 2
+    compatibility:
+        every_sword: true
+"minecraft:looting":
+    max_level:
+        base: 2
+    compatibility:
+        every_sword: true
+"minecraft:channeling":
+    max_level:
+        base: 1
+    compatibility:
+        type:
+            - trident
+"minecraft:luck_of_the_sea":
+    max_level:
+        base: 3
+    compatibility:
+        every_fishing_rod: true
+"minecraft:quick_charge":
+    max_level:
+        base: 3
+    compatibility:
+        every_crossbow: true
+"minecraft:smite":
+    max_level:
+        base: 5
+    compatibility:
+        every_sword: true
+        every_axe: true
+        exclude:
+            - "minecraft:cleaving"
+            - "minecraft:sharpness"
+            - "minecraft:bane_of_arthropods"
+"minecraft:feather_falling":
+    max_level:
+        base: 4
+    compatibility:
+        type:
+            - boots
+        exclude:
+            - "minecraft:protection"
+            - "minecraft:fire_protection"
+            - "minecraft:projectile_protection"
+            - "minecraft:blast_protection"
+"minecraft:efficiency":
+    max_level:
+        base: 5
+    compatibility:
+        every_tool: true
+        type:
+            - shears
+"minecraft:impaling":
+    max_level:
+        base: 5
+    compatibility:
+        type:
+            - trident
+"minecraft:thorns":
+    max_level:
+        base: 3
+    compatibility:
+        type:
+            - helmet
+            - chestplate
+            - leggings
+            - boots
+"minecraft:thorns":
+    max_level:
+        base: 3
+    compatibility:
+        type:
+            - helmet
+            - chestplate
+            - leggings
+            - boots
+"minecraft:cleaving":
+    max_level:
+        base: 3
+    compatibility:
+        every_axe: true
+        exclude:
+            - "minecraft:smite"
+            - "minecraft:sharpness"
+            - "minecraft:bane_of_arthropods"
+"minecraft:flame":
+    max_level:
+        base: 1
+    compatibility:
+        every_bow: true
+"minecraft:bane_of_arthropods":
+    max_level:
+        base: 5
+    compatibility:
+        every_sword: true
+        every_axe: true
+        type:
+            - axe
+        exclude:
+            - "minecraft:cleaving"
+            - "minecraft:smite"
+            - "minecraft:sharpness"
+"minecraft:fortune":
+    max_level:
+        base: 3
+    compatibility:
+        every_tool: true
+        exclude:
+            - "minecraft:silk_touch"
+"minecraft:punch":
+    max_level:
+        base: 2
+    compatibility:
+        every_bow: true
+"minecraft:riptide":
+    max_level:
+        base: 3
+    compatibility:
+        type:
+            - trident
+        exclude:
+            - loyalty
+            - channeling
+"minecraft:infinity":
+    max_level:
+        base: 1
+    compatibility:
+        every_bow: true
+"minecraft:loyalty":
+    max_level:
+        base: 3
+    compatibility:
+        type:
+            - trident
+        exclude:
+            - riptide
+"minecraft:binding_curse":
+    curse: true
+    max_level:
+        base: 1
+    compatibility:
+        type:
+            - helmet
+            - chestplate
+            - leggings
+            - boots
+            - elytra
+            - "minecraft:carved_pumpkin"
+            - "minecraft:player_head"
+"minecraft:vanishing_curse":
+    curse: true
+    max_level:
+        base: 1
+    compatibility:
+        everything: true
+"minecraft:piercing":
+    max_level:
+        base: 4
+    compatibility:
+        every_crossbow: true
+        exclude:
+            - multishot
+"minecraft:protection":
+    max_level:
+        base: 4
+    compatibility:
+        type:
+            - helmet
+            - chestplate
+            - leggings
+            - boots
+        exclude:
+            - "minecraft:feather_falling"
+            - "minecraft:fire_protection"
+            - "minecraft:projectile_protection"
+            - "minecraft:blast_protection"
+"minecraft:blast_protection":
+    max_level:
+        base: 4
+    compatibility:
+        type:
+            - helmet
+            - chestplate
+            - leggings
+            - boots
+        exclude:
+            - "minecraft:feather_falling"
+            - "minecraft:protection"
+            - "minecraft:fire_protection"
+            - "minecraft:projectile_protection"
+"minecraft:fire_protection":
+    max_level:
+        base: 4
+    compatibility:
+        type:
+            - helmet
+            - chestplate
+            - leggings
+            - boots
+        exclude:
+            - "minecraft:feather_falling"
+            - "minecraft:protection"
+            - "minecraft:blast_protection"
+            - "minecraft:projectile_protection"
+"minecraft:projectile_protection":
+    max_level:
+        base: 4
+    compatibility:
+        type:
+            - helmet
+            - chestplate
+            - leggings
+            - boots
+        exclude:
+            - "minecraft:feather_falling"
+            - "minecraft:protection"
+            - "minecraft:blast_protection"
+            - "minecraft:fire_protection"
+"minecraft:projectile_protection":
+    max_level:
+        base: 5
+    compatibility:
+        every_bow: true
+"minecraft:mending":
+    max_level:
+        base: 1
+    compatibility:
+        everything_having_durability: true
+        exclude:
+            - "minecraft:infinity"
+"minecraft:knockback":
+    max_level:
+        base: 2
+    compatibility:
+        every_sword: true
+"minecraft:frost_walker":
+    max_level:
+        base: 2
+    compatibility:
+        type:
+            - boots
+        exclude:
+            - "minecraft:depth_strider"
+"minecraft:unbreaking":
+    max_level:
+        base: 3
+    compatibility:
+        everything_having_durability: true
+"minecraft:multishot":
+    max_level:
+        base: 1
+    compatibility:
+        every_crossbow: true
+        exclude:
+            - "minecraft:piercing"
+"minecraft:silk_touch":
+    max_level:
+        base: 1
+    compatibility:
+        every_tool: true
+        exclude:
+            - "minecraft:fortune"
+"minecraft:sharpness":
+    max_level:
+        base: 5
+    compatibility:
+        every_sword: true
+        every_axe: true
+        exclude:
+            - "minecraft:smite"
+            - "minecraft:cleaving"
+            - "minecraft:bane_of_arthropods"

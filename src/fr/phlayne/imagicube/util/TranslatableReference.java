@@ -1,5 +1,6 @@
 package fr.phlayne.imagicube.util;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public enum TranslatableReference {
@@ -52,5 +53,11 @@ public enum TranslatableReference {
 
 	public static String get(TranslatableReference translatableReference, String playerLocale) {
 		return translatableReference.translate(playerLocale);
+	}
+
+	public static String getUnlocalizedName(Material material) {
+		return (material.isBlock() ? "block." : "item.") + material.getKey().getNamespace()
+				+ "."
+				+ material.getKey().getKey();
 	}
 }

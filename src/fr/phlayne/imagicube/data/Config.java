@@ -14,6 +14,7 @@ public class Config {
 
 	public static final String FOOD_PROPERTIES = "food_properties";
 	public static final String DURABILITY = "durability";
+	public static final String ENCHANTMENTS = "enchantments";
 
 	public static FileConfiguration getConfig() {
 		return YamlConfiguration.loadConfiguration(new File("plugins/" + Reference.PLUGIN_NAME + "/config.yml"));
@@ -32,6 +33,7 @@ public class Config {
 		String configPath = "config.yml";
 		String foodPropertiesPath = FOOD_PROPERTIES + ".yml";
 		String durabilityPath = DURABILITY + ".yml";
+		String enchantmentsPath = ENCHANTMENTS + ".yml";
 		String folderPath = "plugins/" + Reference.PLUGIN_NAME + "/";
 		if (!new File(folderPath + configPath).exists())
 			ImagiCube.getInstance().saveResource(configPath, false);
@@ -39,6 +41,8 @@ public class Config {
 			ImagiCube.getInstance().saveResource(foodPropertiesPath, false);
 		if (!new File(folderPath + durabilityPath).exists())
 			ImagiCube.getInstance().saveResource(durabilityPath, false);
+		if (!new File(folderPath + enchantmentsPath).exists())
+			ImagiCube.getInstance().saveResource(enchantmentsPath, false);
 	}
 
 	public static void checkConfigs() {

@@ -12,9 +12,11 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import de.tr7zw.nbtapi.NBTCompound;
-import de.tr7zw.nbtapi.NBTCompoundList;
-import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.util.NBTUtil;
@@ -35,9 +37,10 @@ public class Durability {
 
 	public static int getMaxDurability(String type) {
 		FileConfiguration durability = Config.getConfig(Config.DURABILITY);
-		String itemPath = "minecraft." + type;
-		if (durability.contains(itemPath))
-			return durability.getInt(itemPath);
+		if (durability.contains("minecraft." + type))
+			return durability.getInt("minecraft." + type);
+		if (durability.contains("imagicube." + type))
+			return durability.getInt("imagicube." + type);
 		switch (type) {
 		case "elytra":
 			return 432;
@@ -132,37 +135,33 @@ public class Durability {
 		if (forcedColor != null)
 			return forcedColor.multiply(percentDurability);
 		if (percentDurability < 0.02)
-			/* if (!isSpell) */
 			return new Color(128, 0, 0);
-		float red = 1.0F;
-		float green = 1.0F;
-		float blue = 1.0F;
-		/*
-		 * if (isSpell) { red = percentDurability; green = 0.334F * percentDurability;
-		 * blue = percentDurability; } else {
-		 */
-		red = Math.min(1F, 0.3359375F * percentDurability + 0.9140625F);
-		green = 1F - (1 - percentDurability) * (1 - percentDurability);
-		blue = 1F - (float) Math.sqrt(1 - percentDurability);
-		/* } */
+		float red = Math.min(1F, 0.3359375F * percentDurability + 0.9140625F);
+		float green = 1F - (1 - percentDurability) * (1 - percentDurability);
+		float blue = 1F - (float) Math.sqrt(1 - percentDurability);
 		return new Color((int) (red * 255), (int) (green * 255), (int) (blue * 255));
 	}
 
 	public static Color getColorDurability(NBTItem nbti, int durability, int maxDurability) {
-		return getColorDurability(getPercentDurability(nbti, durability, maxDurability),
-				nbti.hasKey("imagicube.forced_color")
-						? nbti.getString("imagicube.forced_color").equals("none")
-								? new Color(nbti.getString("imagicube.forced_color"))
-								: null
-						: null);
+		return getColorDurability(getPercentDurability(nbti, durability, maxDurability), getForcedColor(nbti));
 	}
 
 	public static Color getColorDurability(NBTItem nbti, int durability, int maxDurability, Color forcedColor) {
 		return getColorDurability(getPercentDurability(nbti, durability, maxDurability), forcedColor);
 	}
 
+	public static Color getForcedColor(NBTItem nbti) {
+		return nbti.hasKey("imagicube.forced_color") ? !nbti.getString("imagicube.forced_color").equals("none")
+				? new Color(nbti.getString("imagicube.forced_color"))
+				: null : null;
+	}
+
+	public static void setDurability(NBTItem nbti, int durability) {
+		setDurability(nbti, durability, 1 - (float) durability / getMaxDurability(nbti));
+	}
+
 	public static void setDurability(NBTItem nbti, int durability, float percentDurability) {
-		Color color = getColorDurability(percentDurability);
+		Color color = getColorDurability(percentDurability, getForcedColor(nbti));
 		int percent = (int) (100F * percentDurability);
 		NBTCompound displayTag = nbti.getOrCreateCompound("display");
 		if (!displayTag.hasKey("Lore"))
@@ -173,20 +172,8 @@ public class Durability {
 						.add(" " + percent + "%", false, false, false, false, color.multiply(2 / 3F), false).convert(),
 				0);
 		if (displayTag.hasKey("Name")) {
-			String s = displayTag.getString("Name");
-			NBTContainer name = new NBTContainer(s.substring(1, s.length() - 1));
-			boolean isTranslate = name.hasKey("translate");
-			SimpleJSON jsonName = new SimpleJSON().add(
-					isTranslate ? name.getString("translate") : name.getString("text"), !isTranslate,
-					name.getBoolean("bold"), name.getBoolean("underlined"), name.getBoolean("strikethrough"), color,
-					isTranslate);
-			NBTCompoundList list = name.getCompoundList("extra");
-			for (NBTCompound nameTag : list) {
-				jsonName.add(nameTag.hasKey("translate") ? nameTag.getString("translate") : nameTag.getString("text"),
-						!nameTag.hasKey("translate"), nameTag.getBoolean("bold"), nameTag.getBoolean("underlined"),
-						nameTag.getBoolean("strikethrough"), color, nameTag.hasKey("translate"));
-			}
-			displayTag.setString("Name", jsonName.convert());
+			SimpleJSON simpleJsonName = readName(nbti, color);
+			displayTag.setString("Name", simpleJsonName.convert());
 		} else {
 			displayTag.setString("Name",
 					new SimpleJSON().add("item.minecraft." + nbti.getItem().getType().getKey().getKey(), false, false,
@@ -200,6 +187,50 @@ public class Durability {
 			else
 				nbti.setInteger("Damage", 0);
 		}
+	}
+
+	public static void reloadDurability(NBTItem nbti) {
+		if (nbti.hasKey(NBTUtil.DURABILITY))
+			setDurability(nbti, nbti.getInteger(NBTUtil.DURABILITY));
+	}
+
+	public static SimpleJSON readName(NBTItem nbti, Color color) {
+		SimpleJSON simpleJsonName = new SimpleJSON();
+		if (nbti.hasKey("display")) {
+			String s = nbti.getCompound("display").getString("Name");
+			JsonElement name = JsonParser.parseString(s);
+			if (name.isJsonArray()) {
+				for (JsonElement jsonObj : name.getAsJsonArray()) {
+					simpleJsonName.add(read(jsonObj.getAsJsonObject(), color));
+				}
+			} else {
+				simpleJsonName.add(read(name.getAsJsonObject(), color));
+			}
+		}
+		return simpleJsonName;
+	}
+
+	public static SimpleJSON read(JsonObject nameElement, Color color) {
+		SimpleJSON simpleJSON = new SimpleJSON();
+		boolean translated = nameElement.has("translate");
+		simpleJSON.add(translated ? nameElement.get("translate").getAsString() : nameElement.get("text").getAsString(),
+				!translated && nameElement.get("italic").getAsBoolean(), nameElement.get("bold").getAsBoolean(),
+				nameElement.get("underlined").getAsBoolean(), nameElement.get("strikethrough").getAsBoolean(),
+				(color == null ? Color.get(nameElement.get("color").getAsString()) : color), translated);
+		if (nameElement.has("extra")) {
+			for (JsonElement ee : nameElement.get("extra").getAsJsonArray()) {
+				JsonObject extraElement = ee.getAsJsonObject();
+				simpleJSON.add(
+						extraElement.has("translate") ? extraElement.get("translate").getAsString()
+								: extraElement.get("text").getAsString(),
+						!extraElement.has("translate") && extraElement.get("italic").getAsBoolean(),
+						extraElement.get("bold").getAsBoolean(), extraElement.get("underlined").getAsBoolean(),
+						extraElement.get("strikethrough").getAsBoolean(),
+						(color == null ? Color.get(nameElement.get("color").getAsString()) : color),
+						extraElement.has("translate"));
+			}
+		}
+		return simpleJSON;
 	}
 
 	public static void playBreakItemAnimation(Player player, ItemStack item) {

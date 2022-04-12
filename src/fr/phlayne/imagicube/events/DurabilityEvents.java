@@ -237,7 +237,7 @@ public class DurabilityEvents implements Listener {
 	public void newItemMend(PlayerExpChangeEvent event) {
 		Player player = event.getPlayer();
 		ItemStack item;
-		int index;
+		int index = -1;
 		List<ItemStack> itemList = new ArrayList<ItemStack>();
 		itemList.add(player.getInventory().getItemInMainHand());
 		itemList.add(player.getInventory().getItemInOffHand());
@@ -256,43 +256,45 @@ public class DurabilityEvents implements Listener {
 					}
 				}
 			}
-			index = numberList.get(random.nextInt(numberList.size()));
-
+			if (numberList.size() > 0)
+				index = numberList.get(random.nextInt(numberList.size()));
 		} else {
 			index = random.nextInt(6);
 		}
-		item = itemList.get(index);
-		if (item != null && !item.getType().equals(Material.AIR)) {
-			NBTItem nbti = new NBTItem(item);
-			int durability = nbti.getInteger(NBTUtil.DURABILITY);
-			int newDurability = 0;
-			if (event.getAmount() * 2 > durability) {
-				newDurability = 0;
-				event.setAmount(event.getAmount() * 2 - durability);
-			} else {
-				newDurability = durability - event.getAmount() * 2;
-				event.setAmount(0);
-			}
-			Durability.setDurability(nbti, newDurability, Durability.getMaxDurability(nbti));
-			switch (index) {
-			case 0:
-				player.getInventory().setItemInMainHand(nbti.getItem());
-				break;
-			case 1:
-				player.getInventory().setItemInOffHand(nbti.getItem());
-				break;
-			case 2:
-				player.getInventory().setBoots(nbti.getItem());
-				break;
-			case 3:
-				player.getInventory().setLeggings(nbti.getItem());
-				break;
-			case 4:
-				player.getInventory().setChestplate(nbti.getItem());
-				break;
-			case 5:
-				player.getInventory().setHelmet(nbti.getItem());
-				break;
+		if (index != -1) {
+			item = itemList.get(index);
+			if (item != null && !item.getType().equals(Material.AIR)) {
+				NBTItem nbti = new NBTItem(item);
+				int durability = nbti.getInteger(NBTUtil.DURABILITY);
+				int newDurability = 0;
+				if (event.getAmount() * 2 > durability) {
+					newDurability = 0;
+					event.setAmount(event.getAmount() * 2 - durability);
+				} else {
+					newDurability = durability - event.getAmount() * 2;
+					event.setAmount(0);
+				}
+				Durability.setDurability(nbti, newDurability, Durability.getMaxDurability(nbti));
+				switch (index) {
+				case 0:
+					player.getInventory().setItemInMainHand(nbti.getItem());
+					break;
+				case 1:
+					player.getInventory().setItemInOffHand(nbti.getItem());
+					break;
+				case 2:
+					player.getInventory().setBoots(nbti.getItem());
+					break;
+				case 3:
+					player.getInventory().setLeggings(nbti.getItem());
+					break;
+				case 4:
+					player.getInventory().setChestplate(nbti.getItem());
+					break;
+				case 5:
+					player.getInventory().setHelmet(nbti.getItem());
+					break;
+				}
 			}
 		}
 	}
