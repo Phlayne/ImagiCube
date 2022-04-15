@@ -36,11 +36,12 @@ public class Durability {
 	}
 
 	public static int getMaxDurability(String type) {
-		FileConfiguration durability = Config.getConfig(Config.DURABILITY);
-		if (durability.contains("minecraft." + type))
-			return durability.getInt("minecraft." + type);
-		if (durability.contains("imagicube." + type))
-			return durability.getInt("imagicube." + type);
+		for (FileConfiguration durability : Config.getConfigs(Config.DURABILITY)) {
+			if (durability.contains("minecraft." + type))
+				return durability.getInt("minecraft." + type);
+			if (durability.contains("imagicube." + type))
+				return durability.getInt("imagicube." + type);
+		}
 		switch (type) {
 		case "elytra":
 			return 432;

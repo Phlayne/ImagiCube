@@ -41,6 +41,7 @@ import fr.phlayne.imagicube.display.DisplayScript;
 import fr.phlayne.imagicube.display.LeftHandDurabilityScript;
 import fr.phlayne.imagicube.display.RightHandDurabilityScript;
 import fr.phlayne.imagicube.event.ImagiCubeLoadingEvent;
+import fr.phlayne.imagicube.events.ConfigEvents;
 import fr.phlayne.imagicube.events.CraftBehaviorEvents;
 import fr.phlayne.imagicube.events.CraftingEvents;
 import fr.phlayne.imagicube.events.DurabilityEvents;
@@ -75,6 +76,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(this, this);
+		pm.registerEvents(new ConfigEvents(), this);
 		pm.registerEvents(new CraftingEvents(), this);
 		pm.registerEvents(new ItemUpdatingEvents(), this);
 		pm.registerEvents(new DurabilityEvents(), this);

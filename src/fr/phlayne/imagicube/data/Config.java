@@ -2,6 +2,7 @@ package fr.phlayne.imagicube.data;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -9,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.Reference;
+import fr.phlayne.imagicube.event.ConfigRequestEvent;
 
 public class Config {
 
@@ -20,9 +22,10 @@ public class Config {
 		return YamlConfiguration.loadConfiguration(new File("plugins/" + Reference.PLUGIN_NAME + "/config.yml"));
 	}
 
-	public static FileConfiguration getConfig(String fileName) {
-		return YamlConfiguration
-				.loadConfiguration(new File("plugins/" + Reference.PLUGIN_NAME + "/" + fileName + ".yml"));
+	public static List<FileConfiguration> getConfigs(String fileName) {
+		ConfigRequestEvent cre = new ConfigRequestEvent(fileName);
+		Bukkit.getPluginManager().callEvent(cre);
+		return cre.getConfigFiles();
 	}
 
 	public static FileConfiguration getConfig(String plugin, String fileName) {

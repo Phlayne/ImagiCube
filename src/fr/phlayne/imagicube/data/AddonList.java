@@ -13,7 +13,7 @@ import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.schedulers.SchedulerScript;
 
 public class AddonList {
-
+	
 	public List<WeaponProperty> weapons;
 	public List<ArmorProperty> armors;
 	public List<MineralProperty> minerals;

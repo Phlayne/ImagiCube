@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import fr.phlayne.imagicube.data.Config;
 
@@ -27,7 +28,7 @@ public class WeaponProperties {
 	public static WeaponProperty NETHERITE_PICKAXE = init(2031, 6F, 1.2F, Tools.PICKAXE.getName(), "netherite", Material.NETHERITE_PICKAXE, 0);
 	public static WeaponProperty PRISMARINE_PICKAXE = init(631, 4F, 1.2F, Tools.PICKAXE.getName(), "prismarine", Material.IRON_PICKAXE, 1);
 
-	public static WeaponProperty 	OAK_SHOVEL = init(59, 2.5F, 1F, Tools.SHOVEL.getName(), "oak", Material.WOODEN_SHOVEL, 0);
+	public static WeaponProperty OAK_SHOVEL = init(59, 2.5F, 1F, Tools.SHOVEL.getName(), "oak", Material.WOODEN_SHOVEL, 0);
 	public static WeaponProperty SPRUCE_SHOVEL = init(59, 2.5F, 1F, Tools.SHOVEL.getName(), "spruce", Material.WOODEN_SHOVEL, 1);
 	public static WeaponProperty BIRCH_SHOVEL = init(59, 2.5F, 1F, Tools.SHOVEL.getName(), "birch", Material.WOODEN_SHOVEL, 2);
 	public static WeaponProperty JUNGLE_SHOVEL = init(59, 2.5F, 1F, Tools.SHOVEL.getName(), "jungle", Material.WOODEN_SHOVEL, 3);
@@ -92,14 +93,16 @@ public class WeaponProperties {
 	public static WeaponProperty PRISMARINE_AXE = init(631, 9.5F, 0.9F, Tools.AXE.getName(), "prismarine", Material.IRON_AXE, 1);
 
 	public static WeaponProperty TRIDENT = init(631, 9F, 1.1F, "trident", "prismarine", Material.TRIDENT, 0);
-
+	
 	public static WeaponProperty init(int durability, float damage, float attackSpeed, String type, String material,
 			Material bukkitMaterial, int customModelData) {
 		String path = "imagicube.tools." + material;
-		if (Config.getConfig("durability").contains(path + "." + type))
-			durability = Config.getConfig("durability").getInt(path + "." + type);
-		else if (Config.getConfig("durability").contains(path))
-			durability = Config.getConfig("durability").getInt(path);
+		for (FileConfiguration config : Config.getConfigs("durability")) {
+			if (config.contains(path + "." + type))
+				durability = config.getInt(path + "." + type);
+			else if (config.contains(path))
+				durability = config.getInt(path);
+		}
 		WeaponProperty weaponProperty = new WeaponProperty(durability, damage, attackSpeed, type, material,
 				bukkitMaterial, customModelData);
 		weaponProperties.add(weaponProperty);

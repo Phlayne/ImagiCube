@@ -240,12 +240,20 @@ public class ItemUpdater {
 					if (item.getType().isEdible())
 						item = FoodProperties.setFoodNeededLore(item, fp.getFoodLevel(), fp.getSaturation());
 				} else if (item.getType().isEdible()) {
-					FileConfiguration foodInfo = Config.getConfig(Config.FOOD_PROPERTIES);
-					int food = foodInfo.getInt(item.getType().getKey().getNamespace() + "."
-							+ item.getType().getKey().getKey() + ".nutrition");
-					double saturation = foodInfo.getDouble(item.getType().getKey().getNamespace() + "."
-							+ item.getType().getKey().getKey() + ".saturationModifier") * food * 2;
-					item = FoodProperties.setFoodNeededLore(item, food, saturation);
+					int food = 0;
+					double saturation = 0;
+					String foodPath = item.getType().getKey().getNamespace() + "." + item.getType().getKey().getKey()
+							+ ".nutrition";
+					String saturationPath = item.getType().getKey().getNamespace() + "."
+							+ item.getType().getKey().getKey() + ".saturationModifier";
+					for (FileConfiguration foodInfo : Config.getConfigs(Config.FOOD_PROPERTIES)) {
+						if (foodInfo.contains(foodPath))
+							food = foodInfo.getInt(foodPath);
+						if (foodInfo.contains(saturationPath))
+							saturation = foodInfo.getDouble(saturationPath) * food * 2;
+					}
+					if (food != 0 || saturation != 0)
+						item = FoodProperties.setFoodNeededLore(item, food, saturation);
 					return item;
 				}
 			}

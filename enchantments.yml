@@ -163,6 +163,8 @@
         base: 1
     compatibility:
         every_bow: true
+    exclude:
+        - "minecraft:mending"
 "minecraft:loyalty":
     max_level:
         base: 3

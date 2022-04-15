@@ -9,44 +9,51 @@ import fr.phlayne.imagicube.util.SimpleJSON.Color;
 public class EnchantmentHelper {
 
 	public static int getMaxLevel(String key, String itemType) {
-		FileConfiguration config = Config.getConfig("enchantments");
-		if (itemType != null) {
-			if (config.contains(key + ".max_level." + itemType))
-				return config.getInt(key + ".max_level." + itemType);
+		int maxLevel = 1;
+		for (FileConfiguration config : Config.getConfigs("enchantments")) {
+			if (itemType != null) {
+				if (config.contains(key + ".max_level." + itemType))
+					maxLevel = config.getInt(key + ".max_level." + itemType);
+			}
+			if (config.contains(key + ".max_level.base"))
+				maxLevel = config.getInt(key + ".max_level.base");
 		}
-		return config.contains(key + ".max_level.base") ? config.getInt(key + ".max_level.base") : 1;
-
+		return maxLevel;
 	}
 
 	public static boolean isCompatibleWith(String key1, String key2) {
-		FileConfiguration config = Config.getConfig("enchantments");
-		String path = key1 + ".compatibility.exclude.";
-		return !config.contains(path) || !config.getStringList(path).contains(key2);
+		boolean isCompatible = true;
+		for (FileConfiguration config : Config.getConfigs("enchantments")) {
+			String path = key1 + ".compatibility.exclude.";
+			isCompatible &= !config.contains(path) || !config.getStringList(path).contains(key2);
+		}
+		return isCompatible;
 	}
 
 	public static boolean isCompatibleWith(String key, NBTItem nbti) {
-		FileConfiguration config = Config.getConfig("enchantments");
-		if (nbti.hasKey(NBTUtil.ITEM_TYPE)) {
-			if (config.getBoolean(key + ".compatibility.everything"))
-				return true;
-			if (config.getBoolean(key + ".compatibility.everything_having_durability")
-					&& nbti.hasKey(NBTUtil.DURABILITY))
-				return true;
-			if (config.getBoolean(key + ".compatibility.every_sword") && isSword(nbti))
-				return true;
-			if (config.getBoolean(key + ".compatibility.every_tool") && isTool(nbti))
-				return true;
-			if (config.getBoolean(key + ".compatibility.every_axe") && isAxe(nbti))
-				return true;
-			if (config.getBoolean(key + ".compatibility.every_fishing_rod") && isFishingRod(nbti))
-				return true;
-			if (config.getBoolean(key + ".compatibility.every_bow") && isBow(nbti))
-				return true;
-			if (config.getBoolean(key + ".compatibility.every_crossbow") && isCrossbow(nbti))
-				return true;
-
-			return !config.contains(key + ".compatibility.type.")
-					|| !config.getStringList(key + ".compatibility.type.").contains(nbti.getString(NBTUtil.ITEM_TYPE));
+		for (FileConfiguration config : Config.getConfigs("enchantments")) {
+			if (nbti.hasKey(NBTUtil.ITEM_TYPE)) {
+				if (config.getBoolean(key + ".compatibility.everything"))
+					return true;
+				if (config.getBoolean(key + ".compatibility.everything_having_durability")
+						&& nbti.hasKey(NBTUtil.DURABILITY))
+					return true;
+				if (config.getBoolean(key + ".compatibility.every_sword") && isSword(nbti))
+					return true;
+				if (config.getBoolean(key + ".compatibility.every_tool") && isTool(nbti))
+					return true;
+				if (config.getBoolean(key + ".compatibility.every_axe") && isAxe(nbti))
+					return true;
+				if (config.getBoolean(key + ".compatibility.every_fishing_rod") && isFishingRod(nbti))
+					return true;
+				if (config.getBoolean(key + ".compatibility.every_bow") && isBow(nbti))
+					return true;
+				if (config.getBoolean(key + ".compatibility.every_crossbow") && isCrossbow(nbti))
+					return true;
+				if (!config.contains(key + ".compatibility.type.") || !config
+						.getStringList(key + ".compatibility.type.").contains(nbti.getString(NBTUtil.ITEM_TYPE)))
+					return true;
+			}
 		}
 		return false;
 	}
@@ -140,7 +147,8 @@ public class EnchantmentHelper {
 		if (forcedColor)
 			color = new Color(nbti.getString("imagicube.forced_color"));
 		return color;
-		// TODO put all this in a config file, and change the item color on item updating so it is customizable
+		// TODO put all this in a config file, and change the item color on item
+		// updating so it is customizable
 	}
 
 	public enum Rarity {

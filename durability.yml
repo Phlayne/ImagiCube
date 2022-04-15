@@ -1,62 +1,62 @@
-# You can edit material durability here. You can also choose different durabilities for every type of item.
+# You can edit durability here. You can also choose different durabilities for every type of item.
 imagicube:
-   # tools:
-        # oak: 59
-        # spruce: 59
-        # birch: 59
-        # jungle: 59
-        # acacia: 59
-        # dark_oak: 59
-        # crimson: 59
-        # warped: 59
-        # gold: 847
-        # stone: 131
-        # blackstone: 190
-        # iron: 250
-        # diamond: 1561
-        # netherite: 2031
-        # prismarine: 631
-    # armor:
-        # leather:
-            # helmet: 56
-            # chestplate: 81
-            # leggings: 76
-            # boots: 66
-        # chainmail:
-            # helmet: 166
-            # chestplate: 241
-            # leggings: 226
-            # boots: 196
-        # golden:
-            # helmet: 78
-            # chestplate: 113
-            # leggings: 106
-            # boots: 92
-        # iron:
-            # helmet: 166
-            # chestplate: 241
-            # leggings: 226
-            # boots: 196
-        # diamond:
-            # helmet: 430
-            # chestplate: 496
-            # leggings: 529
-            # boots: 364
-        # netherite:
-            # helmet: 408
-            # chestplate: 593
-            # leggings: 556
-            # boots: 482
-        # turtle:
-            # helmet: 276
+   tools:
+        oak: 59
+        spruce: 59
+        birch: 59
+        jungle: 59
+        acacia: 59
+        dark_oak: 59
+        crimson: 59
+        warped: 59
+        gold: 847
+        stone: 131
+        blackstone: 190
+        iron: 250
+        diamond: 1561
+        netherite: 2031
+        prismarine: 631
+    armor:
+        leather:
+            helmet: 56
+            chestplate: 81
+            leggings: 76
+            boots: 66
+        chainmail:
+            helmet: 166
+            chestplate: 241
+            leggings: 226
+            boots: 196
+        golden:
+            helmet: 78
+            chestplate: 113
+            leggings: 106
+            boots: 92
+        iron:
+            helmet: 166
+            chestplate: 241
+            leggings: 226
+            boots: 196
+        diamond:
+            helmet: 430
+            chestplate: 496
+            leggings: 529
+            boots: 364
+        netherite:
+            helmet: 408
+            chestplate: 593
+            leggings: 556
+            boots: 482
+        turtle:
+            helmet: 276
 minecraft:
-    # elytra: 432
-    # bow: 384
-    # crossbow: 326
-    # trident: 246
-    # shield: 336
-    # flint_and_steel: 64
-    # fishing_rod: 64
-    # carrot_on_a_stick: 25
-    # warped_fungus_on_a_stick: 100
-    # shears: 238
+    elytra: 432
+    bow: 384
+    crossbow: 326
+    trident: 246
+    shield: 336
+    flint_and_steel: 64
+    fishing_rod: 64
+    carrot_on_a_stick: 25
+    warped_fungus_on_a_stick: 100
+    shears: 238
