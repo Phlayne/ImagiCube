@@ -1,6 +1,8 @@
 package fr.phlayne.imagicube.crafts.armor;
 
+import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -17,6 +19,7 @@ import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.Reference;
 import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.item.Durability;
+import fr.phlayne.imagicube.item.Tools;
 import fr.phlayne.imagicube.item.WeaponProperties;
 import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.util.ItemUpdater;
@@ -290,13 +293,10 @@ public class WeaponRecipes {
 
 	public static String getWeaponName(WeaponProperty weaponProperty) {
 		if ((weaponProperty.getMaterial().equals("prismarine") && !weaponProperty.getType().equals("trident"))
-				|| weaponProperty.getMaterial().equals("blackstone") || weaponProperty.getMaterial().equals("oak")
-				|| weaponProperty.getMaterial().equals("spruce") || weaponProperty.getMaterial().equals("birch")
-				|| weaponProperty.getMaterial().equals("jungle") || weaponProperty.getMaterial().equals("acacia")
-				|| weaponProperty.getMaterial().equals("dark_oak") || weaponProperty.getMaterial().equals("crimson")
-				|| weaponProperty.getMaterial().equals("warped") || weaponProperty.getType().equals("")
-				|| weaponProperty.getType().equals("") || weaponProperty.getType().equals("")
-				|| weaponProperty.getType().equals("")) {
+				|| Arrays.asList("blackstone", "oak", "spruce", "birch", "jungle", "acacia", "dark_oak", "crimson",
+						"warped").contains(weaponProperty.getMaterial())
+				|| !Arrays.asList(Tools.values()).stream().map(Tools::getName).collect(Collectors.toList())
+						.contains(weaponProperty.getType())) {
 			boolean woodToolsActive = Config.getConfig().getBoolean("woodToolsVariants");
 			String material = weaponProperty.getMaterial();
 			if (!woodToolsActive && material.equals("oak"))
