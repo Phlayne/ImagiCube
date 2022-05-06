@@ -8,15 +8,19 @@ import fr.phlayne.imagicube.util.SimpleJSON.Color;
 
 public class EnchantmentHelper {
 
-	public static int getMaxLevel(String key, String itemType) {
+	public static int getMaxLevel(String key) {
+		return getMaxLevel(key, null);
+	}
+
+	public static int getMaxLevel(String key, String material) {
 		int maxLevel = 1;
 		for (FileConfiguration config : Config.getConfigs("enchantments")) {
-			if (itemType != null) {
-				if (config.contains(key + ".max_level." + itemType))
-					maxLevel = config.getInt(key + ".max_level." + itemType);
-			}
 			if (config.contains(key + ".max_level.base"))
 				maxLevel = config.getInt(key + ".max_level.base");
+			if (material != null) {
+				if (config.contains(key + ".max_level." + material))
+					maxLevel = config.getInt(key + ".max_level." + material);
+			}
 		}
 		return maxLevel;
 	}

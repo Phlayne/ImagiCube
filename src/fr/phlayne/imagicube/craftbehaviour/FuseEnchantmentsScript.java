@@ -49,12 +49,9 @@ public class FuseEnchantmentsScript implements FuseScript {
 							int enchant1Level = itemEnchant.getInteger("lvl");
 							int enchant2Level = enchant.getInteger("lvl");
 							if (enchant1Level == enchant2Level)
-								itemEnchant.setInteger("lvl",
-										Math.max(enchant1Level + 1,
-												EnchantmentHelper.getMaxLevel(enchant.getString("id"),
-														result.hasKey(NBTUtil.ITEM_TYPE)
-																? result.getString(NBTUtil.ITEM_TYPE)
-																: null)));
+								itemEnchant.setInteger("lvl", Math.min(enchant1Level + 1, EnchantmentHelper.getMaxLevel(
+										enchant.getString("id"),
+										result.hasKey(NBTUtil.MATERIAL) ? result.getString(NBTUtil.MATERIAL) : null)));
 							else
 								itemEnchant.setInteger("lvl", Math.max(enchant1Level, enchant2Level));
 						}

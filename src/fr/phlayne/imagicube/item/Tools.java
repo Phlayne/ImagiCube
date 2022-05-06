@@ -125,13 +125,11 @@ public enum Tools implements Tool {
 	SHEARS("shears", Material.ACACIA_LEAVES, Material.BIRCH_LEAVES, Material.DARK_OAK_LEAVES, Material.JUNGLE_LEAVES,
 			Material.OAK_LEAVES, Material.SPRUCE_LEAVES, Material.COBWEB, Material.STRING, Material.VINE,
 			Material.TALL_GRASS, Material.TALL_SEAGRASS, Material.DEAD_BUSH, Material.NETHER_SPROUTS),
-	SCYTHE("scythe", HOE.getToolBlocks(), Material.CRIMSON_ROOTS, Material.WARPED_ROOTS, Material.LARGE_FERN,
-			Material.ROSE_BUSH, Material.SEAGRASS, Material.FARMLAND),
 	SWORD("sword", Material.COBWEB, Material.JACK_O_LANTERN, Material.MELON, Material.PUMPKIN, Material.COCOA,
 			Material.ACACIA_LEAVES, Material.BIRCH_LEAVES, Material.DARK_OAK_LEAVES, Material.JUNGLE_LEAVES,
 			Material.OAK_LEAVES, Material.SPRUCE_LEAVES, Material.VINE, Material.HAY_BLOCK);
 
-	// Add azalea leaves and other 1.18 blocks?
+	// TODO Add azalea leaves and other 1.18 blocks?
 
 	private String name;
 	private List<Material> toolBlocks;
@@ -147,16 +145,10 @@ public enum Tools implements Tool {
 		this.toolBlocks.addAll(Arrays.asList(toolBlocks));
 	}
 
-	@Override
 	public String getName() {
 		return this.name;
 	}
-
-	@Override
-	public boolean canDamage(Material material) {
-		return toolBlocks.contains(material);
-	}
-
+	
 	public List<Material> getToolBlocks() {
 		return this.toolBlocks;
 	}

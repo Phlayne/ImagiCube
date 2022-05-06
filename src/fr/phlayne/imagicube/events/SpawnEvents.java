@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.WitherSkeleton;
 import org.bukkit.event.EventHandler;
@@ -29,7 +32,13 @@ public class SpawnEvents implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void changeEntityInventory(EntitySpawnEvent event) {
 		if (event.getEntity() instanceof LivingEntity && event.getEntity().getTicksLived() == 0) {
+			// This code multiplies by 0 every armor and armor toughness values. The armor system is now managed in TODO
 			LivingEntity entity = (LivingEntity) event.getEntity();
+			entity.getAttribute(Attribute.GENERIC_ARMOR)
+					.addModifier(new AttributeModifier("ImagiCube Armor Modifier", -1, Operation.MULTIPLY_SCALAR_1));
+			entity.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)
+					.addModifier(new AttributeModifier("ImagiCube Armor Modifier", -1, Operation.MULTIPLY_SCALAR_1));
+			//
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
 				if (entity.getEquipment().getItem(slot) != null
 						&& !entity.getEquipment().getItem(slot).getType().equals(Material.AIR)) {

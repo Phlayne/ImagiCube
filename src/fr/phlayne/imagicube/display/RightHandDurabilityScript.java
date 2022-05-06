@@ -27,7 +27,7 @@ public class RightHandDurabilityScript extends DisplayScript {
 
 	@Override
 	public String getName(String string) {
-		return "LeftHandDurability";
+		return "RightHandDurability";
 	}
 
 	@Override

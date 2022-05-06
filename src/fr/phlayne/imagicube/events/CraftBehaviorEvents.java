@@ -82,7 +82,8 @@ public class CraftBehaviorEvents implements Listener {
 			AnvilInventory anvilInventory = (AnvilInventory) event.getInventory();
 			ItemStack item2 = anvilInventory.getItem(1);
 			FuseResult fuseResult = getFuseResult(anvilInventory.getItem(0), item2, anvilInventory.getRenameText());
-			item2.setAmount(item2.getAmount() - fuseResult.getRightItemRemovedAmount());
+			if (item2 != null)
+				item2.setAmount(item2.getAmount() - fuseResult.getRightItemRemovedAmount());
 			Bukkit.getScheduler().scheduleSyncDelayedTask(ImagiCube.getInstance(), new Runnable() {
 				@Override
 				public void run() {

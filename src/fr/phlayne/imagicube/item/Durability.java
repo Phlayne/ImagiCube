@@ -82,7 +82,7 @@ public class Durability {
 	// Must be executed on a updated item;
 	public static void applyRandomDurability(NBTItem nbti, int maxDurability) {
 		int durability = random.nextInt(maxDurability);
-		setDurability(nbti, durability, getPercentDurability(nbti, maxDurability, maxDurability));
+		setDurability(nbti, durability, getPercentDurability(nbti, durability, maxDurability));
 	}
 
 	public static boolean isDamageable(NBTItem nbti) {

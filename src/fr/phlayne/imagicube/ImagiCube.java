@@ -41,16 +41,20 @@ import fr.phlayne.imagicube.display.DisplayScript;
 import fr.phlayne.imagicube.display.LeftHandDurabilityScript;
 import fr.phlayne.imagicube.display.RightHandDurabilityScript;
 import fr.phlayne.imagicube.event.ImagiCubeLoadingEvent;
+import fr.phlayne.imagicube.events.BlockEvents;
+import fr.phlayne.imagicube.events.ChatEvents;
 import fr.phlayne.imagicube.events.ConfigEvents;
 import fr.phlayne.imagicube.events.CraftBehaviorEvents;
 import fr.phlayne.imagicube.events.CraftingEvents;
 import fr.phlayne.imagicube.events.DurabilityEvents;
+import fr.phlayne.imagicube.events.InteractEvents;
 import fr.phlayne.imagicube.events.ItemUpdatingEvents;
 import fr.phlayne.imagicube.events.ItemUseEvents;
 import fr.phlayne.imagicube.events.SpawnEvents;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.ArmorProperties;
 import fr.phlayne.imagicube.item.ArmorProperty;
+import fr.phlayne.imagicube.item.FoodProperty;
 import fr.phlayne.imagicube.item.MineralProperties;
 import fr.phlayne.imagicube.item.MineralProperty;
 import fr.phlayne.imagicube.item.Tool;
@@ -83,6 +87,9 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		pm.registerEvents(new SpawnEvents(), this);
 		pm.registerEvents(new CraftBehaviorEvents(), this);
 		pm.registerEvents(new ItemUseEvents(), this);
+		pm.registerEvents(new BlockEvents(), this);
+		pm.registerEvents(new InteractEvents(), this);
+		pm.registerEvents(new ChatEvents(), this);
 		resourcePackUtil = new ResourcePackUtil();
 		resourcePackUtil.init();
 		pm.registerEvents(resourcePackUtil, this);
@@ -136,6 +143,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 				Arrays.asList(new RepairWithSimilarItemScript(), new RepairWithMaterialScript(),
 						new FuseEnchantmentsScript(), new NameColorScript(), new RenamingScript()));
 		this.addonList.tools = new ArrayList<Tool>(Arrays.asList(Tools.values()));
+		this.addonList.foods = new ArrayList<FoodProperty>();
 		ImagiCubeLoadingEvent imagiCubeLoadingEvent = new ImagiCubeLoadingEvent(this.addonList);
 
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
@@ -248,6 +256,8 @@ public class ImagiCube extends JavaPlugin implements Listener {
 					for (ArmorProperty armorProperty : this.addonList.armors)
 						itemList.add(ArmorRecipes.setArmorValues(new ItemStack(armorProperty.getBukkitMaterial()),
 								armorProperty));
+					for (FoodProperty foodProperty : this.addonList.foods)
+						itemList.add(foodProperty.getItemStack());
 					int size = itemList.size();
 					int page = 1;
 					if (args.length > 0)

@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import fr.phlayne.imagicube.craftbehaviour.FuseScript;
 import fr.phlayne.imagicube.display.DisplayScript;
 import fr.phlayne.imagicube.item.ArmorProperty;
+import fr.phlayne.imagicube.item.FoodProperty;
 import fr.phlayne.imagicube.item.MineralProperty;
 import fr.phlayne.imagicube.item.Tool;
 import fr.phlayne.imagicube.item.WeaponProperty;
@@ -17,6 +18,7 @@ public class AddonList {
 	public List<WeaponProperty> weapons;
 	public List<ArmorProperty> armors;
 	public List<MineralProperty> minerals;
+	public List<FoodProperty> foods;
 	public List<ItemStack> uniqueItems;
 	public List<DisplayScript> displayScripts;
 	public List<SchedulerScript> schedulerScripts;

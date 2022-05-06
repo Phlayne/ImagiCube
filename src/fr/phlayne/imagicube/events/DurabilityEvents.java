@@ -274,7 +274,7 @@ public class DurabilityEvents implements Listener {
 					newDurability = durability - event.getAmount() * 2;
 					event.setAmount(0);
 				}
-				Durability.setDurability(nbti, newDurability, Durability.getMaxDurability(nbti));
+				Durability.setDurability(nbti, newDurability);
 				switch (index) {
 				case 0:
 					player.getInventory().setItemInMainHand(nbti.getItem());

@@ -18,7 +18,7 @@ public class ResourcePackUtil implements Listener {
 
 	public HashMap<Player, Boolean> resourcePackLoaded = new HashMap<Player, Boolean>();
 
-	private static final String RESOURCEPACK_LINK = "https://www.dropbox.com/s/gnhs2ijjvykk6oq/imagicube%20v3.1.0beta3.zip?dl=1";
+	private static final String RESOURCEPACK_LINK = "https://www.dropbox.com/s/0xi7p8cppk03rep/imagicube%20v3.1.0beta4.zip?dl=1";
 	public String resourcepackLink;
 	// TODO load custommodeldata values from config file so people can change them
 

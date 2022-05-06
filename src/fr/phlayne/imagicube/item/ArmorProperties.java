@@ -46,6 +46,8 @@ public class ArmorProperties {
 
 	public static ArmorProperty init(int durability, int physicalResistance, int magicResistance, int weight,
 			int knockbackResistance, String type, String material, Material bukkitMaterial) {
+		// TODO Load values from config so values are 100% configurable
+		// TODO Add a system that manages armor toughness
 		String path = "imagicube.armor." + material + "." + type;
 		for (FileConfiguration config : Config.getConfigs("durability")) {
 			if (config.contains(path)) {

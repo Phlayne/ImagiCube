@@ -52,7 +52,9 @@ public class Config {
 		FileConfiguration config = getConfig();
 		boolean missingValuesConfig = false;
 		for (String key : Arrays.asList("prismarineTools", "stoneToolsVariants", "woodToolsVariants",
-				"concretePowderToConcreteCraftWithBucket", "lossless_mending_system", "craftable_chainmail_armor_with_chains", "ender_pearl_cooldown")) {
+				"concrete_powder_to_concrete_craft_with_bucket", "lossless_mending_system",
+				"craftable_chainmail_armor_with_chains", "ender_pearl_cooldown", "concrete_powder_interacts_with_water",
+				"boost_quartz_drop", "farmland_not_breaking_on_jump", "player_velocity_on_attack_modifier")) {
 			if (!config.contains(key)) {
 				warnKeyAbsent(key);
 				missingValuesConfig = true;
@@ -80,6 +82,17 @@ public class Config {
 					warnKeyAbsent(key);
 					missingValuesConfig = true;
 				}
+			}
+		}
+		boolean fireAspectPickaxesDropMoltenMaterial = config.contains("fire_aspect_pickaxes_drop_molten_material");
+		if (!fireAspectPickaxesDropMoltenMaterial) {
+			warnKeyAbsent("fire_aspect_pickaxes_drop_molten_material");
+			missingValuesConfig = true;
+		}
+		if (!fireAspectPickaxesDropMoltenMaterial || config.getBoolean("fire_aspect_pickaxes_drop_molten_material")) {
+			if (!config.contains("fire_aspect_pickaxe_drops_exp")) {
+				warnKeyAbsent("fire_aspect_pickaxe_drops_exp");
+				missingValuesConfig = true;
 			}
 		}
 		if (missingValuesConfig)

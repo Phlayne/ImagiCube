@@ -13,4 +13,12 @@ woodToolsVariants: true
 craftable_chainmail_armor_with_chains: true
 ender_pearl_cooldown: 20
 # Cooldown is in ticks. In vanilla minecraft, the ender pearl cooldown is 1 second, = 20 ticks.
-concretePowderToConcreteCraftWithBucket: true
+concrete_powder_to_concrete_craft_with_bucket: true
+concrete_powder_interacts_with_water: false
+fire_aspect_pickaxes_drop_molten_material: false
+fire_aspect_pickaxe_drops_exp: true
+# You have to change enchantments.yml to be able to enchant pickaxes with fire aspect if you want this option.
+boost_quartz_drop: true
+farmland_not_breaking_on_jump: true
+player_velocity_on_attack_modifier: 0.0
+# Player speed (relative to the damaged entity) is multiplied by this constant and added to the damage total.

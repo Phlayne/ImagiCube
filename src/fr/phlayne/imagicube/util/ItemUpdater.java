@@ -18,7 +18,7 @@ import fr.phlayne.imagicube.events.CraftingEvents;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.ArmorProperty;
 import fr.phlayne.imagicube.item.Durability;
-import fr.phlayne.imagicube.item.FoodProperties;
+import fr.phlayne.imagicube.item.FoodProperty;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
 import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.util.SimpleJSON.Color;
@@ -129,7 +129,6 @@ public class ItemUpdater {
 						NBTCompound displayTag = nbti.getOrCreateCompound("display");
 						NBTUtil.addLore(displayTag, new SimpleJSON()
 								.add("", false, false, false, false, SimpleJSON.Color.WHITE, false).convert());
-						// This method is deprecated because it should only be used in this plugin.
 						Durability.setDurability(nbti, durability, Durability.getPercentDurability(nbti));
 						return nbti.getItem();
 					} else
@@ -233,12 +232,13 @@ public class ItemUpdater {
 						return nbti.getItem();
 					}
 				}
-			} else if (item.getType().isEdible() || FoodProperties.getFoodProperty(item) != null) {
-				FoodProperties fp = FoodProperties.getFoodProperty(item);
+			} else if (item.getType().isEdible() || FoodProperty.getFoodProperty(item) != null) {
+				FoodProperty fp = FoodProperty.getFoodProperty(item);
 				if (fp != null) {
-					item = FoodProperties.setFoodName(item);
+					item = FoodProperty.setFoodName(item);
 					if (item.getType().isEdible())
-						item = FoodProperties.setFoodNeededLore(item, fp.getFoodLevel(), fp.getSaturation());
+						item = FoodProperty.setFoodNeededLore(item, fp.getFoodLevel(), fp.getSaturation());
+					return item;
 				} else if (item.getType().isEdible()) {
 					int food = 0;
 					double saturation = 0;
@@ -253,7 +253,7 @@ public class ItemUpdater {
 							saturation = foodInfo.getDouble(saturationPath) * food * 2;
 					}
 					if (food != 0 || saturation != 0)
-						item = FoodProperties.setFoodNeededLore(item, food, saturation);
+						item = FoodProperty.setFoodNeededLore(item, food, saturation);
 					return item;
 				}
 			}
@@ -280,8 +280,7 @@ public class ItemUpdater {
 			nbti.setString("imagicube.forced_color", forcedColor);
 		if (!cosmeticEffect.equals("none"))
 			nbti.setString("imagicube.cosmetic_effect", cosmeticEffect);
-		Durability.setDurability(nbti, durability,
-				Durability.getPercentDurability(nbti, durability, Durability.getMaxDurability(nbti)));
+		Durability.setDurability(nbti, durability);
 	}
 
 }

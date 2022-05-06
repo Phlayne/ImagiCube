@@ -17,12 +17,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import de.tr7zw.nbtapi.NBTItem;
-import fr.phlayne.imagicube.item.Durability;
+import fr.phlayne.imagicube.data.Config;
 
 public class DamageStats {
 
 	public static int getPhysicalArmorLevel(ItemStack item) {
-		if (item == null)
+		if (item == null || item.getType().equals(Material.AIR))
 			return 0;
 		NBTItem nbti = new NBTItem(item);
 		return nbti.hasKey(NBTUtil.PHYSICAL_ARMOR) ? nbti.getInteger(NBTUtil.PHYSICAL_ARMOR) : 0;
@@ -54,13 +54,15 @@ public class DamageStats {
 		return 0;
 	}
 
+	// TODO Move this to ImagiCubeSpells
 	public static int getMagicalArmorLevel(ItemStack item) {
-		if (item == null)
+		if (item == null || item.getType().equals(Material.AIR))
 			return 0;
 		NBTItem nbti = new NBTItem(item);
 		return nbti.hasKey(NBTUtil.MAGICAL_ARMOR) ? nbti.getInteger(NBTUtil.MAGICAL_ARMOR) : 0;
 	}
 
+	// TODO Move this to ImagiCubeSpells
 	public static int getMagicalResistance(Entity entity) {
 		if (entity instanceof LivingEntity) {
 			LivingEntity e = (LivingEntity) entity;
@@ -77,8 +79,9 @@ public class DamageStats {
 	}
 
 	public static int getArmorToughness(ItemStack item) {
-		// TODO Use armorProperty instead of this piece of code
-		if (item == null)
+		// TODO Use armorProperty instead of this piece of code (for the moment armor
+		// properties don't have a toughness value. Put it in the config file)
+		if (item == null || item.getType().equals(Material.AIR))
 			return 0;
 		NBTItem nbti = new NBTItem(item);
 		if (!nbti.hasKey(NBTUtil.MATERIAL))
@@ -183,59 +186,24 @@ public class DamageStats {
 							/ 25));
 			dgts *= damageMultiplier;
 			dgts = dgts * (1 - (FPE / 25));
-			/**
-			 * if (event instanceof EntityDamageByEntityEvent && (dst ==
-			 * DamageCause.ENTITY_ATTACK || dst == DamageCause.ENTITY_SWEEP_ATTACK)) {
-			 * EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event; Vector v =
-			 * e.getDamager().getVelocity(); dgts += Math.sqrt(v.getX() * v.getX() +
-			 * v.getY() * v.getY() + v.getZ() * v.getZ()) * 10; // Velocity has an impact on
-			 * damage }
-			 */
+
+			double damageSpeedModifier = Config.getConfig().contains("player_velocity_on_attack_modifier")
+					? Config.getConfig().getDouble("player_velocity_on_attack_modifier")
+					: 0D;
+			if (damageSpeedModifier != 0D && event instanceof EntityDamageByEntityEvent
+					&& (dst == DamageCause.ENTITY_ATTACK || dst == DamageCause.ENTITY_SWEEP_ATTACK)) {
+				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+				Vector v = e.getDamager().getVelocity().subtract(e.getEntity().getVelocity());
+				dgts += v.length() * damageSpeedModifier;
+			}
+
 			if (dst.equals(DamageCause.CRAMMING) || dst.equals(DamageCause.DRAGON_BREATH)
 					|| dst.equals(DamageCause.DROWNING) || dst.equals(DamageCause.FIRE_TICK)
 					|| dst.equals(DamageCause.POISON) || dst.equals(DamageCause.STARVATION)
 					|| dst.equals(DamageCause.SUFFOCATION) || dst.equals(DamageCause.SUICIDE)
 					|| dst.equals(DamageCause.VOID) || dst.equals(DamageCause.WITHER))
 				dgts = event.getDamage();
-			event.setDamage(0);
 			event.setDamage(dgts);
-
-			if (event instanceof EntityDamageByEntityEvent) {
-				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-				if (event.getEntity() instanceof HumanEntity) {
-					HumanEntity player = (HumanEntity) event.getEntity();
-					if (player.isBlocking()) {
-						float playerYaw = player.getLocation().getYaw();
-						if (playerYaw < 0)
-							playerYaw += 360;
-						Vector difference = e.getDamager().getLocation().toVector()
-								.subtract(player.getLocation().toVector()).normalize();
-						double damagerYaw = Math.atan(difference.getX() / (difference.getZ())) * (180D / Math.PI);
-						if (damagerYaw < 0)
-							damagerYaw += 360;
-						if (Math.abs(damagerYaw - playerYaw) > 90F) {
-
-							// TODO cancel damage & calculate new durability
-							int shieldDamage = (int) Math.ceil(event.getDamage());
-							if (shieldDamage > 2) {
-								NBTItem nbti;
-								if (player.getEquipment().getItemInMainHand().getType().equals(Material.SHIELD)) {
-									nbti = new NBTItem(player.getEquipment().getItemInMainHand());
-									for (int i = 0; i < shieldDamage; i++)
-										Durability.applyDurability(nbti, Durability.getMaxDurability(nbti));
-									player.getEquipment().setItemInMainHand(nbti.getItem());
-								} else if (player.getEquipment().getItemInMainHand().getType()
-										.equals(Material.SHIELD)) {
-									nbti = new NBTItem(player.getEquipment().getItemInOffHand());
-									for (int i = 0; i < shieldDamage; i++)
-										Durability.applyDurability(nbti, Durability.getMaxDurability(nbti));
-									player.getEquipment().setItemInOffHand(nbti.getItem());
-								}
-							}
-						}
-					}
-				}
-			}
 		}
 		return event;
 	}

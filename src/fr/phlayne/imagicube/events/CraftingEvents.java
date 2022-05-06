@@ -14,7 +14,6 @@ import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.Durability;
@@ -44,47 +43,10 @@ public class CraftingEvents implements Listener {
 			event.getInventory().setResult(uncraft(decraftItem));
 	}
 
-	// @EventHandler Unused for now
-	public void checkCraft(PrepareItemCraftEvent event) {
-		ItemStack[] matrix = event.getInventory().getMatrix();
-		if (matrix.length != 9)
-			return;
-		for (ItemStack item : matrix) {
-			if (item != null) {
-				// int customModelData = item.hasItemMeta() ?
-				// item.getItemMeta().getCustomModelData() : 0;
-				switch (item.getType()) {
-				/*
-				 * TODO Move this bit to ImagiCubeSpells
-				 * 
-				 * case NETHER_STAR: if (event.getRecipe() != null) if
-				 * (Arrays.asList(Crafts.SCEPTER_CRAFT.getResult(),
-				 * Crafts.PARCHMENT_CRAFT.getResult(),
-				 * Crafts.GLOBE_CRAFT.getResult()).contains(event.getRecipe().getResult())) { if
-				 * (customModelData != 1) event.getInventory().setResult(null); } else if
-				 * (customModelData != 0) event.getInventory().setResult(null); break;
-				 */
-				/*
-				 * TODO Move this bit to ImagiCubeFood
-				 * 
-				 * case WHEAT_SEEDS: if (event.getRecipe() != null) if (Arrays
-				 * .asList(FoodRecipes.CONCHIGLIE_HORIZONTAL_DOWN_LEFT.getResult(),
-				 * FoodRecipes.FARFALLE_HORIZONTAL_DOWN.getResult(),
-				 * FoodRecipes.PENNE_HORIZONTAL.getResult(),
-				 * FoodRecipes.SHELL_DOWN_LEFT.getResult(),
-				 * FoodRecipes.SPAGHETTI_LEFT.getResult())
-				 * .contains(event.getRecipe().getResult())) { if (customModelData !=
-				 * FoodProperty.GROUND_WHEAT.getModelData())
-				 * event.getInventory().setResult(null); } else if (customModelData != 0)
-				 * event.getInventory().setResult(null); break;
-				 */
-				default:
-					break;
-				}
-			}
-		}
+	@EventHandler
+	public void repairItemsOnCraft(PrepareItemCraftEvent event) {
 	}
-
+	
 	@EventHandler
 	public void onThingOnAStickCraft(PrepareItemCraftEvent event) {
 		ItemStack[] matrix = event.getInventory().getMatrix();
@@ -99,7 +61,8 @@ public class CraftingEvents implements Listener {
 							return;
 					Material material = matrix[i + 4].getType();
 					NBTItem resultNBTI;
-					// TODO Replace this with an addonList "Map<Material, String> materialTofishingRodType" after this
+					// TODO Replace this with an addonList "Map<Material, String>
+					// materialTofishingRodType" after this
 					switch (material) {
 					case CARROT:
 						resultNBTI = new NBTItem(new ItemStack(Material.CARROT_ON_A_STICK));
@@ -122,59 +85,6 @@ public class CraftingEvents implements Listener {
 				}
 			}
 		}
-	}
-
-	@EventHandler
-	public void onShieldPatternCraft(PrepareItemCraftEvent event) {
-		ItemStack[] matrix = event.getInventory().getMatrix();
-
-		List<Material> banners = new ArrayList<Material>();
-		banners.add(Material.WHITE_BANNER);
-		banners.add(Material.ORANGE_BANNER);
-		banners.add(Material.MAGENTA_BANNER);
-		banners.add(Material.LIGHT_BLUE_BANNER);
-		banners.add(Material.YELLOW_BANNER);
-		banners.add(Material.LIME_BANNER);
-		banners.add(Material.PINK_BANNER);
-		banners.add(Material.GRAY_BANNER);
-		banners.add(Material.LIGHT_GRAY_BANNER);
-		banners.add(Material.CYAN_BANNER);
-		banners.add(Material.PURPLE_BANNER);
-		banners.add(Material.BLUE_BANNER);
-		banners.add(Material.BROWN_BANNER);
-		banners.add(Material.GREEN_BANNER);
-		banners.add(Material.RED_BANNER);
-		banners.add(Material.BLACK_BANNER);
-
-		ItemStack shield = null;
-		ItemStack banner = null;
-		for (int i = 0; i < matrix.length; i++) {
-			if (matrix[i] != null) {
-				String itemType = ItemUtil.getItemType(matrix[i]);
-				if (itemType.equals("shield")) {
-					if (shield == null)
-						shield = matrix[i];
-					else
-						return;
-				} else if (banners.contains(matrix[i].getType()))
-					if (banner == null)
-						banner = matrix[i];
-					else
-						return;
-				else
-					return;
-			}
-		}
-		if (shield == null || banner == null)
-			return;
-		int baseBannerValue = banners.indexOf(banner.getType());
-		NBTItem bannerNBTI = new NBTItem(banner);
-		NBTCompound bannerBlockEntityNBT = bannerNBTI.getOrCreateCompound("BlockEntityTag");
-		NBTItem shieldNBTI = new NBTItem(shield);
-		NBTCompound shieldBlockEntityNBT = shieldNBTI.getOrCreateCompound("BlockEntityTag");
-		shieldBlockEntityNBT.mergeCompound(bannerBlockEntityNBT);
-		shieldBlockEntityNBT.setInteger("Base", baseBannerValue);
-		event.getInventory().setResult(shieldNBTI.getItem());
 	}
 
 	@EventHandler

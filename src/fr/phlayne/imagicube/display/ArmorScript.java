@@ -22,7 +22,7 @@ public class ArmorScript extends DisplayScript {
 
 	@Override
 	public String getName(String string) {
-		return "LeftHandDurability";
+		return "Armor";
 	}
 
 	@Override

@@ -24,4 +24,8 @@ public class PlayerData implements Listener {
 		}
 	}
 
+	public static Object get(Player player, String path) {
+		return playerData.get(player.getUniqueId() + "." + path);
+	}
+
 }
