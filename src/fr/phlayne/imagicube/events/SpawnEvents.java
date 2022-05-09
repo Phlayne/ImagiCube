@@ -15,6 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
 import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.ImagiCube;
@@ -24,6 +25,7 @@ import fr.phlayne.imagicube.item.Durability;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
 import fr.phlayne.imagicube.item.WeaponProperties;
 import fr.phlayne.imagicube.item.WeaponProperty;
+import fr.phlayne.imagicube.util.MobSpawnWoodType;
 
 public class SpawnEvents implements Listener {
 
@@ -32,7 +34,8 @@ public class SpawnEvents implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void changeEntityInventory(EntitySpawnEvent event) {
 		if (event.getEntity() instanceof LivingEntity && event.getEntity().getTicksLived() == 0) {
-			// This code multiplies by 0 every armor and armor toughness values. The armor system is now managed in TODO
+			// This code multiplies by 0 every armor and armor toughness values. The armor
+			// system is now managed in TODO
 			LivingEntity entity = (LivingEntity) event.getEntity();
 			entity.getAttribute(Attribute.GENERIC_ARMOR)
 					.addModifier(new AttributeModifier("ImagiCube Armor Modifier", -1, Operation.MULTIPLY_SCALAR_1));
@@ -42,6 +45,26 @@ public class SpawnEvents implements Listener {
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
 				if (entity.getEquipment().getItem(slot) != null
 						&& !entity.getEquipment().getItem(slot).getType().equals(Material.AIR)) {
+					String woodType = MobSpawnWoodType.getWoodType(entity.getWorld().getBiome(entity.getLocation()));
+					if (woodType != null) {
+						ItemStack item = entity.getEquipment().getItem(slot);
+						if (item != null && item.getType().equals(Material.AIR)) {
+							NBTItem nbti = new NBTItem(item);
+							switch (slot) {
+							case HAND:
+							case OFF_HAND:
+								MobSpawnWoodType.changeWoodType(nbti, woodType);
+								break;
+							case FEET:
+							case LEGS:
+							case CHEST:
+							case HEAD:
+								MobSpawnWoodType.changeLeatherColor(nbti, woodType);
+								break;
+							}
+							entity.getEquipment().setItem(slot, nbti.getItem());
+						}
+					}
 					if (entity instanceof WitherSkeleton && slot.equals(EquipmentSlot.HAND)) {
 						if (entity.getEquipment().getItem(slot).getType().equals(Material.STONE_SWORD)
 								&& Config.getConfig().getBoolean("stoneToolsVariants")) {

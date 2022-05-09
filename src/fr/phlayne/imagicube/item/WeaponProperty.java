@@ -135,4 +135,11 @@ public class WeaponProperty {
 		}
 		return null;
 	}
+
+	public static WeaponProperty getWeaponProperty(String type, String material) {
+		for (WeaponProperty wp : ImagiCube.getInstance().addonList.weapons)
+			if (wp.getType().equals(type) && wp.getMaterial().equals(material))
+				return wp;
+		return null;
+	}
 }

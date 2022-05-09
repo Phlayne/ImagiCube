@@ -13,11 +13,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.data.Config;
+import fr.phlayne.imagicube.item.Durability;
 
 public class DamageStats {
 
@@ -204,6 +206,37 @@ public class DamageStats {
 					|| dst.equals(DamageCause.VOID) || dst.equals(DamageCause.WITHER))
 				dgts = event.getDamage();
 			event.setDamage(dgts);
+
+			if (event instanceof EntityDamageByEntityEvent) {
+				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+				if (event.getEntity() instanceof HumanEntity) {
+					HumanEntity player = (HumanEntity) event.getEntity();
+					if (player.isBlocking()) {
+						Vector posDiff = player.getLocation().toVector()
+								.subtract(e.getDamager().getLocation().toVector()).normalize();
+						Vector playerDirection = player.getLocation().getDirection();
+						double angle = Math.toDegrees(Math.acos(posDiff.dot(playerDirection)));
+						if (angle > 135F) {
+							int shieldDamage = (int) Math.ceil(event.getDamage());
+							EquipmentSlot slot = player.getEquipment().getItemInMainHand().getType()
+									.equals(Material.SHIELD) ? EquipmentSlot.HAND : EquipmentSlot.OFF_HAND;
+							NBTItem newShield = new NBTItem(player.getEquipment().getItem(slot));
+							boolean broke = false;
+							for (int i = 0; i < shieldDamage; i++)
+								if (Durability.applyDurability(newShield)) {
+									broke = true;
+									break;
+								}
+							if (broke) {
+								Durability.playBreakItemAnimation(player, newShield.getItem());
+								player.getEquipment().setItem(slot, new ItemStack(Material.AIR));
+							} else
+								player.getEquipment().setItem(slot, newShield.getItem());
+						}
+					}
+				}
+			}
+
 		}
 		return event;
 	}

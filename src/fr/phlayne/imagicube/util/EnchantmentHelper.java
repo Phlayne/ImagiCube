@@ -54,8 +54,8 @@ public class EnchantmentHelper {
 					return true;
 				if (config.getBoolean(key + ".compatibility.every_crossbow") && isCrossbow(nbti))
 					return true;
-				if (!config.contains(key + ".compatibility.type.") || !config
-						.getStringList(key + ".compatibility.type.").contains(nbti.getString(NBTUtil.ITEM_TYPE)))
+				if (config.contains(key + ".compatibility.type") && config.getStringList(key + ".compatibility.type")
+						.contains(nbti.getString(NBTUtil.ITEM_TYPE)))
 					return true;
 			}
 		}

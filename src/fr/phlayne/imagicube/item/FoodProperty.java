@@ -62,7 +62,7 @@ public class FoodProperty {
 		ItemStack item = new ItemStack(this.getBaseMaterial());
 		NBTItem nbti = new NBTItem(item);
 		nbti.setInteger("CustomModelData", this.getModelData());
-		nbti.setString(NBTUtil.ITEM_TYPE, "food");
+		nbti.setString(NBTUtil.ITEM_TYPE, "food." + this.getName());
 		return setFoodName(nbti.getItem());
 	}
 

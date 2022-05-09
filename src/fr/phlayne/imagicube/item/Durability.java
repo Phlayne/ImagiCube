@@ -9,7 +9,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 
 import com.google.gson.JsonElement;
@@ -234,7 +234,7 @@ public class Durability {
 		return simpleJSON;
 	}
 
-	public static void playBreakItemAnimation(Player player, ItemStack item) {
+	public static void playBreakItemAnimation(HumanEntity player, ItemStack item) {
 		Location loc = player.getEyeLocation();
 		loc.getWorld().playSound(loc, Sound.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
 		loc.getWorld().spawnParticle(Particle.ITEM_CRACK, loc.add(loc.getDirection()), 10, 0.3, 0.5, 0.3, 0, item);

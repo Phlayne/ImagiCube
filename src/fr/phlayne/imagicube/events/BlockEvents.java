@@ -234,7 +234,7 @@ public class BlockEvents implements Listener {
 
 	@EventHandler
 	public void cancelConcreteWater(BlockFormEvent event) {
-		if (Config.getConfig().getBoolean("concrete_powder_interacts_with_water")) {
+		if (!Config.getConfig().getBoolean("concrete_powder_interacts_with_water")) {
 			if (concrete.contains(event.getBlock().getType())
 					|| (event.getBlock().getType().equals(Material.WATER)
 							&& concrete.contains(event.getNewState().getType()))

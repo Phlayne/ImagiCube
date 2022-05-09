@@ -10,13 +10,8 @@ import de.tr7zw.nbtapi.NBTList;
 public class NBTUtil {
 	public static String MATERIAL = "imagicube.material";
 	public static String WEIGHT = "weight";
-	public static String SPELL = "spell";
-	public static String SPELL_PROPERTY = "spell.property";
-	public static String SPELL_APP = "spell.app";
 	public static String ITEM_TYPE = "imagicube.itemtype";
-	public static String MANA = "spell.mana";
-	public static String COOLDOWN = "spell.cooldown";
-	public static String SPELL_VALUES = "spell.values";
+	public static String ITEM_COOLDOWN = "imagicube.cooldown";
 	public static String PHYSICAL_ARMOR = "armor.physical";
 	public static String MAGICAL_ARMOR = "armor.magical";
 	public static String DESCRIPTION = "description";
@@ -92,7 +87,7 @@ public class NBTUtil {
 		removeUselessLines(nbti);
 		return nbti.getItem();
 	}
-	
+
 	public static void removeUselessLines(NBTItem nbti) {
 		NBTCompound display = nbti.getOrCreateCompound("display");
 		if (display.hasKey("Lore")) {

@@ -1,8 +1,13 @@
 package fr.phlayne.imagicube.schedulers;
 
+import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import de.tr7zw.nbtapi.NBTItem;
@@ -78,6 +83,17 @@ public class PlayerScheduler extends SchedulerScript {
 							Durability.applyDurability(nbti);
 							player.getInventory().setChestplate(nbti.getItem());
 						}
+					}
+				}
+			}
+
+			for (EquipmentSlot hand : Arrays.asList(EquipmentSlot.HAND, EquipmentSlot.OFF_HAND)) {
+				ItemStack item = player.getEquipment().getItem(hand);
+				if (item != null && !item.getType().equals(Material.AIR)) {
+					NBTItem nbti = new NBTItem(item);
+					if (nbti.hasKey(NBTUtil.ITEM_COOLDOWN) && nbti.getInteger(NBTUtil.ITEM_COOLDOWN) > 0) {
+						nbti.setInteger(NBTUtil.ITEM_COOLDOWN, nbti.getInteger(NBTUtil.ITEM_COOLDOWN) - 1);
+						player.getEquipment().setItem(hand, nbti.getItem());
 					}
 				}
 			}

@@ -62,6 +62,7 @@ import fr.phlayne.imagicube.item.Tools;
 import fr.phlayne.imagicube.item.WeaponProperties;
 import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.schedulers.DisplayScriptScheduler;
+import fr.phlayne.imagicube.schedulers.EntityScheduler;
 import fr.phlayne.imagicube.schedulers.GeneralScheduler;
 import fr.phlayne.imagicube.schedulers.PlayerScheduler;
 import fr.phlayne.imagicube.schedulers.SchedulerScript;
@@ -138,7 +139,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		this.addonList.displayScripts = new ArrayList<DisplayScript>(
 				Arrays.asList(new ArmorScript(), new LeftHandDurabilityScript(), new RightHandDurabilityScript()));
 		this.addonList.schedulerScripts = new ArrayList<SchedulerScript>(
-				Arrays.asList(new DisplayScriptScheduler(), new PlayerScheduler()));
+				Arrays.asList(new DisplayScriptScheduler(), new PlayerScheduler(), new EntityScheduler()));
 		this.addonList.fuseScripts = new ArrayList<FuseScript>(
 				Arrays.asList(new RepairWithSimilarItemScript(), new RepairWithMaterialScript(),
 						new FuseEnchantmentsScript(), new NameColorScript(), new RenamingScript()));
@@ -162,7 +163,6 @@ public class ImagiCube extends JavaPlugin implements Listener {
 				});
 			}
 		});
-
 	}
 
 	public void onDisable() {

@@ -53,7 +53,7 @@ public class DurabilityEvents implements Listener {
 			Player player = (Player) event.getDamager();
 			if (player.getGameMode().equals(GameMode.SURVIVAL) || player.getGameMode().equals(GameMode.ADVENTURE)) {
 				ItemStack item = player.getInventory().getItemInMainHand();
-				if (item != null) {
+				if (item != null && !item.getType().equals(Material.AIR)) {
 					NBTItem nbti = new NBTItem(item);
 					if (WeaponProperty.getWeaponProperty(nbti) != null) {
 						double damage = event.getDamage();

@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import de.tr7zw.nbtapi.NBTItem;
+import fr.phlayne.imagicube.craftbehaviour.RepairWithSimilarItemScript;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.Durability;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
@@ -45,8 +46,32 @@ public class CraftingEvents implements Listener {
 
 	@EventHandler
 	public void repairItemsOnCraft(PrepareItemCraftEvent event) {
+		ItemStack[] matrix = event.getInventory().getMatrix();
+		int itemAmount = 0;
+		NBTItem nbti1 = null;
+		NBTItem nbti2 = null;
+		for (int i = 0; i < matrix.length; i++) {
+			if (matrix[i] != null && !matrix[i].getType().equals(Material.AIR)) {
+				if (itemAmount == 0)
+					nbti1 = new NBTItem(matrix[i]);
+				if (itemAmount == 1)
+					nbti2 = new NBTItem(matrix[i]);
+				if (itemAmount > 1)
+					return;
+				itemAmount++;
+			}
+		}
+		if (itemAmount < 2)
+			return;
+		NBTItem result = new NBTItem(nbti1.getItem());
+		result.removeKey("Enchantments");
+		result.removeKey("imagicube.forced_color");
+		// TODO Find a way to remove the custom name. For the moment, I don't have a
+		// method to get an item's original name if it has been renamed.
+		RepairWithSimilarItemScript.repairItems(nbti1, nbti2, result);
+		event.getInventory().setResult(result.getItem());
 	}
-	
+
 	@EventHandler
 	public void onThingOnAStickCraft(PrepareItemCraftEvent event) {
 		ItemStack[] matrix = event.getInventory().getMatrix();

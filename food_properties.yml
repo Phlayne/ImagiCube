@@ -83,25 +83,25 @@ minecraft:
     rabbit_stew:
         nutrition: 10
         saturationModifier: 1.2
-    raw_beef:
+    beef:
         nutrition: 3
         saturationModifier: 0.6
-    raw_chicken:
+    chicken:
         nutrition: 2
         saturationModifier: 0.6
-    raw_cod:
+    cod:
         nutrition: 2
         saturationModifier: 0.2
-    raw_mutton:
+    mutton:
         nutrition: 2
         saturationModifier: 0.6
-    raw_porkchop:
+    porkchop:
         nutrition: 3
         saturationModifier: 0.6
-    raw_rabbit:
+    rabbit:
         nutrition: 3
         saturationModifier: 0.6
-    raw_salmon:
+    salmon:
         nutrition: 2
         saturationModifier: 0.2
     rottom_flesh:
@@ -110,7 +110,7 @@ minecraft:
     spider_eye:
         nutrition: 2
         saturationModifier: 1.6
-    steak:
+    cooked_beef:
         nutrition: 8
         saturationModifier: 1.6
     suspicious_stew:
@@ -122,3 +122,6 @@ minecraft:
     tropical_fish:
         nutrition: 1
         saturationModifier: 0.2
+    rotten_flesh:
+        nutrition: 4
+        saturationModifier: 0.1

@@ -292,9 +292,10 @@ public class WeaponRecipes {
 	}
 
 	public static String getWeaponName(WeaponProperty weaponProperty) {
-		if ((weaponProperty.getMaterial().equals("prismarine") && !weaponProperty.getType().equals("trident"))
-				|| Arrays.asList("blackstone", "oak", "spruce", "birch", "jungle", "acacia", "dark_oak", "crimson",
-						"warped").contains(weaponProperty.getMaterial())
+		if (weaponProperty.getMaterial().equals("prismarine") && weaponProperty.getType().equals("trident"))
+			return null;
+		if (Arrays.asList("blackstone", "oak", "spruce", "birch", "jungle", "acacia", "dark_oak", "crimson", "warped")
+				.contains(weaponProperty.getMaterial())
 				|| !Arrays.asList(Tools.values()).stream().map(Tools::getName).collect(Collectors.toList())
 						.contains(weaponProperty.getType())) {
 			boolean woodToolsActive = Config.getConfig().getBoolean("woodToolsVariants");
