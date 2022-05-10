@@ -3,6 +3,7 @@ package fr.phlayne.imagicube.util;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import de.tr7zw.nbtapi.NBTItem;
+import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.util.SimpleJSON.Color;
 
@@ -42,17 +43,17 @@ public class EnchantmentHelper {
 				if (config.getBoolean(key + ".compatibility.everything_having_durability")
 						&& nbti.hasKey(NBTUtil.DURABILITY))
 					return true;
-				if (config.getBoolean(key + ".compatibility.every_sword") && isSword(nbti))
+				if (config.getBoolean(key + ".compatibility.every_sword") && isGenericType(nbti, "sword"))
 					return true;
-				if (config.getBoolean(key + ".compatibility.every_tool") && isTool(nbti))
+				if (config.getBoolean(key + ".compatibility.every_tool") && isGenericType(nbti, "tool"))
 					return true;
-				if (config.getBoolean(key + ".compatibility.every_axe") && isAxe(nbti))
+				if (config.getBoolean(key + ".compatibility.every_axe") && isGenericType(nbti, "axe"))
 					return true;
-				if (config.getBoolean(key + ".compatibility.every_fishing_rod") && isFishingRod(nbti))
+				if (config.getBoolean(key + ".compatibility.every_fishing_rod") && isGenericType(nbti, "fishing_rod"))
 					return true;
-				if (config.getBoolean(key + ".compatibility.every_bow") && isBow(nbti))
+				if (config.getBoolean(key + ".compatibility.every_bow") && isGenericType(nbti, "bow"))
 					return true;
-				if (config.getBoolean(key + ".compatibility.every_crossbow") && isCrossbow(nbti))
+				if (config.getBoolean(key + ".compatibility.every_crossbow") && isGenericType(nbti, "crossbow"))
 					return true;
 				if (config.contains(key + ".compatibility.type") && config.getStringList(key + ".compatibility.type")
 						.contains(nbti.getString(NBTUtil.ITEM_TYPE)))
@@ -62,33 +63,13 @@ public class EnchantmentHelper {
 		return false;
 	}
 
-	private static boolean isSword(NBTItem nbti) {
-		return nbti.hasKey(NBTUtil.ITEM_TYPE) && nbti.getString(NBTUtil.ITEM_TYPE).equals("sword");
-		// TODO Change this with HashMap<String, List<String>> itemGroups;
-		// itemGroups.put("swords", Arrays.asList("sword", "dagger", "katana",
-		// "hammer"));
+	private static boolean isGenericType(NBTItem nbti, String type) {
+		return nbti.hasKey(NBTUtil.ITEM_TYPE) && ImagiCube.getInstance().addonList.itemGroups.containsKey(type)
+				&& ImagiCube.getInstance().addonList.itemGroups.get(type).contains(nbti.getString(NBTUtil.ITEM_TYPE));
 	}
 
-	private static boolean isAxe(NBTItem nbti) {
-		return nbti.hasKey(NBTUtil.ITEM_TYPE) && nbti.getString(NBTUtil.ITEM_TYPE).equals("axe");
-	}
-
-	private static boolean isTool(NBTItem nbti) {
-		return nbti.hasKey(NBTUtil.ITEM_TYPE) && nbti.getString(NBTUtil.ITEM_TYPE).equals("shovel");
-		// || "axe" || "pickaxe" || "hoe"
-	}
-
-	private static boolean isFishingRod(NBTItem nbti) {
-		return nbti.hasKey(NBTUtil.ITEM_TYPE) && nbti.getString(NBTUtil.ITEM_TYPE).equals("fishing_rod");
-	}
-
-	private static boolean isBow(NBTItem nbti) {
-		return nbti.hasKey(NBTUtil.ITEM_TYPE) && nbti.getString(NBTUtil.ITEM_TYPE).equals("bow");
-	}
-
-	private static boolean isCrossbow(NBTItem nbti) {
-		return nbti.hasKey(NBTUtil.ITEM_TYPE) && nbti.getString(NBTUtil.ITEM_TYPE).equals("crossbow");
-	}
+	// itemGroups.put("swords", Arrays.asList("sword", "dagger", "katana",
+	// "hammer"));
 
 	public static Color getItemBaseColor(NBTItem nbti) {
 		boolean forcedColor = nbti.hasKey("imagicube.forced_color")

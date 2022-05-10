@@ -15,12 +15,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import de.tr7zw.nbtapi.NBTItem;
+import fr.phlayne.imagicube.craftbehaviour.FuseResult;
 import fr.phlayne.imagicube.craftbehaviour.RepairWithSimilarItemScript;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.Durability;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
 import fr.phlayne.imagicube.util.ItemUpdater;
-import fr.phlayne.imagicube.util.ItemUtil;
 import fr.phlayne.imagicube.util.LeatherColor;
 import fr.phlayne.imagicube.util.NBTUtil;
 
@@ -68,8 +68,11 @@ public class CraftingEvents implements Listener {
 		result.removeKey("imagicube.forced_color");
 		// TODO Find a way to remove the custom name. For the moment, I don't have a
 		// method to get an item's original name if it has been renamed.
-		RepairWithSimilarItemScript.repairItems(nbti1, nbti2, result);
-		event.getInventory().setResult(result.getItem());
+		FuseResult fuseResult = new RepairWithSimilarItemScript().getAnvilResult(nbti1, nbti2, result, null);
+		if (fuseResult.showResult() && !fuseResult.resultCancelled())
+			event.getInventory().setResult(fuseResult.getResultItem());
+		else
+			event.getInventory().setResult(null);
 	}
 
 	@EventHandler
@@ -78,35 +81,39 @@ public class CraftingEvents implements Listener {
 
 		int[] values = matrix.length == 9 ? new int[] { 0, 1, 3, 4 } : new int[] { 0 };
 		for (int i : values) {
-			if (matrix[i] != null) {
-				String itemType = ItemUtil.getItemType(matrix[i]);
-				if (itemType.equals("fishing_rod") && matrix[i + 4] != null) {
-					for (int j = 0; j < 9; j++)
-						if (!(matrix[j] == null || matrix[j].getType().equals(Material.AIR)) && (j != i && j != i + 4))
+			if (matrix[i] != null && !matrix[i].getType().equals(Material.AIR)) {
+				NBTItem nbti = new NBTItem(matrix[i]);
+				if (nbti.hasKey(NBTUtil.MATERIAL)) {
+					String itemType = nbti.getString(NBTUtil.ITEM_TYPE);
+					if (itemType.equals("fishing_rod") && matrix[i + 4] != null) {
+						for (int j = 0; j < 9; j++)
+							if (!(matrix[j] == null || matrix[j].getType().equals(Material.AIR))
+									&& (j != i && j != i + 4))
+								return;
+						Material material = matrix[i + 4].getType();
+						NBTItem resultNBTI;
+						// TODO Replace this with an addonList "Map<Material, String>
+						// materialTofishingRodType" after this
+						switch (material) {
+						case CARROT:
+							resultNBTI = new NBTItem(new ItemStack(Material.CARROT_ON_A_STICK));
+							break;
+						case WARPED_FUNGUS:
+							resultNBTI = new NBTItem(new ItemStack(Material.WARPED_FUNGUS_ON_A_STICK));
+							break;
+						// TODO add the bait_on_a_stick, a fishing rod only for fish
+						default:
 							return;
-					Material material = matrix[i + 4].getType();
-					NBTItem resultNBTI;
-					// TODO Replace this with an addonList "Map<Material, String>
-					// materialTofishingRodType" after this
-					switch (material) {
-					case CARROT:
-						resultNBTI = new NBTItem(new ItemStack(Material.CARROT_ON_A_STICK));
-						break;
-					case WARPED_FUNGUS:
-						resultNBTI = new NBTItem(new ItemStack(Material.WARPED_FUNGUS_ON_A_STICK));
-						break;
-					// TODO add the bait_on_a_stick, a fishing rod only for fish
-					default:
-						return;
+						}
+						ItemStack resultItem = new ItemStack(Material.AIR);
+						try {
+							// TODO Call events to update the item
+							resultItem = ItemUpdater.updateItem(resultNBTI.getItem(), ItemUpdatingCause.CRAFT);
+						} catch (CannotUpdateItemException e) {
+							e.printStackTrace();
+						}
+						event.getInventory().setResult(resultItem);
 					}
-					ItemStack resultItem = new ItemStack(Material.AIR);
-					try {
-						// TODO Call events to update the item
-						resultItem = ItemUpdater.updateItem(resultNBTI.getItem(), ItemUpdatingCause.CRAFT);
-					} catch (CannotUpdateItemException e) {
-						e.printStackTrace();
-					}
-					event.getInventory().setResult(resultItem);
 				}
 			}
 		}
@@ -118,9 +125,12 @@ public class CraftingEvents implements Listener {
 		int leatherItemAmount = 0;
 		int leatherArmorIndex = 0;
 		for (int i = 0; i < matrix.length; i++) {
-			if (matrix[i] != null && ItemUtil.getMaterial(matrix[i]).equals("leather")) {
-				leatherItemAmount += 1;
-				leatherArmorIndex = i;
+			if (matrix[i] != null && !matrix[i].getType().equals(Material.AIR)) {
+				NBTItem nbti = new NBTItem(matrix[i]);
+				if (nbti.hasKey(NBTUtil.MATERIAL) && nbti.getString(NBTUtil.MATERIAL).equals("leather")) {
+					leatherItemAmount += 1;
+					leatherArmorIndex = i;
+				}
 			}
 		}
 		if (leatherItemAmount != 1)

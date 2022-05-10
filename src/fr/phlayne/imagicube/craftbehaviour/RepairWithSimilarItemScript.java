@@ -27,7 +27,7 @@ public class RepairWithSimilarItemScript implements FuseScript {
 		return new FuseResult(result.getItem(), 0, 0);
 	}
 
-	public static void repairItems(NBTItem nbti1, NBTItem nbti2, NBTItem result) {
+	public void repairItems(NBTItem nbti1, NBTItem nbti2, NBTItem result) {
 		int maxDurability = Durability.getMaxDurability(nbti1);
 		int newDurability = Math.max(0, maxDurability - Math.max(0, (int) (maxDurability * 2.05F)
 				- nbti1.getInteger(NBTUtil.DURABILITY) - nbti2.getInteger(NBTUtil.DURABILITY)));

@@ -19,12 +19,15 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import de.tr7zw.nbtapi.NBTItem;
+import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.item.WeaponProperty;
+import fr.phlayne.imagicube.util.NBTUtil;
 import fr.phlayne.imagicube.util.WorldProtection;
 
 public class BlockEvents implements Listener {
@@ -246,4 +249,34 @@ public class BlockEvents implements Listener {
 		}
 	}
 
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent event) {
+		if (event.getBlockPlaced().getType().equals(Material.FARMLAND)) {
+			ItemStack mainHandItem = event.getPlayer().getEquipment().getItemInMainHand();
+			if (mainHandItem != null && !mainHandItem.getType().equals(Material.FARMLAND)) {
+				ItemStack offHandItem = event.getPlayer().getEquipment().getItemInOffHand();
+				String mainHandItemType = null;
+				String offHandItemType = null;
+				if (mainHandItem != null && !mainHandItem.getType().equals(Material.AIR))
+					if (new NBTItem(mainHandItem).hasKey(NBTUtil.ITEM_TYPE))
+						mainHandItemType = new NBTItem(mainHandItem).getString(NBTUtil.ITEM_TYPE);
+				if (offHandItem != null && !offHandItem.getType().equals(Material.AIR))
+					if (new NBTItem(offHandItem).hasKey(NBTUtil.ITEM_TYPE))
+						offHandItemType = new NBTItem(offHandItem).getString(NBTUtil.ITEM_TYPE);
+				boolean cancelled = true;
+				List<String> hoeGroup = ImagiCube.getInstance().addonList.itemGroups.get("hoe");
+				if (mainHandItemType != null && hoeGroup.contains(mainHandItemType))
+					cancelled = false;
+				// If the player has a scythe in main hand and a hoe in off hand, vanilla
+				// behavior would make the plow work and take the durability of the hoe.
+				// We cancel it here to make the code simpler, but that's an inconsistency
+				else if (!Arrays.asList(Material.DIAMOND_HOE, Material.GOLDEN_HOE, Material.IRON_HOE,
+						Material.NETHERITE_HOE, Material.STONE_HOE, Material.WOODEN_HOE)
+						.contains(mainHandItem.getType()) && offHandItemType != null
+						&& hoeGroup.contains(offHandItemType))
+					cancelled = false;
+				event.setCancelled(cancelled);
+			}
+		}
+	}
 }

@@ -3,6 +3,7 @@ package fr.phlayne.imagicube;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -47,6 +48,7 @@ import fr.phlayne.imagicube.events.ConfigEvents;
 import fr.phlayne.imagicube.events.CraftBehaviorEvents;
 import fr.phlayne.imagicube.events.CraftingEvents;
 import fr.phlayne.imagicube.events.DurabilityEvents;
+import fr.phlayne.imagicube.events.FoodEvents;
 import fr.phlayne.imagicube.events.InteractEvents;
 import fr.phlayne.imagicube.events.ItemUpdatingEvents;
 import fr.phlayne.imagicube.events.ItemUseEvents;
@@ -91,6 +93,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		pm.registerEvents(new BlockEvents(), this);
 		pm.registerEvents(new InteractEvents(), this);
 		pm.registerEvents(new ChatEvents(), this);
+		pm.registerEvents(new FoodEvents(), this);
 		resourcePackUtil = new ResourcePackUtil();
 		resourcePackUtil.init();
 		pm.registerEvents(resourcePackUtil, this);
@@ -145,6 +148,15 @@ public class ImagiCube extends JavaPlugin implements Listener {
 						new FuseEnchantmentsScript(), new NameColorScript(), new RenamingScript()));
 		this.addonList.tools = new ArrayList<Tool>(Arrays.asList(Tools.values()));
 		this.addonList.foods = new ArrayList<FoodProperty>();
+		this.addonList.itemGroups = new HashMap<String, List<String>>();
+		this.addonList.addItemsToGroup("sword", "sword");
+		this.addonList.addItemsToGroup("tool", "axe", "hoe", "pickaxe", "shovel");
+		this.addonList.addItemsToGroup("axe", "axe");
+		this.addonList.addItemsToGroup("fishing_rod", "fishing_rod");
+		this.addonList.addItemsToGroup("bow", "bow");
+		this.addonList.addItemsToGroup("hoe", "hoe");
+		this.addonList.addItemsToGroup("crossbow", "crossbow");
+
 		ImagiCubeLoadingEvent imagiCubeLoadingEvent = new ImagiCubeLoadingEvent(this.addonList);
 
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {

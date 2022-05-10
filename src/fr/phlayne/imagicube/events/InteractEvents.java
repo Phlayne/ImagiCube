@@ -1,18 +1,30 @@
 package fr.phlayne.imagicube.events;
 
+import java.util.Random;
+
 import org.bukkit.DyeColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Shulker;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import fr.phlayne.imagicube.util.DamageStats;
 
 public class InteractEvents implements Listener {
+
+	public Random random = new Random();
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDamage(EntityDamageEvent event) {
@@ -20,7 +32,32 @@ public class InteractEvents implements Listener {
 	}
 
 	@EventHandler
-	public void onRightClick(PlayerInteractEntityEvent event) {
+	public void rightClick(PlayerInteractEvent event) {
+		if (event.getHand() == EquipmentSlot.OFF_HAND)
+			return;
+		// Store experience into experience bottle.
+		if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
+				&& event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE)) {
+			Player player = event.getPlayer();
+			ItemStack handItem = player.getEquipment().getItemInMainHand();
+			if (player.getLevel() >= 1 && handItem.getType().equals(Material.GLASS_BOTTLE)) {
+				Item item = player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.EXPERIENCE_BOTTLE));
+				item.setVelocity(new Vector(0, 0, 0));
+				item.setPickupDelay(0);
+				player.giveExp(-7);
+				if (player.getGameMode().equals(GameMode.SURVIVAL) || player.getGameMode().equals(GameMode.ADVENTURE)) {
+					handItem.setAmount(handItem.getAmount() - 1);
+					player.getEquipment().setItemInMainHand(handItem);
+				}
+				player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F,
+						(1.25F + random.nextFloat() * 0.15F));
+				event.setCancelled(true);
+			}
+		}
+	}
+
+	@EventHandler
+	public void rightClickOnEntity(PlayerInteractEntityEvent event) {
 		if (event.getRightClicked() instanceof Shulker) {
 			ItemStack handItem = event.getPlayer().getEquipment().getItem(event.getHand());
 			Shulker shulker = (Shulker) event.getRightClicked();

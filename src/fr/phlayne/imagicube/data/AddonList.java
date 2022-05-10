@@ -1,5 +1,8 @@
 package fr.phlayne.imagicube.data;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
@@ -14,7 +17,7 @@ import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.schedulers.SchedulerScript;
 
 public class AddonList {
-	
+
 	public List<WeaponProperty> weapons;
 	public List<ArmorProperty> armors;
 	public List<MineralProperty> minerals;
@@ -24,4 +27,11 @@ public class AddonList {
 	public List<SchedulerScript> schedulerScripts;
 	public List<FuseScript> fuseScripts;
 	public List<Tool> tools;
+	public HashMap<String, List<String>> itemGroups;
+
+	public void addItemsToGroup(String groupName, String... itemTypes) {
+		List<String> group = itemGroups.containsKey(groupName) ? itemGroups.get(groupName) : new ArrayList<String>();
+		group.addAll(Arrays.asList(itemTypes));
+		itemGroups.put(groupName, group);
+	}
 }
