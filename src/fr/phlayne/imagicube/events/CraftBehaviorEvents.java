@@ -10,8 +10,10 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.SmithingInventory;
 
 import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.ImagiCube;
@@ -40,6 +42,15 @@ public class CraftBehaviorEvents implements Listener {
 		} else
 			sendNullResult(event);
 	}
+	
+	@EventHandler
+	public static void onSmith(PrepareSmithingEvent event) {
+		SmithingInventory smithingInventory = (SmithingInventory) event.getInventory();
+		final ItemStack item1 = smithingInventory.getContents()[0];
+		final ItemStack item2 = smithingInventory.getContents()[1];
+	}
+	
+	// TODO Grindstone
 
 	public static FuseResult getFuseResult(ItemStack item1, ItemStack item2, String newName) {
 		int repairCost = 0;

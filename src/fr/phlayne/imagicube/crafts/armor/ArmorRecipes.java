@@ -186,7 +186,7 @@ public class ArmorRecipes {
 				new SimpleJSON().add(" ", false, false, false, false, SimpleJSON.Color.WHITE, false)
 						.add("+" + weight + " ", false, false, false, false, SimpleJSON.Color.BLUE, false)
 						.add("imagicube.weight", false, false, false, false, SimpleJSON.Color.BLUE, true).convert());
-		Durability.setDurability(nbti, 0, 1);
+		Durability.setDurability(nbti, 0);
 	}
 
 	public enum CraftType {

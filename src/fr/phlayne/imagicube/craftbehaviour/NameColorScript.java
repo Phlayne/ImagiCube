@@ -16,7 +16,7 @@ public class NameColorScript implements FuseScript {
 			// We then multiply if there is durability
 			if (result.hasKey(NBTUtil.DURABILITY))
 				color.multiply(Durability.getPercentDurability(result));
-			SimpleJSON name = Durability.readName(result, color);
+			SimpleJSON name = NBTUtil.readName(result, color);
 			// If the item doesn't have a name but we want to change its color, we choose it
 			if (name.convert().equals(new SimpleJSON().convert())) {
 				name = new SimpleJSON().add(TranslatableReference.getUnlocalizedName(result.getItem().getType()), false,
@@ -24,7 +24,8 @@ public class NameColorScript implements FuseScript {
 			}
 			// Rename item at the end
 			result.getOrCreateCompound("display").setString("Name", name.convert());
-			Durability.reloadDurability(result);
+			Durability.setDurability(result, result.getInteger(NBTUtil.DURABILITY));
+			// This reloads the lore and name of the item according to this new durability.
 			return new FuseResult(result.getItem(), 1, 1).showResult(true);
 		}
 		return new FuseResult(result.getItem(), 0, 0);

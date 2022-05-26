@@ -2,10 +2,15 @@ package fr.phlayne.imagicube.util;
 
 import org.bukkit.inventory.ItemStack;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
 import de.tr7zw.nbtapi.NBTList;
+import fr.phlayne.imagicube.util.SimpleJSON.Color;
 
 public class NBTUtil {
 	public static String MATERIAL = "imagicube.material";
@@ -121,5 +126,44 @@ public class NBTUtil {
 			oldBracketCount = bracketCount;
 		}
 		return string;
+	}
+
+	public static SimpleJSON readName(NBTItem nbti, Color color) {
+		SimpleJSON simpleJsonName = new SimpleJSON();
+		if (nbti.hasKey("display")) {
+			String s = nbti.getCompound("display").getString("Name");
+			JsonElement name = JsonParser.parseString(s);
+			if (name.isJsonArray()) {
+				for (JsonElement jsonObj : name.getAsJsonArray()) {
+					simpleJsonName.add(read(jsonObj.getAsJsonObject(), color));
+				}
+			} else {
+				simpleJsonName.add(read(name.getAsJsonObject(), color));
+			}
+		}
+		return simpleJsonName;
+	}
+
+	public static SimpleJSON read(JsonObject nameElement, Color color) {
+		SimpleJSON simpleJSON = new SimpleJSON();
+		boolean translated = nameElement.has("translate");
+		simpleJSON.add(translated ? nameElement.get("translate").getAsString() : nameElement.get("text").getAsString(),
+				!translated && nameElement.get("italic").getAsBoolean(), nameElement.get("bold").getAsBoolean(),
+				nameElement.get("underlined").getAsBoolean(), nameElement.get("strikethrough").getAsBoolean(),
+				(color == null ? Color.get(nameElement.get("color").getAsString()) : color), translated);
+		if (nameElement.has("extra")) {
+			for (JsonElement ee : nameElement.get("extra").getAsJsonArray()) {
+				JsonObject extraElement = ee.getAsJsonObject();
+				simpleJSON.add(
+						extraElement.has("translate") ? extraElement.get("translate").getAsString()
+								: extraElement.get("text").getAsString(),
+						!extraElement.has("translate") && extraElement.get("italic").getAsBoolean(),
+						extraElement.get("bold").getAsBoolean(), extraElement.get("underlined").getAsBoolean(),
+						extraElement.get("strikethrough").getAsBoolean(),
+						(color == null ? Color.get(nameElement.get("color").getAsString()) : color),
+						extraElement.has("translate"));
+			}
+		}
+		return simpleJSON;
 	}
 }

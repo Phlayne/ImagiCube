@@ -129,7 +129,7 @@ public class ItemUpdater {
 						NBTCompound displayTag = nbti.getOrCreateCompound("display");
 						NBTUtil.addLore(displayTag, new SimpleJSON()
 								.add("", false, false, false, false, SimpleJSON.Color.WHITE, false).convert());
-						Durability.setDurability(nbti, durability, Durability.getPercentDurability(nbti));
+						Durability.setDurability(nbti, durability);
 						return nbti.getItem();
 					} else
 
@@ -158,7 +158,7 @@ public class ItemUpdater {
 							// Change the old Damage to the new CustomModelData in order to change the
 							// texture.
 							if (!nbti.hasKey(NBTUtil.UPDATEVERSION))
-								Durability.setDurability(nbti, durability, Durability.getPercentDurability(nbti));
+								Durability.setDurability(nbti, durability);
 							if (!cosmeticEffect.equals("none"))
 								NBTUtil.addLore(nbti, "imagicube.cosmetic_effect." + cosmeticEffect, false, false,
 										false, false, true, Color.YELLOW);
