@@ -12,10 +12,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.data.Config;
@@ -27,11 +23,11 @@ public class Durability {
 
 	public static Random random = new Random();
 
-	public static int getMaxDurability(WeaponProperty weaponProperty) {
+	protected static int getMaxDurability(WeaponProperty weaponProperty) {
 		return weaponProperty.getDurability();
 	}
 
-	public static int getMaxDurability(ArmorProperty armorProperty) {
+	protected static int getMaxDurability(ArmorProperty armorProperty) {
 		return armorProperty.getDurability();
 	}
 
@@ -89,16 +85,10 @@ public class Durability {
 		return nbti.hasKey(NBTUtil.DURABILITY);
 	}
 
-	public static boolean applyDurability(NBTItem nbti) {
-		return applyDurability(nbti, getMaxDurability(nbti));
-	}
-
-	public static boolean applyDurability(NBTItem nbti, int maxDurability) {
-		return applyDurability(nbti, nbti.getItem().getEnchantmentLevel(Enchantment.DURABILITY), maxDurability);
-	}
-
 	// Returns true if the item should break;
-	public static boolean applyDurability(NBTItem nbti, int unbreakingLevel, int maxDurability) {
+	public static boolean applyDurability(NBTItem nbti) {
+		int maxDurability = getMaxDurability(nbti);
+		int unbreakingLevel = nbti.getItem().getEnchantmentLevel(Enchantment.DURABILITY);
 		if (nbti != null && nbti.hasKey(NBTUtil.DURABILITY) && maxDurability != 1) {
 			List<String> armorParts = Arrays.asList("boots", "leggings", "chestplate", "helmet");
 			boolean isArmor = nbti.hasKey(NBTUtil.ITEM_TYPE) ? armorParts.contains(nbti.getString(NBTUtil.ITEM_TYPE))
@@ -122,7 +112,7 @@ public class Durability {
 		return getPercentDurability(nbti, nbti.getInteger(NBTUtil.DURABILITY), getMaxDurability(nbti));
 	}
 
-	public static float getPercentDurability(NBTItem nbti, int durability, int maxDurability) {
+	protected static float getPercentDurability(NBTItem nbti, int durability, int maxDurability) {
 		if (durability < 0)
 			durability = nbti.hasKey(NBTUtil.DURABILITY) ? nbti.getInteger(NBTUtil.DURABILITY) : 0;
 		return 1 - ((float) durability / ((float) maxDurability));
@@ -143,11 +133,11 @@ public class Durability {
 		return new Color((int) (red * 255), (int) (green * 255), (int) (blue * 255));
 	}
 
-	public static Color getColorDurability(NBTItem nbti, int durability, int maxDurability) {
+	protected static Color getColorDurability(NBTItem nbti, int durability, int maxDurability) {
 		return getColorDurability(getPercentDurability(nbti, durability, maxDurability), getForcedColor(nbti));
 	}
 
-	public static Color getColorDurability(NBTItem nbti, int durability, int maxDurability, Color forcedColor) {
+	protected static Color getColorDurability(NBTItem nbti, int durability, int maxDurability, Color forcedColor) {
 		return getColorDurability(getPercentDurability(nbti, durability, maxDurability), forcedColor);
 	}
 
@@ -161,7 +151,7 @@ public class Durability {
 		setDurability(nbti, durability, 1 - (float) durability / getMaxDurability(nbti));
 	}
 
-	public static void setDurability(NBTItem nbti, int durability, float percentDurability) {
+	protected static void setDurability(NBTItem nbti, int durability, float percentDurability) {
 		Color color = getColorDurability(percentDurability, getForcedColor(nbti));
 		int percent = (int) (100F * percentDurability);
 		NBTCompound displayTag = nbti.getOrCreateCompound("display");
@@ -173,7 +163,7 @@ public class Durability {
 						.add(" " + percent + "%", false, false, false, false, color.multiply(2 / 3F), false).convert(),
 				0);
 		if (displayTag.hasKey("Name")) {
-			SimpleJSON simpleJsonName = readName(nbti, color);
+			SimpleJSON simpleJsonName = NBTUtil.readName(nbti, color);
 			displayTag.setString("Name", simpleJsonName.convert());
 		} else {
 			displayTag.setString("Name",
@@ -188,50 +178,6 @@ public class Durability {
 			else
 				nbti.setInteger("Damage", 0);
 		}
-	}
-
-	public static void reloadDurability(NBTItem nbti) {
-		if (nbti.hasKey(NBTUtil.DURABILITY))
-			setDurability(nbti, nbti.getInteger(NBTUtil.DURABILITY));
-	}
-
-	public static SimpleJSON readName(NBTItem nbti, Color color) {
-		SimpleJSON simpleJsonName = new SimpleJSON();
-		if (nbti.hasKey("display")) {
-			String s = nbti.getCompound("display").getString("Name");
-			JsonElement name = JsonParser.parseString(s);
-			if (name.isJsonArray()) {
-				for (JsonElement jsonObj : name.getAsJsonArray()) {
-					simpleJsonName.add(read(jsonObj.getAsJsonObject(), color));
-				}
-			} else {
-				simpleJsonName.add(read(name.getAsJsonObject(), color));
-			}
-		}
-		return simpleJsonName;
-	}
-
-	public static SimpleJSON read(JsonObject nameElement, Color color) {
-		SimpleJSON simpleJSON = new SimpleJSON();
-		boolean translated = nameElement.has("translate");
-		simpleJSON.add(translated ? nameElement.get("translate").getAsString() : nameElement.get("text").getAsString(),
-				!translated && nameElement.get("italic").getAsBoolean(), nameElement.get("bold").getAsBoolean(),
-				nameElement.get("underlined").getAsBoolean(), nameElement.get("strikethrough").getAsBoolean(),
-				(color == null ? Color.get(nameElement.get("color").getAsString()) : color), translated);
-		if (nameElement.has("extra")) {
-			for (JsonElement ee : nameElement.get("extra").getAsJsonArray()) {
-				JsonObject extraElement = ee.getAsJsonObject();
-				simpleJSON.add(
-						extraElement.has("translate") ? extraElement.get("translate").getAsString()
-								: extraElement.get("text").getAsString(),
-						!extraElement.has("translate") && extraElement.get("italic").getAsBoolean(),
-						extraElement.get("bold").getAsBoolean(), extraElement.get("underlined").getAsBoolean(),
-						extraElement.get("strikethrough").getAsBoolean(),
-						(color == null ? Color.get(nameElement.get("color").getAsString()) : color),
-						extraElement.has("translate"));
-			}
-		}
-		return simpleJSON;
 	}
 
 	public static void playBreakItemAnimation(HumanEntity player, ItemStack item) {
