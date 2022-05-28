@@ -17,6 +17,7 @@ public class Config {
 	public static final String FOOD_PROPERTIES = "food_properties";
 	public static final String DURABILITY = "durability";
 	public static final String ENCHANTMENTS = "enchantments";
+	public static final String WORLD_COLORS = "world_colors";
 
 	public static FileConfiguration getConfig() {
 		return YamlConfiguration.loadConfiguration(new File("plugins/" + Reference.PLUGIN_NAME + "/config.yml"));
@@ -37,6 +38,7 @@ public class Config {
 		String foodPropertiesPath = FOOD_PROPERTIES + ".yml";
 		String durabilityPath = DURABILITY + ".yml";
 		String enchantmentsPath = ENCHANTMENTS + ".yml";
+		String worldColorsPath = WORLD_COLORS + ".yml";
 		String folderPath = "plugins/" + Reference.PLUGIN_NAME + "/";
 		if (!new File(folderPath + configPath).exists())
 			ImagiCube.getInstance().saveResource(configPath, false);
@@ -46,6 +48,8 @@ public class Config {
 			ImagiCube.getInstance().saveResource(durabilityPath, false);
 		if (!new File(folderPath + enchantmentsPath).exists())
 			ImagiCube.getInstance().saveResource(enchantmentsPath, false);
+		if (!new File(folderPath + worldColorsPath).exists())
+			ImagiCube.getInstance().saveResource(worldColorsPath, false);
 	}
 
 	public static void checkConfigs() {
@@ -54,7 +58,8 @@ public class Config {
 		for (String key : Arrays.asList("prismarineTools", "stoneToolsVariants", "woodToolsVariants",
 				"concrete_powder_to_concrete_craft_with_bucket", "lossless_mending_system",
 				"craftable_chainmail_armor_with_chains", "ender_pearl_cooldown", "concrete_powder_interacts_with_water",
-				"boost_quartz_drop", "farmland_not_breaking_on_jump", "player_velocity_on_attack_modifier")) {
+				"boost_quartz_drop", "farmland_not_breaking_on_jump", "player_velocity_on_attack_modifier",
+				"thorns_durability_modifier", "seconds_before_afk", "sitting_on_blocks")) {
 			if (!config.contains(key)) {
 				warnKeyAbsent(key);
 				missingValuesConfig = true;

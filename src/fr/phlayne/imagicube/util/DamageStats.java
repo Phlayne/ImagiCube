@@ -3,12 +3,16 @@ package fr.phlayne.imagicube.util;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -101,15 +105,21 @@ public class DamageStats {
 
 	public static boolean magicDamage(LivingEntity source, Entity target, double damage) {
 		if (target instanceof LivingEntity) {
+			if (target instanceof Player && (((Player) target).getGameMode().equals(GameMode.CREATIVE)
+					|| ((Player) target).getGameMode().equals(GameMode.SPECTATOR)))
+				return false;
 			Vector vector = target.getVelocity();
-			((LivingEntity) target).damage(damage);
+			((LivingEntity) target).damage(0.0000123D, source);
 			EntityDamageEvent event = new EntityDamageEvent(target, DamageCause.MAGIC, damage);
 			if (source != null)
 				event = new EntityDamageByEntityEvent(source, target, DamageCause.MAGIC, damage);
+			Bukkit.getPluginManager().callEvent(event);
+			((LivingEntity) target).setLastDamage(event.getDamage());
 			target.setLastDamageCause(event);
+			((LivingEntity) target).setHealth(Math.max(Math.min(((LivingEntity) target).getHealth() - event.getDamage(),
+					((LivingEntity) target).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()), 0));
 			target.setVelocity(vector);
 			return true;
-			// Check if this works, before, I used NMS
 		}
 		return false;
 	}

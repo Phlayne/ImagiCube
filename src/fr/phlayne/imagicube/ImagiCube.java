@@ -25,12 +25,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.commands.Commands;
+import fr.phlayne.imagicube.craftbehaviour.DiamondToNetheriteScript;
 import fr.phlayne.imagicube.craftbehaviour.FuseEnchantmentsScript;
 import fr.phlayne.imagicube.craftbehaviour.FuseScript;
 import fr.phlayne.imagicube.craftbehaviour.NameColorScript;
 import fr.phlayne.imagicube.craftbehaviour.RenamingScript;
 import fr.phlayne.imagicube.craftbehaviour.RepairWithMaterialScript;
 import fr.phlayne.imagicube.craftbehaviour.RepairWithSimilarItemScript;
+import fr.phlayne.imagicube.craftbehaviour.SmithScript;
 import fr.phlayne.imagicube.crafts.ConcreteCrafts;
 import fr.phlayne.imagicube.crafts.Crafts;
 import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
@@ -42,7 +44,9 @@ import fr.phlayne.imagicube.display.DisplayScript;
 import fr.phlayne.imagicube.display.LeftHandDurabilityScript;
 import fr.phlayne.imagicube.display.RightHandDurabilityScript;
 import fr.phlayne.imagicube.event.ImagiCubeLoadingEvent;
+import fr.phlayne.imagicube.events.AFKEvents;
 import fr.phlayne.imagicube.events.BlockEvents;
+import fr.phlayne.imagicube.events.ChairEvents;
 import fr.phlayne.imagicube.events.ChatEvents;
 import fr.phlayne.imagicube.events.ConfigEvents;
 import fr.phlayne.imagicube.events.CraftBehaviorEvents;
@@ -53,6 +57,7 @@ import fr.phlayne.imagicube.events.InteractEvents;
 import fr.phlayne.imagicube.events.ItemUpdatingEvents;
 import fr.phlayne.imagicube.events.ItemUseEvents;
 import fr.phlayne.imagicube.events.SpawnEvents;
+import fr.phlayne.imagicube.events.VillagerTradeUpdatingEvents;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.ArmorProperties;
 import fr.phlayne.imagicube.item.ArmorProperty;
@@ -66,6 +71,7 @@ import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.schedulers.DisplayScriptScheduler;
 import fr.phlayne.imagicube.schedulers.EntityScheduler;
 import fr.phlayne.imagicube.schedulers.GeneralScheduler;
+import fr.phlayne.imagicube.schedulers.ListNameScheduler;
 import fr.phlayne.imagicube.schedulers.PlayerScheduler;
 import fr.phlayne.imagicube.schedulers.SchedulerScript;
 import fr.phlayne.imagicube.util.NBTUtil;
@@ -94,6 +100,12 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		pm.registerEvents(new InteractEvents(), this);
 		pm.registerEvents(new ChatEvents(), this);
 		pm.registerEvents(new FoodEvents(), this);
+		if (Config.getConfig().contains("sitting_on_blocks") && Config.getConfig().getBoolean("sitting_on_blocks"))
+			pm.registerEvents(new ChairEvents(), this);
+		pm.registerEvents(new VillagerTradeUpdatingEvents(), this);
+		AFKEvents afkEvents = new AFKEvents();
+		afkEvents.init();
+		pm.registerEvents(afkEvents, this);
 		resourcePackUtil = new ResourcePackUtil();
 		resourcePackUtil.init();
 		pm.registerEvents(resourcePackUtil, this);
@@ -141,11 +153,12 @@ public class ImagiCube extends JavaPlugin implements Listener {
 				Arrays.asList(Crafts.INVISIBLE_ITEM_FRAME.getResult(), Crafts.CACTUS_LEATHER.getResult()));
 		this.addonList.displayScripts = new ArrayList<DisplayScript>(
 				Arrays.asList(new ArmorScript(), new LeftHandDurabilityScript(), new RightHandDurabilityScript()));
-		this.addonList.schedulerScripts = new ArrayList<SchedulerScript>(
-				Arrays.asList(new DisplayScriptScheduler(), new PlayerScheduler(), new EntityScheduler()));
+		this.addonList.schedulerScripts = new ArrayList<SchedulerScript>(Arrays.asList(new DisplayScriptScheduler(),
+				new PlayerScheduler(), new EntityScheduler(), new ListNameScheduler()));
 		this.addonList.fuseScripts = new ArrayList<FuseScript>(
 				Arrays.asList(new RepairWithSimilarItemScript(), new RepairWithMaterialScript(),
 						new FuseEnchantmentsScript(), new NameColorScript(), new RenamingScript()));
+		this.addonList.smithScripts = new ArrayList<SmithScript>(Arrays.asList(new DiamondToNetheriteScript()));
 		this.addonList.tools = new ArrayList<Tool>(Arrays.asList(Tools.values()));
 		this.addonList.foods = new ArrayList<FoodProperty>();
 		this.addonList.itemGroups = new HashMap<String, List<String>>();

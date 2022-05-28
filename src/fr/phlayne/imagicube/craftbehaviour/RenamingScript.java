@@ -9,7 +9,7 @@ import fr.phlayne.imagicube.util.SimpleJSON.Color;
 
 public class RenamingScript implements FuseScript {
 
-	public FuseResult getAnvilResult(NBTItem leftItem, NBTItem rightItem, NBTItem result, String newName) {
+	public FuseResult getResult(NBTItem leftItem, NBTItem rightItem, NBTItem result, String newName) {
 		if (rightItem == null && newName != null && !newName.equals("")) {
 			Color color = EnchantmentHelper.getItemBaseColor(result);
 			if (result.hasKey(NBTUtil.DURABILITY))

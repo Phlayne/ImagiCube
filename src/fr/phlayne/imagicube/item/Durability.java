@@ -142,8 +142,8 @@ public class Durability {
 	}
 
 	public static Color getForcedColor(NBTItem nbti) {
-		return nbti.hasKey("imagicube.forced_color") ? !nbti.getString("imagicube.forced_color").equals("none")
-				? new Color(nbti.getString("imagicube.forced_color"))
+		return nbti.hasKey(NBTUtil.FORCED_COLOR) ? !nbti.getString(NBTUtil.FORCED_COLOR).equals("none")
+				? new Color(nbti.getString(NBTUtil.FORCED_COLOR))
 				: null : null;
 	}
 
@@ -151,7 +151,7 @@ public class Durability {
 		setDurability(nbti, durability, 1 - (float) durability / getMaxDurability(nbti));
 	}
 
-	protected static void setDurability(NBTItem nbti, int durability, float percentDurability) {
+	public static void setDurability(NBTItem nbti, int durability, float percentDurability) {
 		Color color = getColorDurability(percentDurability, getForcedColor(nbti));
 		int percent = (int) (100F * percentDurability);
 		NBTCompound displayTag = nbti.getOrCreateCompound("display");

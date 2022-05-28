@@ -65,11 +65,8 @@ public class ItemUpdater {
 							: nbti.hasKey("Damage") ? nbti.getInteger("Damage") : 0;
 					NBTCompoundList enchantments = nbti.hasKey("Enchantments") ? nbti.getCompoundList("Enchantments")
 							: null;
-					boolean isUncraftable = nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED)
-							? nbti.getBoolean(NBTUtil.CANNOT_BE_UNCRAFTED)
-							: false;
-					String forcedColor = nbti.hasKey("imagicube.forced_color")
-							? nbti.getString("imagicube.forced_color")
+					String forcedColor = nbti.hasKey(NBTUtil.FORCED_COLOR)
+							? nbti.getString(NBTUtil.FORCED_COLOR)
 							: "none";
 					String cosmeticEffect = nbti.hasKey("imagicube.cosmetic_effect")
 							? nbti.getString("imagicube.cosmetic_effect")
@@ -130,6 +127,9 @@ public class ItemUpdater {
 						NBTUtil.addLore(displayTag, new SimpleJSON()
 								.add("", false, false, false, false, SimpleJSON.Color.WHITE, false).convert());
 						Durability.setDurability(nbti, durability);
+						NBTUtil.removeUselessLines(nbti);
+						if (cause.equals(ItemUpdatingCause.VILLAGER))
+							setUncraftImpossible(nbti);
 						return nbti.getItem();
 					} else
 
@@ -162,75 +162,69 @@ public class ItemUpdater {
 							if (!cosmeticEffect.equals("none"))
 								NBTUtil.addLore(nbti, "imagicube.cosmetic_effect." + cosmeticEffect, false, false,
 										false, false, true, Color.YELLOW);
+							NBTUtil.removeUselessLines(nbti);
+							if (cause.equals(ItemUpdatingCause.VILLAGER))
+								setUncraftImpossible(nbti);
 							return nbti.getItem();
 						}
-					} else
-						/*
-						 * if (item.getType() == Material.DIAMOND_SWORD && item instanceof Damageable &&
-						 * ((Damageable) item).getDamage() > 0) {
-						 * 
-						 * Hats - TODO Move it to ImagiCubeHats
-						 * 
-						 * if (Hat.isHat(item)) { Hat hat = Hat.getHat(item); if (!hat.equals(Hat.NONE))
-						 * { ItemStack result = hat.getHat(); NBTTagCompound tag =
-						 * NBTUtil.getTag(result); setValues(tag, 0, null, forcedColor, cosmeticEffect,
-						 * itemName, 0); tag.setInt(NBTUtil.UPDATEVERSION, updateVersion); // Change the
-						 * old Damage to the new CustomModelData in order to change the // texture. if
-						 * (!tag.hasKey(NBTUtil.UPDATEVERSION) || tag.getInt(NBTUtil.UPDATEVERSION) ==
-						 * 0) { item = Durability.setDurability(item, 0); tag.setInt("CustomModelData",
-						 * durability); } item = NBTUtil.setTag(result, tag); if
-						 * (!cosmeticEffect.equals("none")) item = NBTUtil.addLore(item,
-						 * "imagicube.cosmetic_effect." + cosmeticEffect, false, false, false, false,
-						 * true, Color.YELLOW); } } else
-						 */
-
-						/*
-						 * Magic Items - TODO Move it to ImagiCubeSpells
-						 * 
-						 * if (nbti.hasKey(NBTUtil.ITEM_TYPE) && Arrays.asList("scepter", "parchment",
-						 * "globe") .contains(nbti.getString(NBTUtil.ITEM_TYPE))) { String itemType =
-						 * nbti.getString(NBTUtil.ITEM_TYPE); item =
-						 * ItemList.createSpellElement(itemType.equals("scepter") ? SpellType.RAY :
-						 * itemType.equals("parchment") ? SpellType.SELF : SpellType.ZONE);
-						 * NBTTagCompound tag = nbti; setValues(tag, repairCost, enchantments,
-						 * forcedColor, cosmeticEffect, itemName, color); } else { int damage =
-						 * nbti.getInt("Damage"); switch (damage) { case 1: case 2: case 3: String spell
-						 * = nbti.hasKey(NBTUtil.SPELL) ? nbti.getString(NBTUtil.SPELL) : ""; if (spell
-						 * != "") { String[] s = spell.split(";"); if (s.length < 4) {
-						 * Bukkit.getLogger().log(Level.SEVERE, playerName +
-						 * " : Could not update following item : " + item.getType().getKey().getKey() +
-						 * nbti.toString()); } else { String type = s[1].split("/")[0]; String property
-						 * = s[0].split("/")[0]; int level = Integer.parseInt(s[0].split("/")[1]); item
-						 * = SpellUtil.createSpell( type.equals("ray") ? SpellType.RAY :
-						 * type.equals("zone") ? SpellType.ZONE : SpellType.SELF, property, level);
-						 * NBTTagCompound tag = nbti; int newDurability = tag.hasKey(NBTUtil.DURABILITY)
-						 * ? tag.getInt(NBTUtil.DURABILITY) : 0; setValues(tag, repairCost,
-						 * enchantments, forcedColor, cosmeticEffect, itemName, 0);
-						 * tag.setInt(NBTUtil.UPDATEVERSION, updateVersion); item = NBTUtil.setTag(item,
-						 * tag); item = Durability.setDurability(item, newDurability); if
-						 * (!cosmeticEffect.equals("none")) item = NBTUtil.addLore(item,
-						 * "imagicube.cosmetic_effect." + cosmeticEffect, false, false, false, false,
-						 * true, Color.YELLOW); } } break; default: NBTTagCompound tag = nbti; int
-						 * newDurability = tag.hasKey(NBTUtil.DURABILITY) ?
-						 * tag.getInt(NBTUtil.DURABILITY) : 0; WeaponProperty wp =
-						 * WeaponProperty.getWeaponProperty(tag); if (wp != null) item =
-						 * WeaponRecipes.setWeaponValues(wp); tag = nbti; setValues(tag, repairCost,
-						 * enchantments, forcedColor, cosmeticEffect, itemName, 0);
-						 * tag.setInt(NBTUtil.UPDATEVERSION, updateVersion); item = NBTUtil.setTag(item,
-						 * tag); item = Durability.setDurability(item, newDurability); if
-						 * (!cosmeticEffect.equals("none")) item = NBTUtil.addLore(item,
-						 * "imagicube.cosmetic_effect." + cosmeticEffect, false, false, false, false,
-						 * true, Color.YELLOW); } } }
-						 */
-						NBTUtil.removeUselessLines(nbti);
-					if ((cause.equals(ItemUpdatingCause.VILLAGER) || isUncraftable
-							|| nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED)) && CraftingEvents.uncraft(item) != null) {
-						nbti.setBoolean(NBTUtil.CANNOT_BE_UNCRAFTED,
-								nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED) ? nbti.getBoolean(NBTUtil.CANNOT_BE_UNCRAFTED)
-										: true);
-						NBTUtil.addLore(nbti, "imagicube.cannot.uncraft", false, false, false, false, true, Color.BLUE);
-						return nbti.getItem();
 					}
+					/*
+					 * else if (item.getType() == Material.DIAMOND_SWORD && item instanceof
+					 * Damageable && ((Damageable) item).getDamage() > 0) {
+					 * 
+					 * Hats - TODO Move it to ImagiCubeHats
+					 * 
+					 * if (Hat.isHat(item)) { Hat hat = Hat.getHat(item); if (!hat.equals(Hat.NONE))
+					 * { ItemStack result = hat.getHat(); NBTTagCompound tag =
+					 * NBTUtil.getTag(result); setValues(tag, 0, null, forcedColor, cosmeticEffect,
+					 * itemName, 0); tag.setInt(NBTUtil.UPDATEVERSION, updateVersion); // Change the
+					 * old Damage to the new CustomModelData in order to change the // texture. if
+					 * (!tag.hasKey(NBTUtil.UPDATEVERSION) || tag.getInt(NBTUtil.UPDATEVERSION) ==
+					 * 0) { item = Durability.setDurability(item, 0); tag.setInt("CustomModelData",
+					 * durability); } item = NBTUtil.setTag(result, tag); if
+					 * (!cosmeticEffect.equals("none")) item = NBTUtil.addLore(item,
+					 * "imagicube.cosmetic_effect." + cosmeticEffect, false, false, false, false,
+					 * true, Color.YELLOW); } } else
+					 */
+
+					/*
+					 * Magic Items - TODO Move it to ImagiCubeSpells
+					 * 
+					 * if (nbti.hasKey(NBTUtil.ITEM_TYPE) && Arrays.asList("scepter", "parchment",
+					 * "globe") .contains(nbti.getString(NBTUtil.ITEM_TYPE))) { String itemType =
+					 * nbti.getString(NBTUtil.ITEM_TYPE); item =
+					 * ItemList.createSpellElement(itemType.equals("scepter") ? SpellType.RAY :
+					 * itemType.equals("parchment") ? SpellType.SELF : SpellType.ZONE);
+					 * NBTTagCompound tag = nbti; setValues(tag, repairCost, enchantments,
+					 * forcedColor, cosmeticEffect, itemName, color); } else { int damage =
+					 * nbti.getInt("Damage"); switch (damage) { case 1: case 2: case 3: String spell
+					 * = nbti.hasKey(NBTUtil.SPELL) ? nbti.getString(NBTUtil.SPELL) : ""; if (spell
+					 * != "") { String[] s = spell.split(";"); if (s.length < 4) {
+					 * Bukkit.getLogger().log(Level.SEVERE, playerName +
+					 * " : Could not update following item : " + item.getType().getKey().getKey() +
+					 * nbti.toString()); } else { String type = s[1].split("/")[0]; String property
+					 * = s[0].split("/")[0]; int level = Integer.parseInt(s[0].split("/")[1]); item
+					 * = SpellUtil.createSpell( type.equals("ray") ? SpellType.RAY :
+					 * type.equals("zone") ? SpellType.ZONE : SpellType.SELF, property, level);
+					 * NBTTagCompound tag = nbti; int newDurability = tag.hasKey(NBTUtil.DURABILITY)
+					 * ? tag.getInt(NBTUtil.DURABILITY) : 0; setValues(tag, repairCost,
+					 * enchantments, forcedColor, cosmeticEffect, itemName, 0);
+					 * tag.setInt(NBTUtil.UPDATEVERSION, updateVersion); item = NBTUtil.setTag(item,
+					 * tag); item = Durability.setDurability(item, newDurability); if
+					 * (!cosmeticEffect.equals("none")) item = NBTUtil.addLore(item,
+					 * "imagicube.cosmetic_effect." + cosmeticEffect, false, false, false, false,
+					 * true, Color.YELLOW); } } break; default: NBTTagCompound tag = nbti; int
+					 * newDurability = tag.hasKey(NBTUtil.DURABILITY) ?
+					 * tag.getInt(NBTUtil.DURABILITY) : 0; WeaponProperty wp =
+					 * WeaponProperty.getWeaponProperty(tag); if (wp != null) item =
+					 * WeaponRecipes.setWeaponValues(wp); tag = nbti; setValues(tag, repairCost,
+					 * enchantments, forcedColor, cosmeticEffect, itemName, 0);
+					 * tag.setInt(NBTUtil.UPDATEVERSION, updateVersion); item = NBTUtil.setTag(item,
+					 * tag); item = Durability.setDurability(item, newDurability); if
+					 * (!cosmeticEffect.equals("none")) item = NBTUtil.addLore(item,
+					 * "imagicube.cosmetic_effect." + cosmeticEffect, false, false, false, false,
+					 * true, Color.YELLOW); } } }
+					 */
 				}
 			} else if (item.getType().isEdible() || FoodProperty.getFoodProperty(item) != null) {
 				FoodProperty fp = FoodProperty.getFoodProperty(item);
@@ -277,10 +271,19 @@ public class ItemUpdater {
 		if (enchantments != null)
 			nbti.getCompoundList("Enchantments").addAll(enchantments);
 		if (!forcedColor.equals("none"))
-			nbti.setString("imagicube.forced_color", forcedColor);
+			nbti.setString(NBTUtil.FORCED_COLOR, forcedColor);
 		if (!cosmeticEffect.equals("none"))
 			nbti.setString("imagicube.cosmetic_effect", cosmeticEffect);
 		Durability.setDurability(nbti, durability);
+	}
+
+	public static void setUncraftImpossible(NBTItem nbti) {
+		if (nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED) ? nbti.getBoolean(NBTUtil.CANNOT_BE_UNCRAFTED)
+				: false || CraftingEvents.uncraft(nbti.getItem()) != null) {
+			nbti.setBoolean(NBTUtil.CANNOT_BE_UNCRAFTED,
+					nbti.hasKey(NBTUtil.CANNOT_BE_UNCRAFTED) ? nbti.getBoolean(NBTUtil.CANNOT_BE_UNCRAFTED) : true);
+			NBTUtil.addLore(nbti, "imagicube.cannot.uncraft", false, false, false, false, true, Color.BLUE);
+		}
 	}
 
 }

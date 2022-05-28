@@ -6,7 +6,7 @@ import fr.phlayne.imagicube.util.NBTUtil;
 
 public class RepairWithSimilarItemScript implements FuseScript {
 
-	public FuseResult getAnvilResult(NBTItem leftItem, NBTItem rightItem, NBTItem result, String newName) {
+	public FuseResult getResult(NBTItem leftItem, NBTItem rightItem, NBTItem result, String newName) {
 		if (rightItem != null) {
 			if (leftItem.hasKey(NBTUtil.ITEM_TYPE) && rightItem.hasKey(NBTUtil.ITEM_TYPE)) {
 				// We cancel if the two items are not the same type.

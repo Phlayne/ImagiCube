@@ -7,6 +7,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.block.Dispenser;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Trident;
@@ -34,6 +35,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import de.tr7zw.nbtapi.NBTItem;
+import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.Reference;
 import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.item.ArmorProperty;
@@ -77,6 +79,36 @@ public class DurabilityEvents implements Listener {
 						} else
 							player.getInventory().setItemInMainHand(nbti.getItem());
 					}
+				}
+			}
+		}
+		if (event.getEntity() instanceof Player) {
+			int thornsDurabilityModifier = Config.getConfig().getInt("thorns_durability_modifier");
+			if (thornsDurabilityModifier > 0) {
+				Player player = (Player) event.getEntity();
+				List<Integer> thornsSlots = new ArrayList<Integer>();
+				EquipmentSlot[] slots = { EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST,
+						EquipmentSlot.HEAD };
+				for (int i = 0; i < 4; i++) {
+					ItemStack item = player.getEquipment().getItem(slots[i]);
+					if (item != null && !item.getType().equals(Material.AIR))
+						if (item.getEnchantmentLevel(Enchantment.THORNS) > 0)
+							thornsSlots.add(i);
+				}
+				if (thornsSlots.size() > 0) {
+					int damagedSlot = thornsSlots.get(random.nextInt(thornsSlots.size()));
+					NBTItem nbti = new NBTItem(player.getEquipment().getItem(slots[damagedSlot]));
+					boolean broke = false;
+					for (int i = 0; i < thornsDurabilityModifier; i++) {
+						broke |= Durability.applyDurability(nbti);
+						if (broke)
+							break;
+					}
+					if (broke) {
+						Durability.playBreakItemAnimation(player, nbti.getItem());
+						player.getEquipment().setItem(slots[damagedSlot], new ItemStack(Material.AIR));
+					} else
+						player.getEquipment().setItem(slots[damagedSlot], nbti.getItem());
 				}
 			}
 		}
@@ -164,15 +196,24 @@ public class DurabilityEvents implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onShearing(BlockShearEntityEvent event) {
-		if (!event.isCancelled()) {
-			// ItemStack result = Durability.applyDurability(event.getTool(),
-			// event.getTool().getEnchantmentLevel(Enchantment.DURABILITY));
-
-			// TODO Faire en sorte de prendre la durabilité dans un dispenser
-			// sinon on peut exploit ça. Pour ça, récupérer les données du bloc,
-			// choisir un item de type
-			// "shears" au hasard, lui appliquer la durabilité et le remplacer
-			// dans le dispenser
+		if (!event.isCancelled() && event.getBlock().getState() instanceof Dispenser) {
+			Dispenser dispenser = (Dispenser) event.getBlock().getState();
+			List<Integer> shearsIndex = new ArrayList<Integer>();
+			for (int i = 0; i < dispenser.getInventory().getSize(); i++)
+				if (event.getTool().equals(dispenser.getInventory().getItem(i)))
+					shearsIndex.add(i);
+			if (shearsIndex.size() > 0) {
+				NBTItem nbti = new NBTItem(event.getTool());
+				boolean broke = Durability.applyDurability(nbti);
+				if (broke)
+					Bukkit.getScheduler().scheduleSyncDelayedTask(ImagiCube.getInstance(),
+							() -> dispenser.getInventory().setItem(shearsIndex.get(random.nextInt(shearsIndex.size())),
+									new ItemStack(Material.AIR)));
+				else
+					Bukkit.getScheduler().scheduleSyncDelayedTask(ImagiCube.getInstance(),
+							() -> dispenser.getInventory().setItem(shearsIndex.get(random.nextInt(shearsIndex.size())),
+									nbti.getItem()));
+			}
 		}
 	}
 

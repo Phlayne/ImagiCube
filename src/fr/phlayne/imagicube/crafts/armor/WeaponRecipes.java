@@ -288,7 +288,7 @@ public class WeaponRecipes {
 			display.setString("Name", new SimpleJSON()
 					.add(weaponName, false, false, false, false, SimpleJSON.Color.WHITE, true).convert());
 		nbti.setInteger(NBTUtil.UPDATEVERSION, ItemUpdater.updateVersion);
-		Durability.setDurability(nbti, 0);
+		Durability.setDurability(nbti, 0, 1);
 	}
 
 	public static String getWeaponName(WeaponProperty weaponProperty) {

@@ -10,7 +10,7 @@ import fr.phlayne.imagicube.util.NBTUtil;
 
 public class FuseEnchantmentsScript implements FuseScript {
 
-	public FuseResult getAnvilResult(NBTItem leftItem, NBTItem rightItem, NBTItem result, String newName) {
+	public FuseResult getResult(NBTItem leftItem, NBTItem rightItem, NBTItem result, String newName) {
 		if (rightItem != null) {
 			int repairCost = fuseEnchantments(leftItem, rightItem, result, true, true);
 			String item1Enchants = leftItem.getItem().getType().equals(Material.ENCHANTED_BOOK) ? "StoredEnchantments"

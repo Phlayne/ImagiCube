@@ -9,10 +9,10 @@ import fr.phlayne.imagicube.util.TranslatableReference;
 
 public class NameColorScript implements FuseScript {
 
-	public FuseResult getAnvilResult(NBTItem leftItem, NBTItem rightItem, NBTItem result, String newName) {
+	public FuseResult getResult(NBTItem leftItem, NBTItem rightItem, NBTItem result, String newName) {
 		Color color = getColor(rightItem);
 		if (color != null) {
-			result.setString("imagicube.forced_color", color.getColor());
+			result.setString(NBTUtil.FORCED_COLOR, color.getColor());
 			// We then multiply if there is durability
 			if (result.hasKey(NBTUtil.DURABILITY))
 				color.multiply(Durability.getPercentDurability(result));

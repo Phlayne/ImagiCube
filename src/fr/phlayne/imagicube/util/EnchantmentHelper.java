@@ -72,8 +72,8 @@ public class EnchantmentHelper {
 	// "hammer"));
 
 	public static Color getItemBaseColor(NBTItem nbti) {
-		boolean forcedColor = nbti.hasKey("imagicube.forced_color")
-				? !nbti.getString("imagicube.forced_color").equals("none")
+		boolean forcedColor = nbti.hasKey(NBTUtil.FORCED_COLOR)
+				? !nbti.getString(NBTUtil.FORCED_COLOR).equals("none")
 				: false;
 		Color color = Color.WHITE;
 		Rarity rarity;
@@ -130,7 +130,7 @@ public class EnchantmentHelper {
 		}
 		color = rarity.color;
 		if (forcedColor)
-			color = new Color(nbti.getString("imagicube.forced_color"));
+			color = new Color(nbti.getString(NBTUtil.FORCED_COLOR));
 		return color;
 		// TODO put all this in a config file, and change the item color on item
 		// updating so it is customizable

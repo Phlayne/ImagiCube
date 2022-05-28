@@ -15,7 +15,7 @@ public class RepairWithMaterialScript implements FuseScript {
 	public static final List<Material> PLANKS = Arrays.asList(Material.ACACIA_PLANKS, Material.BIRCH_PLANKS,
 			Material.DARK_OAK_PLANKS, Material.JUNGLE_PLANKS, Material.OAK_PLANKS, Material.SPRUCE_PLANKS);
 
-	public FuseResult getAnvilResult(NBTItem leftItem, NBTItem rightItem, NBTItem result, String newName) {
+	public FuseResult getResult(NBTItem leftItem, NBTItem rightItem, NBTItem result, String newName) {
 		int levelAndItemAmount = repairItem(leftItem, rightItem, result);
 		if (levelAndItemAmount > 0)
 			return new FuseResult(result.getItem(), levelAndItemAmount, levelAndItemAmount).showResult(true);

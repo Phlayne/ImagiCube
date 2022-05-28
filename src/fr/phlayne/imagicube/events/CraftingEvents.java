@@ -65,10 +65,10 @@ public class CraftingEvents implements Listener {
 			return;
 		NBTItem result = new NBTItem(nbti1.getItem());
 		result.removeKey("Enchantments");
-		result.removeKey("imagicube.forced_color");
+		result.removeKey(NBTUtil.FORCED_COLOR);
 		// TODO Find a way to remove the custom name. For the moment, I don't have a
 		// method to get an item's original name if it has been renamed.
-		FuseResult fuseResult = new RepairWithSimilarItemScript().getAnvilResult(nbti1, nbti2, result, null);
+		FuseResult fuseResult = new RepairWithSimilarItemScript().getResult(nbti1, nbti2, result, null);
 		if (fuseResult.showResult() && !fuseResult.resultCancelled())
 			event.getInventory().setResult(fuseResult.getResultItem());
 		else

@@ -16,6 +16,7 @@ public class FoodProperty {
 	protected float saturationModifier;
 	protected String name;
 	protected FoodProperty whenCooked;
+	protected boolean isCookedFood;
 
 	public FoodProperty(Material baseMaterial, int modelData, int foodLevel, float saturationModifier, String name) {
 		this.baseMaterial = baseMaterial;
@@ -24,6 +25,7 @@ public class FoodProperty {
 		this.saturationModifier = saturationModifier;
 		this.name = name;
 		this.whenCooked = null;
+		this.isCookedFood = false;
 	}
 
 	public Material getBaseMaterial() {
@@ -52,6 +54,7 @@ public class FoodProperty {
 
 	public void setWhenCooked(FoodProperty fp) {
 		this.whenCooked = fp;
+		fp.isCookedFood = true;
 	}
 
 	public FoodProperty getWhenCooked() {
@@ -122,5 +125,9 @@ public class FoodProperty {
 						SimpleJSON.Color.BLUE, false)
 				.add("imagicube.saturationPoints", false, false, false, false, SimpleJSON.Color.BLUE, true).convert(),
 				1);
+	}
+
+	public boolean isCookedFood() {
+		return this.isCookedFood;
 	}
 }

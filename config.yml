@@ -22,3 +22,6 @@ boost_quartz_drop: true
 farmland_not_breaking_on_jump: true
 player_velocity_on_attack_modifier: 0.0
 # Player speed (relative to the damaged entity) is multiplied by this constant and added to the damage total.
+thorns_durability_modifier: 2
+seconds_before_afk: 60
+sitting_on_blocks: false

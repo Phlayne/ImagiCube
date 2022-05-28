@@ -19,6 +19,8 @@ import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.craftbehaviour.FuseResult;
 import fr.phlayne.imagicube.craftbehaviour.FuseScript;
+import fr.phlayne.imagicube.craftbehaviour.SmithResult;
+import fr.phlayne.imagicube.craftbehaviour.SmithScript;
 
 public class CraftBehaviorEvents implements Listener {
 
@@ -42,14 +44,24 @@ public class CraftBehaviorEvents implements Listener {
 		} else
 			sendNullResult(event);
 	}
-	
+
 	@EventHandler
 	public static void onSmith(PrepareSmithingEvent event) {
 		SmithingInventory smithingInventory = (SmithingInventory) event.getInventory();
 		final ItemStack item1 = smithingInventory.getContents()[0];
 		final ItemStack item2 = smithingInventory.getContents()[1];
+		if (item1 != null && !item1.getType().equals(Material.AIR) && item2 != null
+				&& !item2.getType().equals(Material.AIR)) {
+			final SmithResult smithResult = getSmithResult(item1, item2);
+			if (smithResult.showResult() && !smithResult.resultCancelled()
+					&& !item1.equals(smithResult.getResultItem()))
+				event.setResult(smithResult.getResultItem());
+			else
+				event.setResult(new ItemStack(Material.AIR));
+		} else
+			event.setResult(new ItemStack(Material.AIR));
 	}
-	
+
 	// TODO Grindstone
 
 	public static FuseResult getFuseResult(ItemStack item1, ItemStack item2, String newName) {
@@ -63,7 +75,7 @@ public class CraftBehaviorEvents implements Listener {
 			nbti2 = new NBTItem(item2.clone());
 		ItemStack result = item1.clone();
 		for (FuseScript fuseScript : ImagiCube.getInstance().addonList.fuseScripts) {
-			FuseResult fuseResult = fuseScript.getAnvilResult(nbti1, nbti2, new NBTItem(result), newName);
+			FuseResult fuseResult = fuseScript.getResult(nbti1, nbti2, new NBTItem(result), newName);
 			result = fuseResult.getResultItem();
 			repairCost += fuseResult.getRepairCost();
 			rightItemRemovedAmount += fuseResult.getRightItemRemovedAmount();
@@ -73,6 +85,27 @@ public class CraftBehaviorEvents implements Listener {
 		if (cancelResult)
 			return new FuseResult(new ItemStack(Material.AIR), 0, 0);
 		return new FuseResult(result, rightItemRemovedAmount, repairCost).showResult(showResult);
+	}
+
+	public static SmithResult getSmithResult(ItemStack item1, ItemStack item2) {
+		int rightItemRemovedAmount = 0;
+		boolean showResult = false;
+		boolean cancelResult = false;
+		NBTItem nbti1 = new NBTItem(item1.clone());
+		NBTItem nbti2 = null;
+		if (item2 != null && !item2.getType().equals(Material.AIR))
+			nbti2 = new NBTItem(item2.clone());
+		ItemStack result = item1.clone();
+		for (SmithScript smithScript : ImagiCube.getInstance().addonList.smithScripts) {
+			SmithResult smithResult = smithScript.getResult(nbti1, nbti2, new NBTItem(result));
+			result = smithResult.getResultItem();
+			rightItemRemovedAmount += smithResult.getRightItemRemovedAmount();
+			showResult |= smithResult.showResult();
+			cancelResult |= smithResult.resultCancelled();
+		}
+		if (cancelResult)
+			return new SmithResult(new ItemStack(Material.AIR), 0);
+		return new SmithResult(result, rightItemRemovedAmount).showResult(showResult);
 	}
 
 	public static void sendNullResult(PrepareAnvilEvent event) {

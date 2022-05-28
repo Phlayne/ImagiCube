@@ -24,6 +24,7 @@ public class NBTUtil {
 	public static String UPDATEVERSION = "imagicube.update.version";
 	public static String CANNOT_BE_UNCRAFTED = "imagicube.impossible.uncraft";
 	public static String HAT_TYPE = "imagicube.hat_type";
+	public static String FORCED_COLOR = "imagicube.forced_color";
 
 	public static NBTItem clearNBT(NBTItem nbti) {
 		return new NBTItem(new ItemStack(nbti.getItem().getType(), nbti.getItem().getAmount()));
@@ -145,9 +146,16 @@ public class NBTUtil {
 	}
 
 	public static SimpleJSON read(JsonObject nameElement, Color color) {
+		return readAndReplaceTranslatedText(nameElement, color, "", "");
+	}
+
+	public static SimpleJSON readAndReplaceTranslatedText(JsonObject nameElement, Color color, String toBeReplaced,
+			String replacement) {
 		SimpleJSON simpleJSON = new SimpleJSON();
 		boolean translated = nameElement.has("translate");
-		simpleJSON.add(translated ? nameElement.get("translate").getAsString() : nameElement.get("text").getAsString(),
+		simpleJSON.add(
+				translated ? nameElement.get("translate").getAsString().replace(toBeReplaced, replacement)
+						: nameElement.get("text").getAsString(),
 				!translated && nameElement.get("italic").getAsBoolean(), nameElement.get("bold").getAsBoolean(),
 				nameElement.get("underlined").getAsBoolean(), nameElement.get("strikethrough").getAsBoolean(),
 				(color == null ? Color.get(nameElement.get("color").getAsString()) : color), translated);

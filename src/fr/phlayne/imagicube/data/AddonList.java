@@ -8,6 +8,7 @@ import java.util.List;
 import org.bukkit.inventory.ItemStack;
 
 import fr.phlayne.imagicube.craftbehaviour.FuseScript;
+import fr.phlayne.imagicube.craftbehaviour.SmithScript;
 import fr.phlayne.imagicube.display.DisplayScript;
 import fr.phlayne.imagicube.item.ArmorProperty;
 import fr.phlayne.imagicube.item.FoodProperty;
@@ -26,6 +27,7 @@ public class AddonList {
 	public List<DisplayScript> displayScripts;
 	public List<SchedulerScript> schedulerScripts;
 	public List<FuseScript> fuseScripts;
+	public List<SmithScript> smithScripts;
 	public List<Tool> tools;
 	public HashMap<String, List<String>> itemGroups;
 
