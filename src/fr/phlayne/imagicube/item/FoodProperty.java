@@ -78,7 +78,7 @@ public class FoodProperty {
 	}
 
 	public static FoodProperty getFoodProperty(ItemStack item) {
-		for (FoodProperty fp : ImagiCube.getInstance().addonList.foods)
+		for (FoodProperty fp : ImagiCube.getInstance().getAddonList().getFoods())
 			if (fp.corresponds(item))
 				return fp;
 		return null;

@@ -129,7 +129,7 @@ public class WeaponProperty {
 		String material = nbt.hasKey(NBTUtil.MATERIAL) ? nbt.getString(NBTUtil.MATERIAL) : "";
 		if (itemType == "" || material == "")
 			return null;
-		for (WeaponProperty weaponProperty : ImagiCube.getInstance().addonList.weapons) {
+		for (WeaponProperty weaponProperty : ImagiCube.getInstance().getAddonList().getWeapons()) {
 			if (weaponProperty.getType().equals(itemType) && weaponProperty.getMaterial().equals(material))
 				return weaponProperty;
 		}
@@ -137,7 +137,7 @@ public class WeaponProperty {
 	}
 
 	public static WeaponProperty getWeaponProperty(String type, String material) {
-		for (WeaponProperty wp : ImagiCube.getInstance().addonList.weapons)
+		for (WeaponProperty wp : ImagiCube.getInstance().getAddonList().getWeapons())
 			if (wp.getType().equals(type) && wp.getMaterial().equals(material))
 				return wp;
 		return null;

@@ -74,7 +74,7 @@ public class CraftBehaviorEvents implements Listener {
 		if (item2 != null && !item2.getType().equals(Material.AIR))
 			nbti2 = new NBTItem(item2.clone());
 		ItemStack result = item1.clone();
-		for (FuseScript fuseScript : ImagiCube.getInstance().addonList.fuseScripts) {
+		for (FuseScript fuseScript : ImagiCube.getInstance().getAddonList().getFuseScripts()) {
 			FuseResult fuseResult = fuseScript.getResult(nbti1, nbti2, new NBTItem(result), newName);
 			result = fuseResult.getResultItem();
 			repairCost += fuseResult.getRepairCost();
@@ -96,7 +96,7 @@ public class CraftBehaviorEvents implements Listener {
 		if (item2 != null && !item2.getType().equals(Material.AIR))
 			nbti2 = new NBTItem(item2.clone());
 		ItemStack result = item1.clone();
-		for (SmithScript smithScript : ImagiCube.getInstance().addonList.smithScripts) {
+		for (SmithScript smithScript : ImagiCube.getInstance().getAddonList().getSmithScripts()) {
 			SmithResult smithResult = smithScript.getResult(nbti1, nbti2, new NBTItem(result));
 			result = smithResult.getResultItem();
 			rightItemRemovedAmount += smithResult.getRightItemRemovedAmount();

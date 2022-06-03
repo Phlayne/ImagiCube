@@ -72,7 +72,7 @@ public class SpawnEvents implements Listener {
 							NBTItem nbti;
 							if (random.nextBoolean()) {
 								List<WeaponProperty> list = new ArrayList<WeaponProperty>();
-								for (WeaponProperty wp : ImagiCube.getInstance().addonList.weapons)
+								for (WeaponProperty wp : ImagiCube.getInstance().getAddonList().getWeapons())
 									if (wp.getMaterial().equals("blackstone"))
 										list.add(wp);
 								WeaponProperty wp = list.get(random.nextInt(list.size()));

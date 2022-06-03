@@ -24,7 +24,7 @@ public class DisplayScriptScheduler extends SchedulerScript {
 			SimpleJSON message = new SimpleJSON();
 			boolean space = false;
 			if (ImagiCube.getInstance().getResourcePackUtil().resourcePackLoaded.get(player)) {
-				for (DisplayScript displayScript : ImagiCube.getInstance().addonList.displayScripts) {
+				for (DisplayScript displayScript : ImagiCube.getInstance().getAddonList().getDisplayScripts()) {
 					if (displayScript.shouldDisplay(player)) {
 						if (space)
 							message.add(" ", false, false, false, false, Color.WHITE, false);

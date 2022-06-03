@@ -73,7 +73,7 @@ public class ArmorProperty {
 		String material = nbt.hasKey(NBTUtil.MATERIAL) ? nbt.getString(NBTUtil.MATERIAL) : "";
 		if (itemType.equals("") || material.equals(""))
 			return null;
-		for (ArmorProperty armorProperty : ImagiCube.getInstance().addonList.armors) {
+		for (ArmorProperty armorProperty : ImagiCube.getInstance().getAddonList().getArmors()) {
 			if (armorProperty.getType().equals(itemType) && armorProperty.getMaterial().equals(material))
 				return armorProperty;
 		}

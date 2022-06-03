@@ -64,16 +64,12 @@ public class EnchantmentHelper {
 	}
 
 	private static boolean isGenericType(NBTItem nbti, String type) {
-		return nbti.hasKey(NBTUtil.ITEM_TYPE) && ImagiCube.getInstance().addonList.itemGroups.containsKey(type)
-				&& ImagiCube.getInstance().addonList.itemGroups.get(type).contains(nbti.getString(NBTUtil.ITEM_TYPE));
+		return nbti.hasKey(NBTUtil.ITEM_TYPE) && ImagiCube.getInstance().getAddonList().getItemsInGroup(type)
+				.contains(nbti.getString(NBTUtil.ITEM_TYPE));
 	}
 
-	// itemGroups.put("swords", Arrays.asList("sword", "dagger", "katana",
-	// "hammer"));
-
 	public static Color getItemBaseColor(NBTItem nbti) {
-		boolean forcedColor = nbti.hasKey(NBTUtil.FORCED_COLOR)
-				? !nbti.getString(NBTUtil.FORCED_COLOR).equals("none")
+		boolean forcedColor = nbti.hasKey(NBTUtil.FORCED_COLOR) ? !nbti.getString(NBTUtil.FORCED_COLOR).equals("none")
 				: false;
 		Color color = Color.WHITE;
 		Rarity rarity;

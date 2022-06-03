@@ -17,7 +17,7 @@ public interface Tool {
 	public List<Material> getToolBlocks();
 
 	public static Tool getTool(String name) {
-		for (Tool tool : ImagiCube.getInstance().addonList.tools) {
+		for (Tool tool : ImagiCube.getInstance().getAddonList().getTools()) {
 			if (tool.getName().equals(name))
 				return tool;
 		}

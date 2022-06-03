@@ -12,7 +12,7 @@ public class GeneralScheduler {
 
 			@Override
 			public void run() {
-				for(SchedulerScript schedulerScript : ImagiCube.getInstance().addonList.schedulerScripts) {
+				for(SchedulerScript schedulerScript : ImagiCube.getInstance().getAddonList().getSchedulerScripts()) {
 					schedulerScript.tick();
 				}
 			}

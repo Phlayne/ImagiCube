@@ -264,7 +264,7 @@ public class BlockEvents implements Listener {
 					if (new NBTItem(offHandItem).hasKey(NBTUtil.ITEM_TYPE))
 						offHandItemType = new NBTItem(offHandItem).getString(NBTUtil.ITEM_TYPE);
 				boolean cancelled = true;
-				List<String> hoeGroup = ImagiCube.getInstance().addonList.itemGroups.get("hoe");
+				List<String> hoeGroup = ImagiCube.getInstance().getAddonList().getItemsInGroup("hoe");
 				if (mainHandItemType != null && hoeGroup.contains(mainHandItemType))
 					cancelled = false;
 				// If the player has a scythe in main hand and a hoe in off hand, vanilla

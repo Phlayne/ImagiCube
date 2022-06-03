@@ -1,9 +1,6 @@
 package fr.phlayne.imagicube;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -27,12 +24,10 @@ import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.commands.Commands;
 import fr.phlayne.imagicube.craftbehaviour.DiamondToNetheriteScript;
 import fr.phlayne.imagicube.craftbehaviour.FuseEnchantmentsScript;
-import fr.phlayne.imagicube.craftbehaviour.FuseScript;
 import fr.phlayne.imagicube.craftbehaviour.NameColorScript;
 import fr.phlayne.imagicube.craftbehaviour.RenamingScript;
 import fr.phlayne.imagicube.craftbehaviour.RepairWithMaterialScript;
 import fr.phlayne.imagicube.craftbehaviour.RepairWithSimilarItemScript;
-import fr.phlayne.imagicube.craftbehaviour.SmithScript;
 import fr.phlayne.imagicube.crafts.ConcreteCrafts;
 import fr.phlayne.imagicube.crafts.Crafts;
 import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
@@ -40,7 +35,6 @@ import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
 import fr.phlayne.imagicube.data.AddonList;
 import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.display.ArmorScript;
-import fr.phlayne.imagicube.display.DisplayScript;
 import fr.phlayne.imagicube.display.LeftHandDurabilityScript;
 import fr.phlayne.imagicube.display.RightHandDurabilityScript;
 import fr.phlayne.imagicube.event.ImagiCubeLoadingEvent;
@@ -63,8 +57,6 @@ import fr.phlayne.imagicube.item.ArmorProperties;
 import fr.phlayne.imagicube.item.ArmorProperty;
 import fr.phlayne.imagicube.item.FoodProperty;
 import fr.phlayne.imagicube.item.MineralProperties;
-import fr.phlayne.imagicube.item.MineralProperty;
-import fr.phlayne.imagicube.item.Tool;
 import fr.phlayne.imagicube.item.Tools;
 import fr.phlayne.imagicube.item.WeaponProperties;
 import fr.phlayne.imagicube.item.WeaponProperty;
@@ -73,7 +65,6 @@ import fr.phlayne.imagicube.schedulers.EntityScheduler;
 import fr.phlayne.imagicube.schedulers.GeneralScheduler;
 import fr.phlayne.imagicube.schedulers.ListNameScheduler;
 import fr.phlayne.imagicube.schedulers.PlayerScheduler;
-import fr.phlayne.imagicube.schedulers.SchedulerScript;
 import fr.phlayne.imagicube.util.NBTUtil;
 import fr.phlayne.imagicube.util.ResourcePackUtil;
 
@@ -81,7 +72,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 
 	protected ResourcePackUtil resourcePackUtil;
 
-	public AddonList addonList;
+	protected AddonList addonList;
 
 	public void onEnable() {
 
@@ -146,22 +137,18 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		/* Subplugins */
 
 		this.addonList = new AddonList();
-		this.addonList.weapons = new ArrayList<WeaponProperty>(WeaponProperties.getWeaponProperties());
-		this.addonList.armors = new ArrayList<ArmorProperty>(ArmorProperties.getArmorProperties());
-		this.addonList.minerals = new ArrayList<MineralProperty>(Arrays.asList(MineralProperties.values()));
-		this.addonList.uniqueItems = new ArrayList<ItemStack>(
-				Arrays.asList(Crafts.INVISIBLE_ITEM_FRAME.getResult(), Crafts.CACTUS_LEATHER.getResult()));
-		this.addonList.displayScripts = new ArrayList<DisplayScript>(
-				Arrays.asList(new ArmorScript(), new LeftHandDurabilityScript(), new RightHandDurabilityScript()));
-		this.addonList.schedulerScripts = new ArrayList<SchedulerScript>(Arrays.asList(new DisplayScriptScheduler(),
-				new PlayerScheduler(), new EntityScheduler(), new ListNameScheduler()));
-		this.addonList.fuseScripts = new ArrayList<FuseScript>(
-				Arrays.asList(new RepairWithSimilarItemScript(), new RepairWithMaterialScript(),
-						new FuseEnchantmentsScript(), new NameColorScript(), new RenamingScript()));
-		this.addonList.smithScripts = new ArrayList<SmithScript>(Arrays.asList(new DiamondToNetheriteScript()));
-		this.addonList.tools = new ArrayList<Tool>(Arrays.asList(Tools.values()));
-		this.addonList.foods = new ArrayList<FoodProperty>();
-		this.addonList.itemGroups = new HashMap<String, List<String>>();
+		this.addonList.addWeapons((WeaponProperty[]) WeaponProperties.getWeaponProperties().toArray());
+		this.addonList.addArmors((ArmorProperty[]) ArmorProperties.getArmorProperties().toArray());
+		this.addonList.addMinerals(MineralProperties.values());
+		this.addonList.addUniqueItems(Crafts.INVISIBLE_ITEM_FRAME.getResult(), Crafts.CACTUS_LEATHER.getResult());
+		this.addonList.addDisplayScripts(new ArmorScript(), new LeftHandDurabilityScript(),
+				new RightHandDurabilityScript());
+		this.addonList.addSchedulerScripts(new DisplayScriptScheduler(), new PlayerScheduler(), new EntityScheduler(),
+				new ListNameScheduler());
+		this.addonList.addFuseScripts(new RepairWithSimilarItemScript(), new RepairWithMaterialScript(),
+						new FuseEnchantmentsScript(), new NameColorScript(), new RenamingScript());
+		this.addonList.addSmithScripts(new DiamondToNetheriteScript());
+		this.addonList.addTools(Tools.values());
 		this.addonList.addItemsToGroup("sword", "sword");
 		this.addonList.addItemsToGroup("tool", "axe", "hoe", "pickaxe", "shovel");
 		this.addonList.addItemsToGroup("axe", "axe");
@@ -175,17 +162,7 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			public void run() {
 				Bukkit.getServer().getPluginManager().callEvent(imagiCubeLoadingEvent);
-				imagiCubeLoadingEvent.getAddonList().displayScripts.sort(new Comparator<DisplayScript>() {
-					@Override
-					public int compare(DisplayScript ds1, DisplayScript ds2) {
-						if (ds1.getOrder() < ds2.getOrder())
-							return -1;
-						else if (ds1.getOrder() == ds2.getOrder())
-							return 0;
-						else
-							return 1;
-					}
-				});
+				imagiCubeLoadingEvent.getAddonList().sortDisplayScripts();
 			}
 		});
 	}
@@ -210,6 +187,10 @@ public class ImagiCube extends JavaPlugin implements Listener {
 
 	public ResourcePackUtil getResourcePackUtil() {
 		return this.resourcePackUtil;
+	}
+
+	public AddonList getAddonList() {
+		return this.addonList;
 	}
 
 	public static ImagiCube getInstance() {
@@ -275,13 +256,13 @@ public class ImagiCube extends JavaPlugin implements Listener {
 			if (sender instanceof Player) {
 				try {
 					List<ItemStack> itemList = new ArrayList<ItemStack>();
-					itemList.addAll(this.addonList.uniqueItems);
-					for (WeaponProperty weaponProperty : this.addonList.weapons)
+					itemList.addAll(this.addonList.getUniqueItems());
+					for (WeaponProperty weaponProperty : this.addonList.getWeapons())
 						itemList.add(WeaponRecipes.setWeaponValues(weaponProperty));
-					for (ArmorProperty armorProperty : this.addonList.armors)
+					for (ArmorProperty armorProperty : this.addonList.getArmors())
 						itemList.add(ArmorRecipes.setArmorValues(new ItemStack(armorProperty.getBukkitMaterial()),
 								armorProperty));
-					for (FoodProperty foodProperty : this.addonList.foods)
+					for (FoodProperty foodProperty : this.addonList.getFoods())
 						itemList.add(foodProperty.getItemStack());
 					int size = itemList.size();
 					int page = 1;
