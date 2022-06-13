@@ -17,7 +17,8 @@ concrete_powder_to_concrete_craft_with_bucket: true
 concrete_powder_interacts_with_water: false
 fire_aspect_pickaxes_drop_molten_material: false
 fire_aspect_pickaxe_drops_exp: true
-# You have to change enchantments.yml to be able to enchant pickaxes with fire aspect if you want this option.
+chance_of_dropping_molten_ore_by_fire_aspect_level: 0.5 # Level 1: 50%, Level 2: 100%, etc
+# You have to change enchantments.yml to be able to enchant pickaxes with fire aspect if you want the two previous options.
 boost_quartz_drop: true
 farmland_not_breaking_on_jump: true
 player_velocity_on_attack_modifier: 0.0

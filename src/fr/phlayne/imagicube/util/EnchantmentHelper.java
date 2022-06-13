@@ -49,6 +49,8 @@ public class EnchantmentHelper {
 					return true;
 				if (config.getBoolean(key + ".compatibility.every_axe") && isGenericType(nbti, "axe"))
 					return true;
+				if (config.getBoolean(key + ".compatibility.every_pickaxe") && isGenericType(nbti, "pickaxe"))
+					return true;
 				if (config.getBoolean(key + ".compatibility.every_fishing_rod") && isGenericType(nbti, "fishing_rod"))
 					return true;
 				if (config.getBoolean(key + ".compatibility.every_bow") && isGenericType(nbti, "bow"))

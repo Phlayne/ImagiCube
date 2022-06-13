@@ -62,7 +62,8 @@ public class PlayerScheduler extends SchedulerScript {
 				}
 			}
 
-			player.setFlySpeed(0.15F);
+			if (!player.getGameMode().equals(GameMode.SPECTATOR))
+				player.setFlySpeed(0.15F);
 			// Set 0 so if the player is in survival or adventure, so when they lags while
 			// double jumping and can fly, they doesn't move (and put this in ImagiCubeHats)
 

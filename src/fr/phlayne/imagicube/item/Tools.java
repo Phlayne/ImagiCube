@@ -75,7 +75,10 @@ public enum Tools implements Tool {
 			Material.COBBLED_DEEPSLATE_SLAB, Material.COBBLED_DEEPSLATE_STAIRS, Material.COBBLED_DEEPSLATE_WALL,
 			Material.CRACKED_DEEPSLATE_BRICKS, Material.CRACKED_DEEPSLATE_TILES, Material.POLISHED_DEEPSLATE,
 			Material.POLISHED_DEEPSLATE_SLAB, Material.POLISHED_DEEPSLATE_STAIRS, Material.POLISHED_DEEPSLATE_WALL,
-			Material.DRIPSTONE_BLOCK, Material.POINTED_DRIPSTONE, Material.LIGHTNING_ROD, Material.TUFF),
+			Material.DRIPSTONE_BLOCK, Material.POINTED_DRIPSTONE, Material.LIGHTNING_ROD, Material.TUFF,
+			Material.MUD_BRICKS, Material.MUD_BRICK_SLAB, Material.MUD_BRICK_STAIRS, Material.MUD_BRICK_WALL,
+			Material.PACKED_MUD),
+
 	AXE("axe", Material.OAK_DOOR, Material.SPRUCE_DOOR, Material.BIRCH_DOOR, Material.JUNGLE_DOOR, Material.ACACIA_DOOR,
 			Material.DARK_OAK_DOOR, Material.ACACIA_TRAPDOOR, Material.BIRCH_TRAPDOOR, Material.DARK_OAK_TRAPDOOR,
 			Material.JUNGLE_TRAPDOOR, Material.OAK_TRAPDOOR, Material.SPRUCE_TRAPDOOR, Material.CHEST,
@@ -107,8 +110,13 @@ public enum Tools implements Tool {
 			Material.WARPED_STEM, Material.STRIPPED_WARPED_STEM, Material.WARPED_HYPHAE, Material.WARPED_SLAB,
 			Material.STRIPPED_WARPED_HYPHAE, Material.WARPED_PRESSURE_PLATE, Material.WARPED_FENCE,
 			Material.WARPED_FENCE_GATE, Material.WARPED_TRAPDOOR, Material.WARPED_STAIRS, Material.WARPED_BUTTON,
-			Material.WARPED_SIGN, Material.WARPED_WALL_SIGN, Material.WARPED_DOOR, Material.SOUL_CAMPFIRE,
+			Material.WARPED_SIGN, Material.WARPED_WALL_SIGN, Material.WARPED_DOOR, Material.MANGROVE_LOG,
+			Material.STRIPPED_MANGROVE_LOG, Material.MANGROVE_PLANKS, Material.MANGROVE_SLAB, Material.MANGROVE_WOOD,
+			Material.STRIPPED_MANGROVE_WOOD, Material.MANGROVE_FENCE, Material.MANGROVE_FENCE_GATE,
+			Material.MANGROVE_TRAPDOOR, Material.MANGROVE_STAIRS, Material.MANGROVE_BUTTON, Material.MANGROVE_SIGN,
+			Material.MANGROVE_WALL_SIGN, Material.MANGROVE_DOOR, Material.MANGROVE_ROOTS, Material.SOUL_CAMPFIRE,
 			Material.CAMPFIRE),
+
 	SHOVEL("shovel", Material.GRAVEL, Material.FARMLAND, Material.DIRT_PATH, Material.CLAY, Material.GRASS_BLOCK,
 			Material.MYCELIUM, Material.PODZOL, Material.DIRT, Material.COARSE_DIRT, Material.SAND, Material.RED_SAND,
 			Material.SOUL_SAND, Material.SNOW_BLOCK, Material.SNOW, Material.WHITE_CONCRETE_POWDER,
@@ -116,15 +124,22 @@ public enum Tools implements Tool {
 			Material.YELLOW_CONCRETE_POWDER, Material.LIME_CONCRETE_POWDER, Material.PINK_CONCRETE_POWDER,
 			Material.GRAY_CONCRETE_POWDER, Material.LIGHT_GRAY_CONCRETE_POWDER, Material.CYAN_CONCRETE_POWDER,
 			Material.PURPLE_CONCRETE_POWDER, Material.BLUE_CONCRETE_POWDER, Material.BROWN_CONCRETE_POWDER,
-			Material.GREEN_CONCRETE_POWDER, Material.RED_CONCRETE_POWDER, Material.BLACK_CONCRETE_POWDER),
+			Material.GREEN_CONCRETE_POWDER, Material.RED_CONCRETE_POWDER, Material.BLACK_CONCRETE_POWDER, Material.MUD,
+			Material.MUDDY_MANGROVE_ROOTS),
+
 	HOE("hoe", Material.OAK_LEAVES, Material.SPRUCE_LEAVES, Material.BIRCH_LEAVES, Material.JUNGLE_LEAVES,
 			Material.ACACIA_LEAVES, Material.DARK_OAK_LEAVES, Material.NETHER_WART_BLOCK, Material.WARPED_WART_BLOCK,
 			Material.HAY_BLOCK, Material.TARGET, Material.DRIED_KELP_BLOCK, Material.SPONGE, Material.WET_SPONGE,
-			Material.SHROOMLIGHT, Material.MOSS_BLOCK),
-	FLINTANDSTEEL("flint_and_steel"), FISHING_ROD("fishing_rod"),
+			Material.SHROOMLIGHT, Material.MOSS_BLOCK, Material.SCULK, Material.SCULK_CATALYST, Material.SCULK_SHRIEKER, Material.SCULK_VEIN),
+
+	FLINTANDSTEEL("flint_and_steel"),
+
+	FISHING_ROD("fishing_rod"),
+
 	SHEARS("shears", Material.ACACIA_LEAVES, Material.BIRCH_LEAVES, Material.DARK_OAK_LEAVES, Material.JUNGLE_LEAVES,
 			Material.OAK_LEAVES, Material.SPRUCE_LEAVES, Material.COBWEB, Material.STRING, Material.VINE,
 			Material.TALL_GRASS, Material.TALL_SEAGRASS, Material.DEAD_BUSH, Material.NETHER_SPROUTS),
+
 	SWORD("sword", Material.COBWEB, Material.JACK_O_LANTERN, Material.MELON, Material.PUMPKIN, Material.COCOA,
 			Material.ACACIA_LEAVES, Material.BIRCH_LEAVES, Material.DARK_OAK_LEAVES, Material.JUNGLE_LEAVES,
 			Material.OAK_LEAVES, Material.SPRUCE_LEAVES, Material.VINE, Material.HAY_BLOCK);
@@ -148,7 +163,7 @@ public enum Tools implements Tool {
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public List<Material> getToolBlocks() {
 		return this.toolBlocks;
 	}

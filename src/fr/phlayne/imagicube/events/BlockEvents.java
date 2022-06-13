@@ -180,10 +180,10 @@ public class BlockEvents implements Listener {
 					drop = wp != null && wp.getType().equals("pickaxe");
 					int level = pickaxe.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
 					silkTouch = pickaxe.getEnchantmentLevel(Enchantment.SILK_TOUCH) > 0;
-					fireAspect = pickaxe.getEnchantmentLevel(Enchantment.FIRE_ASPECT) > 0
-							&& Config.getConfig().getBoolean("fire_aspect_pickaxes_drop_molten_material");
-					// TODO Set a config value: chance_of_dropping_molten_ore_by_fire_aspect_level:
-					// 0.33333333333
+					fireAspect = Config.getConfig().getBoolean("fire_aspect_pickaxes_drop_molten_material")
+							&& random.nextFloat() < (Config.getConfig()
+									.getDouble("chance_of_dropping_molten_ore_by_fire_aspect_level")
+									* pickaxe.getEnchantmentLevel(Enchantment.FIRE_ASPECT));
 					if (random.nextFloat() < ((float) level) / ((float) level + 2))
 						bonusLoot = (int) (random.nextFloat() * (level - 1) + 1);
 				}

@@ -98,6 +98,9 @@ public class Config {
 			if (!config.contains("fire_aspect_pickaxe_drops_exp")) {
 				warnKeyAbsent("fire_aspect_pickaxe_drops_exp");
 				missingValuesConfig = true;
+			}if(!config.contains("chance_of_dropping_molten_ore_by_fire_aspect_level")) {
+				warnKeyAbsent("chance_of_dropping_molten_ore_by_fire_aspect_level");
+				missingValuesConfig = true;
 			}
 		}
 		if (missingValuesConfig)
@@ -106,12 +109,6 @@ public class Config {
 
 	public static void warnKeyAbsent(String key) {
 		Bukkit.getLogger().warning("The key \"" + key + "\" is absent from config.yml");
-	}
-
-	public static void setDefaults() {
-		// TODO
-		// Sets defaults values in the files if a key is absent
-		// This would replace the manual adding required in checkConfigs
 	}
 
 }

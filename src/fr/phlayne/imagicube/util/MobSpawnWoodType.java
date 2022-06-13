@@ -43,6 +43,7 @@ public class MobSpawnWoodType {
 		if (Arrays.asList(Material.LEATHER_BOOTS, Material.LEATHER_LEGGINGS, Material.LEATHER_CHESTPLATE,
 				Material.LEATHER_HELMET).contains(nbti.getItem().getType())) {
 			Integer color = null;
+			// TODO Instead of a switch, look into the config file
 			switch (woodType) {
 			case "oak":
 				color = 8807718;
@@ -67,6 +68,9 @@ public class MobSpawnWoodType {
 				break;
 			case "warped":
 				color = 4746603;
+				break;
+			case "mangrove":
+				color = 9129274;
 				break;
 			default:
 				break;

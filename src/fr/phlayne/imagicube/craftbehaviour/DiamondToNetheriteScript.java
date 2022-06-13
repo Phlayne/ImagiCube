@@ -1,6 +1,15 @@
 package fr.phlayne.imagicube.craftbehaviour;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.SmithingRecipe;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -9,6 +18,7 @@ import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTCompoundList;
 import de.tr7zw.nbtapi.NBTItem;
 import de.tr7zw.nbtapi.NBTList;
+import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
 import fr.phlayne.imagicube.item.Durability;
 import fr.phlayne.imagicube.item.WeaponProperty;
@@ -17,6 +27,24 @@ import fr.phlayne.imagicube.util.SimpleJSON;
 import fr.phlayne.imagicube.util.SimpleJSON.Color;
 
 public class DiamondToNetheriteScript implements SmithScript {
+
+	public void init() {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(ImagiCube.getInstance(), new Runnable() {
+			@Override
+			public void run() {
+				List<Material> materialChoice = new ArrayList<Material>();
+				materialChoice.addAll(ImagiCube.getInstance().getAddonList().getWeapons().stream()
+						.filter(weapon -> weapon.getMaterial().equals("diamond"))
+						.map(weapon -> weapon.getBukkitMaterial()).collect(Collectors.toList()));
+				SmithingRecipe recipe = new SmithingRecipe(
+						new NamespacedKey(ImagiCube.getInstance(), "diamond_to_netherite"), new ItemStack(Material.AIR),
+						new RecipeChoice.MaterialChoice(materialChoice),
+						new RecipeChoice.MaterialChoice(Material.NETHERITE_INGOT));
+				Bukkit.addRecipe(recipe);
+				// Allows items to be untaken from the smithing table.
+			}
+		});
+	}
 
 	public SmithResult getResult(NBTItem leftItem, NBTItem rightItem, NBTItem result) {
 		if (leftItem != null && rightItem != null) {
@@ -41,6 +69,8 @@ public class DiamondToNetheriteScript implements SmithScript {
 									.parseString(leftItem.getCompound("display").getString("Name"));
 							if (name.isJsonArray())
 								for (JsonElement jsonObj : name.getAsJsonArray())
+									// We do not check for null because these items always have a name, because it
+									// is set when updating its durability (needed to display the color)
 									simpleJsonName.add(NBTUtil.readAndReplaceTranslatedText(jsonObj.getAsJsonObject(),
 											forcedColor != null ? SimpleJSON.Color.get(forcedColor) : null, "diamond",
 											"netherite"));

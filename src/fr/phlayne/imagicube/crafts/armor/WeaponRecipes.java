@@ -31,6 +31,8 @@ public class WeaponRecipes {
 	public static Random random = new Random();
 
 	public static void init() {
+		// TODO Use MaterialChoice planks if woodToolsVariants is disabled
+		// Change in subplugins too
 		ItemStack oakSword = setWeaponValues(WeaponProperties.OAK_SWORD);
 		ItemStack oakAxe = setWeaponValues(WeaponProperties.OAK_AXE);
 		ItemStack oakPickaxe = setWeaponValues(WeaponProperties.OAK_PICKAXE);
@@ -77,6 +79,11 @@ public class WeaponRecipes {
 			ItemStack warpedPickaxe = setWeaponValues(WeaponProperties.WARPED_PICKAXE);
 			ItemStack warpedShovel = setWeaponValues(WeaponProperties.WARPED_SHOVEL);
 			ItemStack warpedHoe = setWeaponValues(WeaponProperties.WARPED_HOE);
+			ItemStack mangroveSword = setWeaponValues(WeaponProperties.MANGROVE_SWORD);
+			ItemStack mangroveAxe = setWeaponValues(WeaponProperties.MANGROVE_AXE);
+			ItemStack mangrovePickaxe = setWeaponValues(WeaponProperties.MANGROVE_PICKAXE);
+			ItemStack mangroveShovel = setWeaponValues(WeaponProperties.MANGROVE_SHOVEL);
+			ItemStack mangroveHoe = setWeaponValues(WeaponProperties.MANGROVE_HOE);
 			addCraft(spruceSword, Material.SPRUCE_PLANKS, CraftRecipe.SWORD);
 			addCraft(spruceAxe, Material.SPRUCE_PLANKS, CraftRecipe.AXE);
 			addCraft(sprucePickaxe, Material.SPRUCE_PLANKS, CraftRecipe.PICKAXE);
@@ -112,6 +119,11 @@ public class WeaponRecipes {
 			addCraft(warpedPickaxe, Material.WARPED_PLANKS, CraftRecipe.PICKAXE);
 			addCraft(warpedShovel, Material.WARPED_PLANKS, CraftRecipe.SHOVEL);
 			addCraft(warpedHoe, Material.WARPED_PLANKS, CraftRecipe.HOE);
+			addCraft(mangroveSword, Material.MANGROVE_PLANKS, CraftRecipe.SWORD);
+			addCraft(mangroveAxe, Material.MANGROVE_PLANKS, CraftRecipe.AXE);
+			addCraft(mangrovePickaxe, Material.MANGROVE_PLANKS, CraftRecipe.PICKAXE);
+			addCraft(mangroveShovel, Material.MANGROVE_PLANKS, CraftRecipe.SHOVEL);
+			addCraft(mangroveHoe, Material.MANGROVE_PLANKS, CraftRecipe.HOE);
 		}
 
 		ItemStack stoneSword = setWeaponValues(WeaponProperties.STONE_SWORD);
@@ -186,6 +198,7 @@ public class WeaponRecipes {
 			}
 		}
 
+		// TODO Use MaterialChoice stone if stoneToolsVariants is disabled
 		if (Config.getConfig().getBoolean("stoneToolsVariants")) {
 			ItemStack blackstoneSword = setWeaponValues(WeaponProperties.BLACKSTONE_SWORD);
 			ItemStack blackstoneAxe = setWeaponValues(WeaponProperties.BLACKSTONE_AXE);
@@ -197,6 +210,17 @@ public class WeaponRecipes {
 			addCraft(blackstonePickaxe, Material.BLACKSTONE, CraftRecipe.PICKAXE);
 			addCraft(blackstoneShovel, Material.BLACKSTONE, CraftRecipe.SHOVEL);
 			addCraft(blackstoneHoe, Material.BLACKSTONE, CraftRecipe.HOE);
+
+			ItemStack deepslateSword = setWeaponValues(WeaponProperties.DEEPSLATE_SWORD);
+			ItemStack deepslateAxe = setWeaponValues(WeaponProperties.DEEPSLATE_AXE);
+			ItemStack deepslatePickaxe = setWeaponValues(WeaponProperties.DEEPSLATE_PICKAXE);
+			ItemStack deepslateShovel = setWeaponValues(WeaponProperties.DEEPSLATE_SHOVEL);
+			ItemStack deepslateHoe = setWeaponValues(WeaponProperties.DEEPSLATE_HOE);
+			addCraft(deepslateSword, Material.DEEPSLATE, CraftRecipe.SWORD);
+			addCraft(deepslateAxe, Material.DEEPSLATE, CraftRecipe.AXE);
+			addCraft(deepslatePickaxe, Material.DEEPSLATE, CraftRecipe.PICKAXE);
+			addCraft(deepslateShovel, Material.DEEPSLATE, CraftRecipe.SHOVEL);
+			addCraft(deepslateHoe, Material.DEEPSLATE, CraftRecipe.HOE);
 		}
 	}
 
@@ -294,7 +318,9 @@ public class WeaponRecipes {
 	public static String getWeaponName(WeaponProperty weaponProperty) {
 		if (weaponProperty.getMaterial().equals("prismarine") && weaponProperty.getType().equals("trident"))
 			return null;
-		if (Arrays.asList("blackstone", "oak", "spruce", "birch", "jungle", "acacia", "dark_oak", "crimson", "warped")
+		if (Arrays
+				.asList("blackstone", "deepslate", "oak", "spruce", "birch", "jungle", "acacia", "dark_oak", "crimson",
+						"warped", "mangrove")
 				.contains(weaponProperty.getMaterial())
 				|| !Arrays.asList(Tools.values()).stream().map(Tools::getName).collect(Collectors.toList())
 						.contains(weaponProperty.getType())) {

@@ -38,6 +38,8 @@
         base: 2
     compatibility:
         every_sword: true
+        # every_pickaxe: true
+        # If fire_aspect_pickaxes_drop_molten_material in config.yml is true, fire aspect pickaxes can melt materials.
 "minecraft:looting":
     max_level:
         base: 2

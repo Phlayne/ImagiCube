@@ -137,8 +137,8 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		/* Subplugins */
 
 		this.addonList = new AddonList();
-		this.addonList.addWeapons((WeaponProperty[]) WeaponProperties.getWeaponProperties().toArray());
-		this.addonList.addArmors((ArmorProperty[]) ArmorProperties.getArmorProperties().toArray());
+		this.addonList.addWeapons(WeaponProperties.getWeaponProperties().stream().toArray(WeaponProperty[]::new));
+		this.addonList.addArmors(ArmorProperties.getArmorProperties().stream().toArray(ArmorProperty[]::new));
 		this.addonList.addMinerals(MineralProperties.values());
 		this.addonList.addUniqueItems(Crafts.INVISIBLE_ITEM_FRAME.getResult(), Crafts.CACTUS_LEATHER.getResult());
 		this.addonList.addDisplayScripts(new ArmorScript(), new LeftHandDurabilityScript(),
@@ -146,12 +146,15 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		this.addonList.addSchedulerScripts(new DisplayScriptScheduler(), new PlayerScheduler(), new EntityScheduler(),
 				new ListNameScheduler());
 		this.addonList.addFuseScripts(new RepairWithSimilarItemScript(), new RepairWithMaterialScript(),
-						new FuseEnchantmentsScript(), new NameColorScript(), new RenamingScript());
-		this.addonList.addSmithScripts(new DiamondToNetheriteScript());
+				new FuseEnchantmentsScript(), new NameColorScript(), new RenamingScript());
+		DiamondToNetheriteScript diamondToNetheriteScript = new DiamondToNetheriteScript();
+		diamondToNetheriteScript.init();
+		this.addonList.addSmithScripts(diamondToNetheriteScript);
 		this.addonList.addTools(Tools.values());
 		this.addonList.addItemsToGroup("sword", "sword");
 		this.addonList.addItemsToGroup("tool", "axe", "hoe", "pickaxe", "shovel");
 		this.addonList.addItemsToGroup("axe", "axe");
+		this.addonList.addItemsToGroup("pickaxe", "pickaxe");
 		this.addonList.addItemsToGroup("fishing_rod", "fishing_rod");
 		this.addonList.addItemsToGroup("bow", "bow");
 		this.addonList.addItemsToGroup("hoe", "hoe");

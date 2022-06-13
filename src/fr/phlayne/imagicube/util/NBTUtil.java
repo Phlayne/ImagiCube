@@ -136,10 +136,14 @@ public class NBTUtil {
 			JsonElement name = JsonParser.parseString(s);
 			if (name.isJsonArray()) {
 				for (JsonElement jsonObj : name.getAsJsonArray()) {
-					simpleJsonName.add(read(jsonObj.getAsJsonObject(), color));
+					SimpleJSON element = read(jsonObj.getAsJsonObject(), color);
+					if (element != null)
+						simpleJsonName.add(element);
 				}
 			} else {
-				simpleJsonName.add(read(name.getAsJsonObject(), color));
+				SimpleJSON element = read(name.getAsJsonObject(), color);
+				if (element != null)
+					simpleJsonName.add(element);
 			}
 		}
 		return simpleJsonName;
@@ -152,26 +156,30 @@ public class NBTUtil {
 	public static SimpleJSON readAndReplaceTranslatedText(JsonObject nameElement, Color color, String toBeReplaced,
 			String replacement) {
 		SimpleJSON simpleJSON = new SimpleJSON();
-		boolean translated = nameElement.has("translate");
-		simpleJSON.add(
-				translated ? nameElement.get("translate").getAsString().replace(toBeReplaced, replacement)
-						: nameElement.get("text").getAsString(),
-				!translated && nameElement.get("italic").getAsBoolean(), nameElement.get("bold").getAsBoolean(),
-				nameElement.get("underlined").getAsBoolean(), nameElement.get("strikethrough").getAsBoolean(),
-				(color == null ? Color.get(nameElement.get("color").getAsString()) : color), translated);
-		if (nameElement.has("extra")) {
-			for (JsonElement ee : nameElement.get("extra").getAsJsonArray()) {
-				JsonObject extraElement = ee.getAsJsonObject();
-				simpleJSON.add(
-						extraElement.has("translate") ? extraElement.get("translate").getAsString()
-								: extraElement.get("text").getAsString(),
-						!extraElement.has("translate") && extraElement.get("italic").getAsBoolean(),
-						extraElement.get("bold").getAsBoolean(), extraElement.get("underlined").getAsBoolean(),
-						extraElement.get("strikethrough").getAsBoolean(),
-						(color == null ? Color.get(nameElement.get("color").getAsString()) : color),
-						extraElement.has("translate"));
+		boolean add = nameElement.has("text") || nameElement.has("translate");
+		if (add) {
+			boolean translated = nameElement.has("translate");
+			simpleJSON.add(
+					translated ? nameElement.get("translate").getAsString().replace(toBeReplaced, replacement)
+							: nameElement.get("text").getAsString(),
+					!translated && nameElement.get("italic").getAsBoolean(), nameElement.get("bold").getAsBoolean(),
+					nameElement.get("underlined").getAsBoolean(), nameElement.get("strikethrough").getAsBoolean(),
+					(color == null ? Color.get(nameElement.get("color").getAsString()) : color), translated);
+			if (nameElement.has("extra")) {
+				for (JsonElement ee : nameElement.get("extra").getAsJsonArray()) {
+					JsonObject extraElement = ee.getAsJsonObject();
+					simpleJSON.add(
+							extraElement.has("translate") ? extraElement.get("translate").getAsString()
+									: extraElement.get("text").getAsString(),
+							!extraElement.has("translate") && extraElement.get("italic").getAsBoolean(),
+							extraElement.get("bold").getAsBoolean(), extraElement.get("underlined").getAsBoolean(),
+							extraElement.get("strikethrough").getAsBoolean(),
+							(color == null ? Color.get(nameElement.get("color").getAsString()) : color),
+							extraElement.has("translate"));
+				}
 			}
+			return simpleJSON;
 		}
-		return simpleJSON;
+		return null;
 	}
 }
