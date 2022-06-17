@@ -71,7 +71,8 @@ public class CraftingEvents implements Listener {
 		FuseResult fuseResult = new RepairWithSimilarItemScript().getResult(nbti1, nbti2, result, null);
 		if (fuseResult.showResult() && !fuseResult.resultCancelled())
 			event.getInventory().setResult(fuseResult.getResultItem());
-		else
+		else if (nbti1.getItem().getType().equals(nbti2.getItem().getType()) && nbti1.hasKey("Damage"))
+			// If minecraft would repair these items
 			event.getInventory().setResult(null);
 	}
 

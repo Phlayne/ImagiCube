@@ -88,7 +88,7 @@ public class PlayerScheduler extends SchedulerScript {
 				}
 			}
 
-			for (EquipmentSlot hand : Arrays.asList(EquipmentSlot.HAND, EquipmentSlot.OFF_HAND)) {
+			for (EquipmentSlot hand : Arrays.asList(EquipmentSlot.HAND, EquipmentSlot.OFF_HAND, EquipmentSlot.HEAD)) {
 				ItemStack item = player.getEquipment().getItem(hand);
 				if (item != null && !item.getType().equals(Material.AIR)) {
 					NBTItem nbti = new NBTItem(item);

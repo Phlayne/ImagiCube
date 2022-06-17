@@ -159,12 +159,19 @@ public class NBTUtil {
 		boolean add = nameElement.has("text") || nameElement.has("translate");
 		if (add) {
 			boolean translated = nameElement.has("translate");
-			simpleJSON.add(
-					translated ? nameElement.get("translate").getAsString().replace(toBeReplaced, replacement)
+			simpleJSON
+					.add(translated ? nameElement.get("translate").getAsString().replace(toBeReplaced, replacement)
 							: nameElement.get("text").getAsString(),
-					!translated && nameElement.get("italic").getAsBoolean(), nameElement.get("bold").getAsBoolean(),
-					nameElement.get("underlined").getAsBoolean(), nameElement.get("strikethrough").getAsBoolean(),
-					(color == null ? Color.get(nameElement.get("color").getAsString()) : color), translated);
+							!translated && nameElement.has("italic") ? nameElement.get("italic").getAsBoolean()
+									: !translated,
+							nameElement.has("bold") ? nameElement.get("bold").getAsBoolean() : false,
+							nameElement.has("underlined") ? nameElement.get("underlined").getAsBoolean() : false,
+							nameElement.has("striketrough") ? nameElement.get("strikethrough").getAsBoolean() : false,
+							(color == null
+									? (nameElement.has("color") ? Color.get(nameElement.get("color").getAsString())
+											: SimpleJSON.Color.WHITE)
+									: color),
+							translated);
 			if (nameElement.has("extra")) {
 				for (JsonElement ee : nameElement.get("extra").getAsJsonArray()) {
 					JsonObject extraElement = ee.getAsJsonObject();
