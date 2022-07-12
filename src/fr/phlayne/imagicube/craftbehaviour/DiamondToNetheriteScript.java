@@ -19,7 +19,9 @@ import de.tr7zw.nbtapi.NBTCompoundList;
 import de.tr7zw.nbtapi.NBTItem;
 import de.tr7zw.nbtapi.NBTList;
 import fr.phlayne.imagicube.ImagiCube;
+import fr.phlayne.imagicube.crafts.armor.ArmorRecipes;
 import fr.phlayne.imagicube.crafts.armor.WeaponRecipes;
+import fr.phlayne.imagicube.item.ArmorProperty;
 import fr.phlayne.imagicube.item.Durability;
 import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.util.NBTUtil;
@@ -52,8 +54,12 @@ public class DiamondToNetheriteScript implements SmithScript {
 					&& leftItem.getString(NBTUtil.MATERIAL).equals("diamond") && leftItem.hasKey(NBTUtil.ITEM_TYPE)) {
 				WeaponProperty wp = WeaponProperty.getWeaponProperty(leftItem.getString(NBTUtil.ITEM_TYPE),
 						"netherite");
-				if (wp != null) {
-					result = new NBTItem(WeaponRecipes.setWeaponValues(wp));
+				ArmorProperty ap = ArmorProperty.getArmorProperty(leftItem.getString(NBTUtil.ITEM_TYPE), "netherite");
+				if (wp != null || ap != null) {
+					if (wp != null)
+						result = new NBTItem(WeaponRecipes.setWeaponValues(wp));
+					else
+						result = new NBTItem(ArmorRecipes.setArmorValues(ap));
 					NBTCompound display = leftItem.getOrCreateCompound("display");
 					int repairCost = leftItem.hasKey("RepairCost") ? leftItem.getInteger("RepairCost") : 0;
 					String forcedColor = leftItem.hasKey(NBTUtil.FORCED_COLOR)

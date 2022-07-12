@@ -28,7 +28,7 @@ public class OthersUtil {
 		shootArrow(projectile, x, y, z, speed, divergence);
 	}
 
-	/*
+		/*
 	 * public static void modifyMaxStack(net.minecraft.world.item.Item item, int
 	 * amount) { try { Field f =
 	 * net.minecraft.world.item.Item.class.getDeclaredField("maxStackSize");

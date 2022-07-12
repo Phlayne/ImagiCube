@@ -16,3 +16,7 @@ commands:
         description: Shows the list of items added in ImagiCube subplugins.
         usage: "/<command> [item]"
         permission: imagicube.item
+    enchant:
+        description: Replaces the vanilla enchant command.
+        usage: "/<command> <set|remove> <enchantment> <level|max> [force]"
+        permission: imagicube.enchant

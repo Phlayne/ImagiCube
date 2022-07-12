@@ -29,7 +29,7 @@ public class EnchantmentHelper {
 	public static boolean isCompatibleWith(String key1, String key2) {
 		boolean isCompatible = true;
 		for (FileConfiguration config : Config.getConfigs("enchantments")) {
-			String path = key1 + ".compatibility.exclude.";
+			String path = key1 + ".compatibility.exclude";
 			isCompatible &= !config.contains(path) || !config.getStringList(path).contains(key2);
 		}
 		return isCompatible;

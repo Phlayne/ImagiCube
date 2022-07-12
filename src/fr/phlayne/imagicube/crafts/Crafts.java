@@ -18,6 +18,7 @@ import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.exception.CannotUpdateItemException;
 import fr.phlayne.imagicube.item.ItemUpdatingCause;
 import fr.phlayne.imagicube.util.ItemUpdater;
+import fr.phlayne.imagicube.util.SimpleJSON;
 
 public class Crafts {
 
@@ -59,6 +60,7 @@ public class Crafts {
 	public static ShapelessRecipe PURPLE_DYE;
 	public static ShapelessRecipe RED_DYE;
 	public static ShapelessRecipe CACTUS_LEATHER;
+	public static ShapelessRecipe DIAMOND_SHARD;
 
 	public static void loadRecipes() throws CannotUpdateItemException {
 		removeCrafts();
@@ -269,6 +271,18 @@ public class Crafts {
 		CACTUS_LEATHER.addIngredient(Material.CACTUS);
 		CACTUS_LEATHER.addIngredient(Material.CACTUS);
 
+		ItemStack diamondShard = new ItemStack(Material.DIAMOND, 9);
+		NBTItem diamondShardNBTI = new NBTItem(diamondShard);
+		diamondShardNBTI.setInteger("CustomModelData", 3);
+		// TODO Set this value in a config file or at least in a class that stores items
+		// CustomModelData
+		diamondShardNBTI.getOrCreateCompound("display").setString("Name", new SimpleJSON()
+				.add("item.imagicube.diamond_shard", false, false, false, false, SimpleJSON.Color.WHITE, true).convert());
+		// Same, load from ItemList.java
+		NamespacedKey diamondShardKey = new NamespacedKey(plugin, "diamond_shard");
+		DIAMOND_SHARD = new ShapelessRecipe(diamondShardKey, diamondShardNBTI.getItem());
+		DIAMOND_SHARD.addIngredient(Material.DIAMOND);
+
 		Bukkit.addRecipe(SADDLE_CRAFT);
 		Bukkit.addRecipe(WET_SPONGE_CRAFT);
 		Bukkit.addRecipe(NETHER_BRICK_CRAFT);
@@ -304,7 +318,7 @@ public class Crafts {
 		Bukkit.addRecipe(PURPLE_DYE);
 		Bukkit.addRecipe(RED_DYE);
 		Bukkit.addRecipe(CACTUS_LEATHER);
-		// Bukkit.addRecipe(ARMOR_STAND_WITH_ARMS_CRAFT);
+		Bukkit.addRecipe(DIAMOND_SHARD);
 	}
 
 	public static void removeCrafts() {

@@ -1,15 +1,19 @@
 package fr.phlayne.imagicube;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -65,6 +69,7 @@ import fr.phlayne.imagicube.schedulers.EntityScheduler;
 import fr.phlayne.imagicube.schedulers.GeneralScheduler;
 import fr.phlayne.imagicube.schedulers.ListNameScheduler;
 import fr.phlayne.imagicube.schedulers.PlayerScheduler;
+import fr.phlayne.imagicube.util.EnchantmentHelper;
 import fr.phlayne.imagicube.util.NBTUtil;
 import fr.phlayne.imagicube.util.ResourcePackUtil;
 
@@ -140,7 +145,8 @@ public class ImagiCube extends JavaPlugin implements Listener {
 		this.addonList.addWeapons(WeaponProperties.getWeaponProperties().stream().toArray(WeaponProperty[]::new));
 		this.addonList.addArmors(ArmorProperties.getArmorProperties().stream().toArray(ArmorProperty[]::new));
 		this.addonList.addMinerals(MineralProperties.values());
-		this.addonList.addUniqueItems(Crafts.INVISIBLE_ITEM_FRAME.getResult(), Crafts.CACTUS_LEATHER.getResult());
+		this.addonList.addUniqueItems(Crafts.INVISIBLE_ITEM_FRAME.getResult(), Crafts.CACTUS_LEATHER.getResult(),
+				Crafts.DIAMOND_SHARD.getResult());
 		this.addonList.addDisplayScripts(new ArmorScript(), new LeftHandDurabilityScript(),
 				new RightHandDurabilityScript());
 		this.addonList.addSchedulerScripts(new DisplayScriptScheduler(), new PlayerScheduler(), new EntityScheduler(),
@@ -297,6 +303,88 @@ public class ImagiCube extends JavaPlugin implements Listener {
 					sender.sendMessage("Invalid page number: \"" + args[0] + "\" is not a number");
 				}
 			}
+		}
+		if (command.getName().equalsIgnoreCase("enchant")) {
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				ItemStack item = player.getEquipment().getItemInMainHand();
+				if (item != null && !item.getType().equals(Material.AIR)) {
+					// /<command> <set|remove> <enchantment> [level|max] [force]
+					if (args.length < 2)
+						sender.sendMessage("Not enough arguments. Usage: " + command.getUsage());
+					else {
+						Map<Enchantment, Integer> enchants = item.getEnchantments();
+						Map<Enchantment, Integer> newEnchants = new HashMap<Enchantment, Integer>();
+						switch (args[0]) {
+						case "set":
+							if (args.length > 4)
+								sender.sendMessage(
+										"Too much arguments. Usage: /enchant set <enchantment> <level|max> [force]");
+							else if (args.length < 3)
+								sender.sendMessage(
+										"Not enough arguments. Usage: /enchant set <enchantment> <level|max> [force]");
+							else {
+								boolean force = args.length == 4 && args[3].equalsIgnoreCase("force");
+								@SuppressWarnings("deprecation")
+								Enchantment enchant = Enchantment.getByKey(args[1].contains(":")
+										? new NamespacedKey(args[1].split(":")[0], args[1].split(":")[1])
+										: new NamespacedKey("minecraft", args[1]));
+								if (enchant != null) {
+									NBTItem nbti = new NBTItem(item);
+									int maxLevel = EnchantmentHelper.getMaxLevel(enchant.getKey().toString(),
+											nbti.hasKey(NBTUtil.MATERIAL) ? nbti.getString(NBTUtil.MATERIAL) : null);
+									int level = args[2].equalsIgnoreCase("max") ? maxLevel : Integer.parseInt(args[2]);
+									boolean isCompatible = EnchantmentHelper
+											.isCompatibleWith(enchant.getKey().toString(), nbti);
+									if (isCompatible)
+										for (Enchantment e : enchants.keySet()) {
+											isCompatible &= EnchantmentHelper.isCompatibleWith(
+													enchant.getKey().toString(), e.getKey().toString());
+										}
+
+									if (force || (isCompatible && level <= maxLevel)) {
+										for (Enchantment e : item.getEnchantments().keySet()) {
+											newEnchants.put(e, enchants.get(e));
+											item.removeEnchantment(e);
+										}
+										newEnchants.put(enchant, level);
+										item.addUnsafeEnchantments(newEnchants);
+										player.getEquipment().setItemInMainHand(item);
+										sender.sendMessage("Enchantment " + args[1] + " added at level " + level + ".");
+									} else if (level > maxLevel)
+										sender.sendMessage("Enchantment level is too high: max level is " + maxLevel
+												+ ". To put this enchantment, add force at the end of the command.");
+									else
+										sender.sendMessage("The enchantment " + args[1]
+												+ " is incompatible with this Item. To put this enchantment, add force at the end of the command.");
+								} else
+									sender.sendMessage("Enchantment " + args[1] + " unknown");
+							}
+							break;
+						case "remove":
+							if (args.length > 2)
+								sender.sendMessage("Too much arguments. Usage: /enchant remove <enchantment>");
+							else {
+								for (Enchantment e : enchants.keySet()) {
+									if (!e.getKey().toString().equals(args[1]) && !e.getKey().getKey().equals(args[1]))
+										newEnchants.put(e, enchants.get(e));
+								}
+								for (Enchantment e : item.getEnchantments().keySet())
+									item.removeEnchantment(e);
+								item.addUnsafeEnchantments(newEnchants);
+								player.getEquipment().setItemInMainHand(item);
+								sender.sendMessage("Enchantment " + args[1] + " removed.");
+								break;
+							}
+						default:
+							sender.sendMessage("Error : " + args[0] + " not recognized. Usage: " + command.getUsage());
+							break;
+						}
+					}
+				} else
+					sender.sendMessage("You need an item in your main hand to enchant it");
+			} else
+				sender.sendMessage("You have to be a player to execute this command");
 		}
 		return true;
 

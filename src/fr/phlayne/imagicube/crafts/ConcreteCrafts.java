@@ -68,7 +68,7 @@ public class ConcreteCrafts implements Listener {
 				new ItemStack(Material.RED_CONCRETE, 8));
 		BLACK_CONCRETE_CRAFT = new ShapelessRecipe(new NamespacedKey(plugin, "black_concrete_powder_recipe"),
 				new ItemStack(Material.BLACK_CONCRETE, 8));
-		if (plugin.getConfig().getBoolean("concretePowderToConcreteCraftWithBucket")) {
+		if (plugin.getConfig().getBoolean("concrete_powder_to_concrete_craft_with_bucket")) {
 			initCraft(WHITE_CONCRETE_CRAFT, Material.WHITE_CONCRETE_POWDER);
 			initCraft(ORANGE_CONCRETE_CRAFT, Material.ORANGE_CONCRETE_POWDER);
 			initCraft(MAGENTA_CONCRETE_CRAFT, Material.MAGENTA_CONCRETE_POWDER);

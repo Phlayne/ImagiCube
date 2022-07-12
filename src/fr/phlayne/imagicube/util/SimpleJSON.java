@@ -3,20 +3,39 @@ package fr.phlayne.imagicube.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.TranslatableComponent;
+
 public class SimpleJSON {
 
-	public List<String> contents = new ArrayList<String>();
+	private List<String> contents = new ArrayList<String>();
+	private ComponentBuilder componentBuilder = new ComponentBuilder();
 
 	public SimpleJSON add(String text, boolean italic, boolean bold, boolean underlined, boolean strike, Color color,
 			boolean translate) {
 		contents.add("{\"" + (translate ? "translate" : "text") + "\":\"" + text + "\",\"italic\":\"" + italic
 				+ "\",\"bold\":\"" + bold + "\",\"underlined\":\"" + underlined + "\",\"strikethrough\":\"" + strike
 				+ "\",\"color\":\"" + color.getColor() + "\"}");
+		BaseComponent component;
+		if (translate)
+			component = new TranslatableComponent(text);
+		else
+			component = new TextComponent(text);
+		component.setItalic(italic);
+		component.setBold(bold);
+		component.setUnderlined(underlined);
+		component.setStrikethrough(strike);
+		component.setColor(ChatColor.of(new java.awt.Color(color.red, color.green, color.blue)));
+		this.componentBuilder.append(component);
 		return this;
 	}
 
 	public SimpleJSON add(SimpleJSON sj) {
 		this.contents.addAll(sj.contents);
+		this.componentBuilder.append(sj.componentBuilder.create());
 		return this;
 	}
 
@@ -29,6 +48,10 @@ public class SimpleJSON {
 		}
 		string = string.concat("]");
 		return string;
+	}
+
+	public BaseComponent[] convertToComponents() {
+		return this.componentBuilder.create();
 	}
 
 	public static class Color {

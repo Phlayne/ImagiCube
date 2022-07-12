@@ -5,6 +5,7 @@ import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import fr.phlayne.imagicube.ImagiCube;
 import fr.phlayne.imagicube.Reference;
 import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.data.PlayerData;
@@ -24,9 +25,11 @@ public class ListNameScheduler extends SchedulerScript {
 			String prefix = "";
 			if (secondsBeforeAFK > 0) {
 				PlayerData.setAFK(player, CustomMetadata.get("lastAction").getValue(player) > (secondsBeforeAFK * 20));
-				if (!player.getGameMode().equals(GameMode.SPECTATOR) && PlayerData.isAFK(player)) {
+				if (!ImagiCube.getInstance().getResourcePackUtil().resourcePackLoaded.get(player))
+					prefix = timer / 20 % 2 == 0 ? "\u231b - " : "\u23f3 - ";
+				else if (!player.getGameMode().equals(GameMode.SPECTATOR) && PlayerData.isAFK(player))
 					prefix = "AFK - ";
-				}
+
 			}
 			FileConfiguration worldColors = Config.getConfig(Reference.PLUGIN_NAME, "world_colors");
 			String color = "#ffffff";

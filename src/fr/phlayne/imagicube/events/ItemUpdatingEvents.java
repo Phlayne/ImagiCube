@@ -61,7 +61,8 @@ public class ItemUpdatingEvents implements Listener {
 		try {
 			if (!event.isUpdated()) {
 				ItemStack result = ItemUpdater.updateItem(event.getItemToUpdate(), event.getCause());
-				event.setResult(result);
+				if (result != null)
+					event.setResult(result);
 				if (event.getResult() != null)
 					event.update();
 			}

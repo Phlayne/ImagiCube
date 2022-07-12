@@ -378,4 +378,43 @@ public class CraftingEvents implements Listener {
 			event.getInventory().setResult(result);
 		}
 	}
+
+	@EventHandler
+	public void checkDiamondCraft(PrepareItemCraftEvent event) {
+		ItemStack[] matrix = event.getInventory().getMatrix();
+		if (matrix.length != 9)
+			return;
+		boolean canCreateDiamondBlock = true;
+		boolean canCreateDiamond = true;
+		for (ItemStack item : matrix) {
+			if (item != null) {
+				int customModelData = item.hasItemMeta()
+						? item.getItemMeta().hasCustomModelData() ? item.getItemMeta().getCustomModelData() : 0
+						: 0;
+				switch (item.getType()) {
+				case DIAMOND:
+					if (event.getRecipe() != null)
+						if (event.getRecipe().getResult().getType().equals(Material.DIAMOND_BLOCK)) {
+							if (customModelData == 3)
+								canCreateDiamondBlock = false;
+							else
+								canCreateDiamond = false;
+						} else if (customModelData != 0)
+							event.getInventory().setResult(null);
+					break;
+				default:
+					break;
+				}
+				if (event.getRecipe() != null
+						&& event.getRecipe().getResult().getType().equals(Material.DIAMOND_BLOCK)) {
+					if (canCreateDiamond)
+						event.getInventory().setResult(new ItemStack(Material.DIAMOND));
+					else if (canCreateDiamondBlock)
+						event.getInventory().setResult(new ItemStack(Material.DIAMOND_BLOCK));
+					else
+						event.getInventory().setResult(null);
+				}
+			}
+		}
+	}
 }

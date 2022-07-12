@@ -377,6 +377,24 @@ public class DurabilityEvents implements Listener {
 				case DIRT_PATH:
 					itemType.add(Tools.SHOVEL.getName());
 					break;
+				case COPPER_BLOCK:
+				case CUT_COPPER:
+				case CUT_COPPER_SLAB:
+				case CUT_COPPER_STAIRS:
+				case EXPOSED_COPPER:
+				case EXPOSED_CUT_COPPER:
+				case EXPOSED_CUT_COPPER_SLAB:
+				case EXPOSED_CUT_COPPER_STAIRS:
+				case WEATHERED_COPPER:
+				case WEATHERED_CUT_COPPER:
+				case WEATHERED_CUT_COPPER_SLAB:
+				case WEATHERED_CUT_COPPER_STAIRS:
+				case OXIDIZED_COPPER:
+				case OXIDIZED_CUT_COPPER:
+				case OXIDIZED_CUT_COPPER_SLAB:
+				case OXIDIZED_CUT_COPPER_STAIRS:
+					itemType.add(Tools.AXE.getName());
+					break;
 				default:
 					break;
 				}

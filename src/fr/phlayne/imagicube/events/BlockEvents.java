@@ -6,11 +6,13 @@ import java.util.Random;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.Statistic;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,11 +22,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import de.tr7zw.nbtapi.NBTItem;
 import fr.phlayne.imagicube.ImagiCube;
+import fr.phlayne.imagicube.crafts.Crafts;
 import fr.phlayne.imagicube.data.Config;
 import fr.phlayne.imagicube.item.WeaponProperty;
 import fr.phlayne.imagicube.util.NBTUtil;
@@ -207,9 +211,9 @@ public class BlockEvents implements Listener {
 					break;
 				}
 				if (event.isDropItems() && drop)
-					event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(),
-							(silkTouch || !fireAspect) ? new ItemStack(materials[0])
-									: new ItemStack(materials[1], amount));
+					event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), silkTouch
+							? new ItemStack(event.getBlock().getType(), 1)
+							: !fireAspect ? new ItemStack(materials[0], amount) : new ItemStack(materials[1], amount));
 				if (fireAspect && !silkTouch && Config.getConfig().getBoolean("fire_aspect_pickaxe_drops_exp"))
 					((ExperienceOrb) event.getBlock().getWorld()
 							.spawn(event.getBlock().getLocation().add(0.5D, 0.5D, 0.5D), ExperienceOrb.class))
@@ -276,6 +280,23 @@ public class BlockEvents implements Listener {
 						&& hoeGroup.contains(offHandItemType))
 					cancelled = false;
 				event.setCancelled(cancelled);
+			}
+		}
+	}
+
+	@EventHandler
+	public void onItemFrameBreak(HangingBreakEvent event) {
+		if (event.getEntity() instanceof ItemFrame) {
+			ItemFrame itemFrame = (ItemFrame) event.getEntity();
+			if (!itemFrame.isVisible() && !event.isCancelled()) {
+				event.setCancelled(true);
+				itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation().getBlock().getLocation(),
+						Crafts.INVISIBLE_ITEM_FRAME.getResult());
+				if (itemFrame.getItem() != null)
+					itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation().getBlock().getLocation(),
+							itemFrame.getItem());
+				itemFrame.getWorld().playSound(itemFrame.getLocation(), Sound.ENTITY_ITEM_FRAME_BREAK, 1.0F, 1.0F);
+				itemFrame.remove();
 			}
 		}
 	}

@@ -45,7 +45,7 @@ public class ItemUpdater {
 			Material.NETHERITE_HELMET, Material.NETHERITE_CHESTPLATE, Material.NETHERITE_LEGGINGS,
 			Material.NETHERITE_BOOTS);
 
-	public static final int updateVersion = 1;
+	public static final int updateVersion = 3;
 
 	public static ItemStack updateItem(ItemStack item, ItemUpdatingCause cause) throws CannotUpdateItemException {
 		if (item != null && !item.getType().equals(Material.AIR)) {
@@ -65,8 +65,7 @@ public class ItemUpdater {
 							: nbti.hasKey("Damage") ? nbti.getInteger("Damage") : 0;
 					NBTCompoundList enchantments = nbti.hasKey("Enchantments") ? nbti.getCompoundList("Enchantments")
 							: null;
-					String forcedColor = nbti.hasKey(NBTUtil.FORCED_COLOR)
-							? nbti.getString(NBTUtil.FORCED_COLOR)
+					String forcedColor = nbti.hasKey(NBTUtil.FORCED_COLOR) ? nbti.getString(NBTUtil.FORCED_COLOR)
 							: "none";
 					String cosmeticEffect = nbti.hasKey("imagicube.cosmetic_effect")
 							? nbti.getString("imagicube.cosmetic_effect")

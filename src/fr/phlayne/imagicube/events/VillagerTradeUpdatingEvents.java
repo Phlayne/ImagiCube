@@ -25,18 +25,30 @@ public class VillagerTradeUpdatingEvents implements Listener {
 			Villager villager = (Villager) event.getRightClicked();
 			List<MerchantRecipe> recipes = new ArrayList<MerchantRecipe>();
 			for (MerchantRecipe recipe : villager.getRecipes()) {
+				List<ItemStack> ingredients = new ArrayList<>();
+				boolean ingredientsUpdated = false;
 				ItemStack resultItem = null;
 				try {
-					resultItem = ItemUpdater.updateItem(recipe.getResult(), ItemUpdatingCause.VILLAGER);
+					for (ItemStack item : recipe.getIngredients()) {
+						if (item != null && item.getType().isEdible()) {
+							ingredients.add(ItemUpdater.updateItem(item, ItemUpdatingCause.VILLAGER));
+							ingredientsUpdated = true;
+						} else {
+							ingredients.add(item);
+						}
+						resultItem = ItemUpdater.updateItem(recipe.getResult(), ItemUpdatingCause.VILLAGER);
+					}
 				} catch (CannotUpdateItemException e) {
 					e.printStackTrace();
 				}
-				if (resultItem == null) {
+				if (resultItem == null && !ingredientsUpdated) {
 					recipes.add(recipe);
 				} else {
+					if (resultItem == null)
+						resultItem = recipe.getResult();
 					MerchantRecipe newRecipe = new MerchantRecipe(resultItem, recipe.getUses(), recipe.getMaxUses(),
 							recipe.hasExperienceReward(), recipe.getVillagerExperience(), recipe.getPriceMultiplier());
-					newRecipe.setIngredients(recipe.getIngredients());
+					newRecipe.setIngredients(ingredients);
 					recipes.add(newRecipe);
 				}
 			}

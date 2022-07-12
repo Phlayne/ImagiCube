@@ -9,6 +9,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Shulker;
 import org.bukkit.entity.WitherSkeleton;
 import org.bukkit.event.EventHandler;
@@ -37,6 +38,8 @@ public class SpawnEvents implements Listener {
 		if (event.getEntity() instanceof LivingEntity && event.getEntity().getTicksLived() == 0) {
 			// This code multiplies by 0 every armor and armor toughness values.
 			LivingEntity entity = (LivingEntity) event.getEntity();
+			if (entity instanceof Mob)
+				((Mob) entity).setAware(true);
 			if (!(entity instanceof Shulker)) {
 				entity.getAttribute(Attribute.GENERIC_ARMOR).addModifier(
 						new AttributeModifier("ImagiCube Armor Modifier", -1, Operation.MULTIPLY_SCALAR_1));

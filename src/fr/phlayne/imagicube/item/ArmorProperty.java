@@ -79,4 +79,12 @@ public class ArmorProperty {
 		}
 		return null;
 	}
+
+
+	public static ArmorProperty getArmorProperty(String type, String material) {
+		for (ArmorProperty ap : ImagiCube.getInstance().getAddonList().getArmors())
+			if (ap.getType().equals(type) && ap.getMaterial().equals(material))
+				return ap;
+		return null;
+	}
 }
