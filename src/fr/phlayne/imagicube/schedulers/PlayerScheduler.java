@@ -50,12 +50,15 @@ public class PlayerScheduler extends SchedulerScript {
 						+ ItemWeight.getWeight(player.getEquipment().getItemInMainHand())
 						+ ItemWeight.getWeight(player.getEquipment().getItemInOffHand()));
 				float value = Math.max(0.05F, 0.25F - modifier / 1000);
+
+				if (player.getGameMode() == GameMode.CREATIVE
+						&& !Config.getConfig().getBoolean("weight_modifier_in_creative"))
+					value = 0.25F;
+				value *= (float) ImagiCube.getInstance().getInstantPlayerSpeed(player);
 				if (player.getWalkSpeed() != value)
 					player.setWalkSpeed(value);
-				if (player.getGameMode() == GameMode.CREATIVE
-						&& !Config.getConfig().getBoolean("weight_modifier_in_creative")) {
-					player.setWalkSpeed(0.25F);
-				}
+				// TODO Set min at -1 and max at 1
+				ImagiCube.getInstance().resetInstantPlayerSpeed(player);
 				double glidingModifier = Config.getConfig().getDouble("weight_gliding_modifier");
 				if (player.isGliding() && glidingModifier != 0.0D) {
 					player.setVelocity(player.getVelocity().add(new Vector(0, -modifier * glidingModifier, 0)));

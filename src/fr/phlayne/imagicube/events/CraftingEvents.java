@@ -84,8 +84,10 @@ public class CraftingEvents implements Listener {
 		for (int i : values) {
 			if (matrix[i] != null && !matrix[i].getType().equals(Material.AIR)) {
 				NBTItem nbti = new NBTItem(matrix[i]);
-				if (nbti.hasKey(NBTUtil.MATERIAL)) {
+				if (nbti.hasKey(NBTUtil.ITEM_TYPE)) {
 					String itemType = nbti.getString(NBTUtil.ITEM_TYPE);
+					if (!nbti.hasKey(NBTUtil.DURABILITY) || nbti.getInteger(NBTUtil.DURABILITY) > 0)
+						return;
 					if (itemType.equals("fishing_rod") && matrix[i + 4] != null) {
 						for (int j = 0; j < 9; j++)
 							if (!(matrix[j] == null || matrix[j].getType().equals(Material.AIR))
@@ -113,6 +115,7 @@ public class CraftingEvents implements Listener {
 						} catch (CannotUpdateItemException e) {
 							e.printStackTrace();
 						}
+						Durability.setDurability(resultNBTI, i);
 						event.getInventory().setResult(resultItem);
 					}
 				}

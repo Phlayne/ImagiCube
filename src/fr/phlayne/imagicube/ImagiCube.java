@@ -79,6 +79,8 @@ public class ImagiCube extends JavaPlugin implements Listener {
 
 	protected AddonList addonList;
 
+	protected Map<Player, Double> playerSpeedModifier;
+
 	public void onEnable() {
 
 		/* Events */
@@ -134,6 +136,8 @@ public class ImagiCube extends JavaPlugin implements Listener {
 					.addModifier(new AttributeModifier("ImagiCube Armor Modifier", -1, Operation.MULTIPLY_SCALAR_1));
 			resourcePackUtil.resourcePackLoaded.put(player, true);
 		}
+
+		playerSpeedModifier = new HashMap<Player, Double>();
 
 		/* Schedulers */
 
@@ -204,6 +208,21 @@ public class ImagiCube extends JavaPlugin implements Listener {
 
 	public static ImagiCube getInstance() {
 		return (ImagiCube) Bukkit.getPluginManager().getPlugin(Reference.PLUGIN_NAME);
+	}
+
+	public void changeInstantPlayerSpeed(Player player, double modifier) {
+		if (playerSpeedModifier.containsKey(player))
+			playerSpeedModifier.put(player, playerSpeedModifier.get(player) * modifier);
+		else
+			playerSpeedModifier.put(player, modifier);
+	}
+
+	public double getInstantPlayerSpeed(Player player) {
+		return playerSpeedModifier.containsKey(player) ? playerSpeedModifier.get(player) : 1.0D;
+	}
+
+	public void resetInstantPlayerSpeed(Player player) {
+		playerSpeedModifier.put(player, 1.0D);
 	}
 
 	@Override
